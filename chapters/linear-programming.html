@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chapter 12: Linear Programming | MathSutra</title>
+
+<style>
+:root {
+    --bg: #080b1b;
+    --panel: rgba(20,27,55,0.88);
+    --border: rgba(139,155,255,0.25);
+    --text: #f1f3ff;
+    --muted: #b8c1e5;
+    --purple: #a78bfa;
+    --cyan: #67e8f9;
+    --green: #86efac;
+    --pink: #f0abfc;
+    --red: #fca5a5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(ellipse at top, #19204c 0%, transparent 48%),
+        var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button, input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 14px 5%;
+    min-height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: rgba(8,11,27,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 1.45rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--purple);
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+nav a:hover {
+    color: var(--cyan);
+}
+
+main {
+    width: min(1050px, 92%);
+    margin: auto;
+    padding: 40px 0 80px;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 12px 35px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: rgba(167,139,250,0.09);
+    color: var(--cyan);
+    font-size: 0.82rem;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(2.2rem,6vw,4rem);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    background: linear-gradient(100deg,var(--cyan),var(--purple),var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 720px;
+    margin: 0 auto 25px;
+}
+
+.primary, .secondary {
+    display: inline-block;
+    padding: 10px 17px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.primary {
+    color: #080b1b;
+    background: linear-gradient(110deg,var(--cyan),var(--purple));
+    border: none;
+    font-weight: 800;
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+}
+
+.secondary {
+    color: var(--text);
+    background: rgba(167,139,250,0.1);
+    border: 1px solid var(--border);
+}
+
+.secondary:hover {
+    border-color: var(--cyan);
+}
+
+.progress-box, .content-section, .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+.progress-box {
+    padding: 22px;
+    margin: 10px 0 35px;
+}
+
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.progress-heading span {
+    color: var(--cyan);
+    font-size: 0.9rem;
+}
+
+.progress-track {
+    height: 9px;
+    background: #252b49;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg,var(--cyan),var(--purple));
+    transition: width 0.3s;
+}
+
+.progress-tasks {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.progress-tasks span {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.progress-tasks .done {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.content-section {
+    padding: clamp(18px,4vw,30px);
+    margin: 25px 0;
+    scroll-margin-top: 90px;
+}
+
+.section-title {
+    font-size: clamp(1.45rem,4vw,2rem);
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+
+.card {
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.card h3 {
+    color: var(--cyan);
+    margin: 0 0 12px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+ul, ol {
+    padding-left: 24px;
+    margin: 12px 0;
+}
+
+li {
+    margin: 7px 0;
+}
+
+.formula {
+    padding: 15px 18px;
+    margin: 14px 0;
+    border: 1px solid rgba(103,232,249,0.22);
+    background: rgba(103,232,249,0.055);
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+
+.formula strong {
+    color: var(--cyan);
+}
+
+.math {
+    color: var(--pink);
+    font-weight: 600;
+}
+
+.note {
+    padding: 14px 16px;
+    margin: 15px 0;
+    border-left: 3px solid var(--purple);
+    background: rgba(167,139,250,0.08);
+    border-radius: 0 10px 10px 0;
+}
+
+.warning {
+    border-left-color: #fbbf24;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 15px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 470px;
+}
+
+th, td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    color: var(--cyan);
+    background: rgba(103,232,249,0.07);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 350px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(5,8,22,0.8);
+}
+
+.graph-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.graph-controls input {
+    width: 90px;
+    min-width: 0;
+    padding: 9px;
+    border-radius: 8px;
+    color: var(--text);
+    background: #111832;
+    border: 1px solid var(--border);
+}
+
+.example, .quiz-question {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 17px;
+    margin: 15px 0;
+}
+
+.example h3, .quiz-question h3 {
+    color: var(--pink);
+    margin: 0 0 10px;
+}
+
+.solution {
+    color: var(--muted);
+    margin-top: 10px;
+}
+
+.answer {
+    display: none;
+    color: var(--green);
+    margin-top: 12px;
+}
+
+.answer.show {
+    display: block;
+}
+
+.option {
+    display: block;
+    padding: 9px 12px;
+    margin: 7px 0;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.option input {
+    margin-right: 9px;
+    accent-color: var(--purple);
+}
+
+.option.correct {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.option.incorrect {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.quiz-result {
+    display: none;
+    padding: 17px;
+    margin-top: 18px;
+    background: rgba(167,139,250,0.08);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.quiz-result.show {
+    display: block;
+}
+
+.tracker-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.tracker-item:last-child {
+    border-bottom: none;
+}
+
+.tracker-item input {
+    width: 18px;
+    height: 18px;
+    margin-top: 5px;
+    accent-color: var(--purple);
+}
+
+.tracker-item label {
+    cursor: pointer;
+}
+
+.tracker-item small {
+    display: block;
+    color: var(--muted);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 15px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+footer span {
+    color: var(--purple);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media(max-width:650px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 4%;
+        gap: 9px;
+    }
+
+    nav {
+        gap: 14px;
+    }
+
+    nav a {
+        font-size: 0.84rem;
+    }
+
+    main {
+        padding-top: 22px;
+    }
+
+    .hero {
+        padding: 38px 5px 25px;
+    }
+
+    .progress-heading {
+        flex-direction: column;
+    }
+
+    .content-section {
+        padding: 18px;
+    }
+
+    canvas {
+        height: 290px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <a class="logo" href="../index.html">Math<span>Sutra</span> ✦</a>
+
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#graph">Graph</a>
+        <a href="#practice">Practice</a>
+        <a href="#quiz">Quiz</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="tag">CLASS XII MATHEMATICS · CHAPTER 12</div>
+
+    <h1>Linear Programming</h1>
+
+    <p>
+        Learn constraints, feasible regions, corner-point method,
+        optimisation problems and graphical solutions through
+        interactive practice.
+    </p>
+
+    <a class="primary" href="#concepts">Start Learning ↓</a>
+</section>
+
+<section class="progress-box">
+    <div class="progress-heading">
+        <h3>🚀 Chapter Learning Progress</h3>
+        <span id="learningCount">0 of 4 tasks completed</span>
+    </div>
+
+    <div class="progress-track">
+        <div class="progress-fill" id="learningBar"></div>
+    </div>
+
+    <div class="progress-tasks">
+        <span id="tag-concepts">📘 Concepts</span>
+        <span id="tag-graph">📈 Graph</span>
+        <span id="tag-practice">✍️ Practice</span>
+        <span id="tag-quiz">🧠 Quiz</span>
+    </div>
+</section>
+
+<!-- 1. INTRODUCTION -->
+
+<section class="content-section" id="concepts">
+    <h2 class="section-title">01. Introduction to Linear Programming</h2>
+    <p class="section-subtitle">
+        Understand optimisation using linear inequalities.
+    </p>
+
+    <div class="card">
+        <h3>What is Linear Programming?</h3>
+
+        <p>
+            Linear Programming is a mathematical method used to maximise
+            or minimise a linear objective function while satisfying a
+            set of linear constraints.
+        </p>
+
+        <div class="formula">
+            <strong>General objective function:</strong><br>
+            Maximise or minimise
+            <span class="math">Z = ax + by</span>
+        </div>
+
+        <p>
+            Here, x and y are decision variables, a and b are constants,
+            and Z is the objective function.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Important Terminology</h3>
+
+        <ul>
+            <li>
+                <strong>Decision variables:</strong> The unknown quantities
+                represented by x and y.
+            </li>
+            <li>
+                <strong>Objective function:</strong> The function to be
+                maximised or minimised.
+            </li>
+            <li>
+                <strong>Constraints:</strong> Linear inequalities that
+                restrict the possible values of variables.
+            </li>
+            <li>
+                <strong>Feasible region:</strong> The common region
+                satisfying all constraints.
+            </li>
+            <li>
+                <strong>Feasible solution:</strong> Any point in the
+                feasible region.
+            </li>
+            <li>
+                <strong>Optimal solution:</strong> A feasible solution
+                giving the required maximum or minimum value.
+            </li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>Types of Constraints</h3>
+
+        <div class="formula">
+            <span class="math">2x + 3y ≤ 12</span><br>
+            <span class="math">x + y ≥ 4</span><br>
+            <span class="math">x ≥ 0, y ≥ 0</span>
+        </div>
+
+        <p>
+            In most standard production and resource-allocation questions,
+            x and y represent quantities, so non-negativity constraints
+            are included.
+        </p>
+
+        <div class="note warning">
+            <strong>Remember:</strong> A linear inequality becomes a
+            straight-line boundary when its inequality sign is replaced
+            by an equality sign.
+        </div>
+    </div>
+
+    <button class="secondary" onclick="markLearning('concepts')">
+        ✓ Mark Concepts Complete
+    </button>
+</section>
+
+<!-- 2. GRAPHICAL METHOD -->
+
+<section class="content-section" id="method">
+    <h2 class="section-title">02. Graphical Method</h2>
+    <p class="section-subtitle">
+        Convert inequalities into boundary lines and identify the
+        common feasible region.
+    </p>
+
+    <div class="card">
+        <h3>Steps to Solve an LPP</h3>
+
+        <ol>
+            <li>Identify the decision variables x and y.</li>
+            <li>Write the objective function Z.</li>
+            <li>Convert the conditions into linear inequalities.</li>
+            <li>Draw each constraint boundary line.</li>
+            <li>Identify the half-plane satisfying each inequality.</li>
+            <li>Find the common feasible region.</li>
+            <li>Calculate the corner points of the feasible region.</li>
+            <li>Evaluate Z at every corner point.</li>
+            <li>Choose the maximum or minimum value as required.</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h3>How to Draw a Boundary Line</h3>
+
+        <p>Consider the line:</p>
+
+        <div class="formula">
+            <span class="math">2x + y = 6</span>
+        </div>
+
+        <p>Put y = 0:</p>
+
+        <div class="formula">
+            2x = 6 ⇒ x = 3<br>
+            First point: <span class="math">(3, 0)</span>
+        </div>
+
+        <p>Put x = 0:</p>
+
+        <div class="formula">
+            y = 6<br>
+            Second point: <span class="math">(0, 6)</span>
+        </div>
+
+        <p>
+            Plot both points and join them to obtain the boundary line.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Finding the Correct Half-Plane</h3>
+
+        <p>
+            For an inequality such as
+            <span class="math">x + y ≤ 5</span>, first draw
+            <span class="math">x + y = 5</span>.
+        </p>
+
+        <p>
+            Test the origin (0, 0), provided it is not on the boundary:
+        </p>
+
+        <div class="formula">
+            0 + 0 ≤ 5 ⇒ True
+        </div>
+
+        <p>
+            Therefore, the half-plane containing the origin satisfies
+            this inequality.
+        </p>
+
+        <div class="note">
+            If the test point does not satisfy the inequality, choose
+            the opposite half-plane.
+        </div>
+    </div>
+</section>
+
+<!-- 3. CORNER POINT METHOD -->
+
+<section class="content-section" id="corner">
+    <h2 class="section-title">03. Corner-Point Method</h2>
+    <p class="section-subtitle">
+        The key method for solving standard graphical LPP questions.
+    </p>
+
+    <div class="card">
+        <h3>Fundamental Principle</h3>
+
+        <p>
+            For a linear programming problem with a non-empty bounded
+            feasible region, an optimal value is attained at at least
+            one corner point of the feasible region.
+        </p>
+
+        <p>
+            Therefore, evaluate the objective function at every corner
+            point to determine the maximum or minimum.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Worked Example</h3>
+
+        <p>Maximise:</p>
+
+        <div class="formula">
+            <span class="math">Z = 3x + 2y</span>
+        </div>
+
+        <p>Subject to:</p>
+
+        <div class="formula">
+            x + y ≤ 4<br>
+            x ≤ 2<br>
+            x ≥ 0, y ≥ 0
+        </div>
+
+        <p>The corner points are:</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Corner point</th>
+                        <th>Z = 3x + 2y</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>(0, 0)</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>(2, 0)</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>(2, 2)</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>(0, 4)</td>
+                        <td>8</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="formula">
+            <strong>Maximum value:</strong> Z = 10 at (2, 2).
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Special Cases</h3>
+
+        <ul>
+            <li>
+                <strong>Unique optimum:</strong> Only one corner point
+                gives the optimal value.
+            </li>
+            <li>
+                <strong>Multiple optimal solutions:</strong> More than
+                one feasible point gives the same optimal value.
+            </li>
+            <li>
+                <strong>Unbounded feasible region:</strong> The region
+                extends indefinitely. An optimum may or may not exist,
+                depending on the objective function.
+            </li>
+            <li>
+                <strong>Infeasible problem:</strong> No point satisfies
+                all the constraints simultaneously.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- 4. INTERACTIVE GRAPH -->
+
+<section class="content-section" id="graph">
+    <h2 class="section-title">04. Interactive Graph Laboratory</h2>
+    <p class="section-subtitle">
+        Change the coefficients and explore the boundary line
+        ax + by = c.
+    </p>
+
+    <div class="card">
+        <h3>Line Explorer</h3>
+
+        <div class="graph-controls">
+            <label>
+                a =
+                <input type="number" id="coefA" value="2" step="1">
+            </label>
+
+            <label>
+                b =
+                <input type="number" id="coefB" value="1" step="1">
+            </label>
+
+            <label>
+                c =
+                <input type="number" id="coefC" value="6" step="1">
+            </label>
+
+            <button class="primary" id="drawLine">Draw Line</button>
+            <button class="secondary" id="resetLine">Reset</button>
+        </div>
+
+        <canvas id="lppCanvas" aria-label="Interactive Cartesian graph">
+            Your browser does not support canvas.
+        </canvas>
+
+        <div class="formula" id="lineInfo">
+            Current line: 2x + y = 6
+        </div>
+
+        <p class="section-subtitle">
+            This tool draws the boundary line. Use the graphical-method
+            steps above to determine the correct half-plane for an inequality.
+        </p>
+    </div>
+
+    <button class="secondary" onclick="markLearning('graph')">
+        ✓ Mark Graph Complete
+    </button>
+</section>
+
+<!-- 5. SOLVED EXAMPLES -->
+
+<section class="content-section" id="examples">
+    <h2 class="section-title">05. Solved Examples</h2>
+    <p class="section-subtitle">
+        Revise the common patterns asked in examinations.
+    </p>
+
+    <div class="example">
+        <h3>Example 1: Find the intercepts of 2x + y = 8</h3>
+
+        <p class="solution">
+            Put y = 0: 2x = 8, so x = 4.<br>
+            Put x = 0: y = 8.
+        </p>
+
+        <div class="formula">
+            <strong>Answer:</strong> (4, 0) and (0, 8).
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 2: Evaluate Z = 4x + 3y at (2, 1)</h3>
+
+        <div class="solution">
+            Z = 4(2) + 3(1) = 8 + 3 = 11.
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> Z = 11.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 3: Is (1, 2) feasible?</h3>
+
+        <p>Constraints:</p>
+
+        <div class="formula">
+            x + y ≤ 4, x ≥ 0, y ≥ 0
+        </div>
+
+        <p class="solution">
+            Substitute (1, 2): 1 + 2 = 3 ≤ 4. Both coordinates are
+            non-negative, so all the stated constraints are satisfied.
+        </p>
+
+        <div class="formula">
+            <strong>Answer:</strong> Yes, (1, 2) is feasible.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 4: Find the maximum of Z = x + y</h3>
+
+        <p>Subject to:</p>
+
+        <div class="formula">
+            x + y ≤ 6, x ≥ 0, y ≥ 0
+        </div>
+
+        <p class="solution">
+            The corner points are (0, 0), (6, 0), and (0, 6).
+            The objective function values are 0, 6, and 6.
+        </p>
+
+        <div class="formula">
+            <strong>Answer:</strong> Maximum Z = 6.
+            It is attained at every feasible point on the segment
+            x + y = 6 in the first quadrant.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 5: Write a non-negativity constraint</h3>
+
+        <p class="solution">
+            If x and y represent quantities that cannot be negative:
+        </p>
+
+        <div class="formula">
+            <strong>Answer:</strong> x ≥ 0 and y ≥ 0.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 6: Check whether (3, 2) satisfies x + y ≤ 4</h3>
+
+        <p class="solution">
+            Substitute x = 3 and y = 2. We get 3 + 2 = 5.
+            Since 5 ≤ 4 is false, the point does not satisfy this constraint.
+        </p>
+
+        <div class="formula">
+            <strong>Answer:</strong> Not feasible for this constraint.
+        </div>
+    </div>
+</section>
+
+<!-- 6. QUIZ -->
+
+<section class="content-section" id="quiz">
+    <h2 class="section-title">06. Quick Quiz</h2>
+    <p class="section-subtitle">
+        Five random questions per attempt. Answer all five to check your score.
+    </p>
+
+    <div id="quizQuestions"></div>
+
+    <div class="graph-controls">
+        <button class="primary" id="finishQuiz" disabled>
+            Check My Answers
+        </button>
+
+        <button class="secondary" id="newQuiz">
+            New Quiz
+        </button>
+    </div>
+
+    <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+
+    <p class="section-subtitle" id="bestScore">
+        Best score: Not attempted yet
+    </p>
+</section>
+
+<!-- 7. PRACTICE -->
+
+<section class="content-section" id="practice">
+    <h2 class="section-title">07. Board Practice</h2>
+    <p class="section-subtitle">
+        Try the questions yourself before revealing the answers.
+    </p>
+
+    <div class="example">
+        <h3>Question 1</h3>
+        <p>Find the x-intercept of 3x + y = 12.</p>
+        <button class="secondary" onclick="toggleAnswer('a1')">Reveal Answer</button>
+        <div class="answer" id="a1">Put y = 0: 3x = 12. Answer: (4, 0).</div>
+    </div>
+
+    <div class="example">
+        <h3>Question 2</h3>
+        <p>Evaluate Z = 2x + 5y at (3, 2).</p>
+        <button class="secondary" onclick="toggleAnswer('a2')">Reveal Answer</button>
+        <div class="answer" id="a2">Z = 2(3) + 5(2) = 16.</div>
+    </div>
+
+    <div class="example">
+        <h3>Question 3</h3>
+        <p>Write the non-negativity constraints for x and y.</p>
+        <button class="secondary" onclick="toggleAnswer('a3')">Reveal Answer</button>
+        <div class="answer" id="a3">x ≥ 0 and y ≥ 0.</div>
+    </div>
+
+    <div class="example">
+        <h3>Question 4</h3>
+        <p>Does (2, 3) satisfy x + y ≤ 6?</p>
+        <button class="secondary" onclick="toggleAnswer('a4')">Reveal Answer</button>
+        <div class="answer" id="a4">Yes. 2 + 3 = 5 ≤ 6.</div>
+    </div>
+
+    <div class="example">
+        <h3>Question 5</h3>
+        <p>What is an objective function?</p>
+        <button class="secondary" onclick="toggleAnswer('a5')">Reveal Answer</button>
+        <div class="answer" id="a5">
+            It is the linear function that must be maximised or minimised.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Question 6</h3>
+        <p>What is a feasible region?</p>
+        <button class="secondary" onclick="toggleAnswer('a6')">Reveal Answer</button>
+        <div class="answer" id="a6">
+            It is the common region satisfying all the constraints.
+        </div>
+    </div>
+
+    <button class="secondary" onclick="markLearning('practice')">
+        ✓ Mark Practice Complete
+    </button>
+</section>
+
+<!-- 8. PROGRESS TRACKER -->
+
+<section class="content-section" id="tracker">
+    <h2 class="section-title">08. Progress Tracker</h2>
+    <p class="section-subtitle">
+        Track your revision. Your checklist is saved in this browser.
+    </p>
+
+    <div class="card">
+        <div class="tracker-item">
+            <input type="checkbox" id="track1">
+            <label for="track1">
+                Basic terminology
+                <small>Variables, objective function and constraints.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track2">
+            <label for="track2">
+                Linear inequalities
+                <small>Boundary lines and half-planes.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track3">
+            <label for="track3">
+                Feasible region
+                <small>Identify the common region.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track4">
+            <label for="track4">
+                Corner-point method
+                <small>Evaluate the objective function at every corner.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track5">
+            <label for="track5">
+                Solved examples and practice
+                <small>Complete the questions independently.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track6">
+            <label for="track6">
+                Quiz revision
+                <small>Attempt the quiz and revise mistakes.</small>
+            </label>
+        </div>
+
+        <hr>
+
+        <div class="progress-heading">
+            <h3>Revision Checklist</h3>
+            <span id="trackerCount">0 of 6 complete</span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="trackerBar"></div>
+        </div>
+
+        <br>
+
+        <button class="secondary" id="resetProgress">
+            Reset Checklist
+        </button>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>Made for learners with <span>MathSutra ✦</span></p>
+    <p>Class XII Mathematics · Linear Programming</p>
+</footer>
+
+<script>
+/* SAFE STORAGE */
+
+function safeGet(key, fallback = null) {
+    try {
+        const value = localStorage.getItem(key);
+        return value === null ? fallback : value;
+    } catch (e) {
+        return fallback;
+    }
+}
+
+function safeSet(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {}
+}
+
+function safeRemove(key) {
+    try {
+        localStorage.removeItem(key);
+    } catch (e) {}
+}
+
+/* LEARNING PROGRESS */
+
+const learningTasks = ["concepts", "graph", "practice", "quiz"];
+const learningKey = "mathsutra_ch12_learning_v1";
+
+function getLearningState() {
+    try {
+        return JSON.parse(safeGet(learningKey, "{}")) || {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function markLearning(task) {
+    if (!learningTasks.includes(task)) return;
+
+    const state = getLearningState();
+    state[task] = true;
+
+    safeSet(learningKey, JSON.stringify(state));
+    updateLearningProgress();
+}
+
+function updateLearningProgress() {
+    const state = getLearningState();
+    let completed = 0;
+
+    learningTasks.forEach(task => {
+        const tag = document.getElementById("tag-" + task);
+
+        if (state[task]) {
+            completed++;
+            tag.classList.add("done");
+        } else {
+            tag.classList.remove("done");
+        }
+    });
+
+    document.getElementById("learningCount").textContent =
+        completed + " of 4 tasks completed";
+
+    document.getElementById("learningBar").style.width =
+        completed / 4 * 100 + "%";
+}
+
+/* INTERACTIVE GRAPH */
+
+const canvas = document.getElementById("lppCanvas");
+const ctx = canvas.getContext("2d");
+
+function drawLineGraph() {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const w = rect.width;
+    const h = rect.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const xmin = -5;
+    const xmax = 5;
+    const ymin = -5;
+    const ymax = 5;
+
+    const left = 38;
+    const right = 15;
+    const top = 15;
+    const bottom = 28;
+
+    const plotW = w - left - right;
+    const plotH = h - top - bottom;
+
+    const px = x => left + (x - xmin) / (xmax - xmin) * plotW;
+    const py = y => top + (ymax - y) / (ymax - ymin) * plotH;
+
+    /* Grid */
+
+    ctx.strokeStyle = "rgba(139,155,255,0.15)";
+    ctx.lineWidth = 1;
+
+    for (let i = -5; i <= 5; i++) {
+        ctx.beginPath();
+        ctx.moveTo(px(i), top);
+        ctx.lineTo(px(i), top + plotH);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(left, py(i));
+        ctx.lineTo(left + plotW, py(i));
+        ctx.stroke();
+    }
+
+    /* Axes */
+
+    ctx.strokeStyle = "rgba(241,243,255,0.65)";
+    ctx.lineWidth = 1.3;
+
+    ctx.beginPath();
+    ctx.moveTo(px(0), top);
+    ctx.lineTo(px(0), top + plotH);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, py(0));
+    ctx.lineTo(left + plotW, py(0));
+    ctx.stroke();
+
+    ctx.fillStyle = "#b8c1e5";
+    ctx.font = "11px Arial";
+    ctx.textAlign = "center";
+
+    for (let i = -5; i <= 5; i++) {
+        if (i !== 0) {
+            ctx.fillText(String(i), px(i), h - 9);
+        }
+    }
+
+    ctx.textAlign = "right";
+
+    for (let i = -5; i <= 5; i++) {
+        if (i !== 0) {
+            ctx.fillText(String(i), left - 5, py(i) + 4);
+        }
+    }
+
+    const a = Number(document.getElementById("coefA").value);
+    const b = Number(document.getElementById("coefB").value);
+    const c = Number(document.getElementById("coefC").value);
+
+    document.getElementById("lineInfo").textContent =
+        "Current line: " + a + "x + " + b + "y = " + c;
+
+    if (!Number.isFinite(a) || !Number.isFinite(b) ||
+        !Number.isFinite(c) || (a === 0 && b === 0)) {
+        document.getElementById("lineInfo").textContent =
+            "Enter valid coefficients. a and b cannot both be zero.";
+        return;
+    }
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#67e8f9";
+    ctx.lineWidth = 2.5;
+
+    let drawing = false;
+
+    for (let i = 0; i <= 600; i++) {
+        const x = xmin + (xmax - xmin) * i / 600;
+
+        let y;
+
+        if (b !== 0) {
+            y = (c - a * x) / b;
+        } else {
+            if (Math.abs(a) < 1e-10) return;
+
+            const verticalX = c / a;
+
+            if (i === 0) {
+                ctx.moveTo(px(verticalX), top);
+            }
+
+            continue;
+        }
+
+        if (!Number.isFinite(y) || y < ymin || y > ymax) {
+            drawing = false;
+            continue;
+        }
+
+        if (!drawing) {
+            ctx.moveTo(px(x), py(y));
+            drawing = true;
+        } else {
+            ctx.lineTo(px(x), py(y));
+        }
+    }
+
+    if (b === 0) {
+        const verticalX = c / a;
+
+        if (verticalX >= xmin && verticalX <= xmax) {
+            ctx.moveTo(px(verticalX), top);
+            ctx.lineTo(px(verticalX), top + plotH);
+        }
+    }
+
+    ctx.stroke();
+}
+
+document.getElementById("drawLine").addEventListener("click", drawLineGraph);
+
+document.getElementById("resetLine").addEventListener("click", () => {
+    document.getElementById("coefA").value = 2;
+    document.getElementById("coefB").value = 1;
+    document.getElementById("coefC").value = 6;
+
+    drawLineGraph();
+});
+
+if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(drawLineGraph);
+    observer.observe(canvas);
+} else {
+    window.addEventListener("resize", drawLineGraph);
+}
+
+window.addEventListener("load", drawLineGraph);
+
+/* PRACTICE ANSWERS */
+
+function toggleAnswer(id) {
+    const answer = document.getElementById(id);
+    answer.classList.toggle("show");
+
+    const button = answer.previousElementSibling;
+
+    if (button && button.tagName === "BUTTON") {
+        button.textContent = answer.classList.contains("show")
+            ? "Hide Answer"
+            : "Reveal Answer";
+    }
+}
+
+/* QUIZ */
+
+const quizBank = [
+    {
+        q: "What is an objective function?",
+        options: [
+            "A linear function to maximise or minimise",
+            "Only a graph",
+            "A quadratic equation",
+            "A domain"
+        ],
+        answer: 0,
+        explanation: "The objective function represents the quantity to optimise."
+    },
+    {
+        q: "Which is a non-negativity constraint?",
+        options: ["x < 0", "x ≥ 0", "x = −1", "x ≤ −5"],
+        answer: 1,
+        explanation: "Non-negativity means the variable cannot be negative."
+    },
+    {
+        q: "A feasible region satisfies:",
+        options: [
+            "Only the objective function",
+            "Only one constraint",
+            "All the constraints",
+            "No constraints"
+        ],
+        answer: 2,
+        explanation: "Every point in the feasible region satisfies all constraints."
+    },
+    {
+        q: "Which method is commonly used to solve graphical LPP questions?",
+        options: [
+            "Differentiation only",
+            "Corner-point method",
+            "Integration by parts",
+            "Matrix inversion"
+        ],
+        answer: 1,
+        explanation: "Evaluate the objective function at the feasible corner points."
+    },
+    {
+        q: "What is the value of Z = 2x + 3y at (1, 2)?",
+        options: ["5", "6", "8", "10"],
+        answer: 2,
+        explanation: "Z = 2(1) + 3(2) = 8."
+    },
+    {
+        q: "The boundary line for x + y ≤ 5 is:",
+        options: ["x − y = 5", "x + y = 5", "xy = 5", "x + y ≥ 5"],
+        answer: 1,
+        explanation: "Replace the inequality sign by equality to get the boundary."
+    },
+    {
+        q: "Which point satisfies x ≥ 0 and y ≥ 0?",
+        options: ["(−1, 2)", "(2, −1)", "(2, 3)", "(−2, −3)"],
+        answer: 2,
+        explanation: "Both coordinates must be non-negative."
+    },
+    {
+        q: "A point satisfying all constraints is called:",
+        options: [
+            "An infeasible point",
+            "A feasible solution",
+            "A gradient",
+            "A determinant"
+        ],
+        answer: 1,
+        explanation: "A feasible solution satisfies all the constraints."
+    },
+    {
+        q: "If a = 0 in ax + by = c and b is non-zero, the line is:",
+        options: [
+            "Horizontal",
+            "Vertical",
+            "A circle",
+            "Not a straight line"
+        ],
+        answer: 0,
+        explanation: "by = c gives y = c/b, a horizontal line."
+    },
+    {
+        q: "For a bounded feasible region, an optimum is attained at:",
+        options: [
+            "At least one corner point",
+            "Only the origin",
+            "Every point necessarily",
+            "No point"
+        ],
+        answer: 0,
+        explanation: "A linear objective function attains an optimum at at least one corner point."
+    },
+    {
+        q: "What is Z = 5x + y at (2, 3)?",
+        options: ["10", "11", "13", "15"],
+        answer: 2,
+        explanation: "Z = 5(2) + 3 = 13."
+    },
+    {
+        q: "If no point satisfies all constraints, the problem is:",
+        options: [
+            "Optimal",
+            "Feasible",
+            "Infeasible",
+            "A unique solution"
+        ],
+        answer: 2,
+        explanation: "An infeasible problem has no feasible solution."
+    }
+];
+
+let currentQuiz = [];
+let quizSubmitted = false;
+
+function shuffleArray(array) {
+    const copy = [...array];
+
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+
+    return copy;
+}
+
+function createQuiz() {
+    currentQuiz = shuffleArray(quizBank).slice(0, 5);
+    quizSubmitted = false;
+
+    const container = document.getElementById("quizQuestions");
+    const result = document.getElementById("quizResult");
+
+    container.innerHTML = "";
+    result.classList.remove("show");
+    result.innerHTML = "";
+
+    document.getElementById("finishQuiz").disabled = true;
+
+    currentQuiz.forEach((question, index) => {
+        const box = document.createElement("div");
+        box.className = "quiz-question";
+
+        const heading = document.createElement("h3");
+        heading.textContent = (index + 1) + ". " + question.q;
+        box.appendChild(heading);
+
+        question.options.forEach((option, optionIndex) => {
+            const label = document.createElement("label");
+            label.className = "option";
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "quiz-" + index;
+            radio.value = optionIndex;
+            radio.addEventListener("change", updateFinishButton);
+
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(option));
+            box.appendChild(label);
+        });
+
+        container.appendChild(box);
+    });
+
+    updateFinishButton();
+}
+
+function updateFinishButton() {
+    if (quizSubmitted) return;
+
+    const allAnswered = currentQuiz.every((question, index) =>
+        document.querySelector('input[name="quiz-' + index + '"]:checked')
+    );
+
+    document.getElementById("finishQuiz").disabled = !allAnswered;
+}
+
+function finishQuiz() {
+    if (quizSubmitted) return;
+
+    const answers = currentQuiz.map((question, index) =>
+        document.querySelector('input[name="quiz-' + index + '"]:checked')
+    );
+
+    if (answers.some(answer => !answer)) {
+        alert("Please answer all five questions first.");
+        return;
+    }
+
+    quizSubmitted = true;
+    let score = 0;
+
+    currentQuiz.forEach((question, index) => {
+        const box = document.querySelectorAll(".quiz-question")[index];
+        const options = box.querySelectorAll(".option");
+
+        options.forEach((label, optionIndex) => {
+            const radio = label.querySelector("input");
+            radio.disabled = true;
+
+            if (optionIndex === question.answer) {
+                label.classList.add("correct");
+            }
+
+            if (radio.checked && optionIndex !== question.answer) {
+                label.classList.add("incorrect");
+            }
+        });
+
+        if (Number(answers[index].value) === question.answer) {
+            score++;
+        }
+
+        const explanation = document.createElement("p");
+        explanation.className = "solution";
+        explanation.textContent = "Explanation: " + question.explanation;
+        box.appendChild(explanation);
+    });
+
+    const result = document.getElementById("quizResult");
+    result.classList.add("show");
+
+    result.innerHTML =
+        "<h3>Your Score: " + score + "/5</h3>" +
+        "<p>" +
+        (score === 5
+            ? "Perfect score! Excellent work! 🎉"
+            : score >= 3
+                ? "Good effort! Revise your mistakes. 💪"
+                : "Keep practising and try again. 📘") +
+        "</p>";
+
+    const best = Number(safeGet("mathsutra_ch12_best_score", "0"));
+
+    if (score > best) {
+        safeSet("mathsutra_ch12_best_score", String(score));
+    }
+
+    updateBestScore();
+    document.getElementById("finishQuiz").disabled = true;
+
+    markLearning("quiz");
+}
+
+function updateBestScore() {
+    const best = safeGet("mathsutra_ch12_best_score", null);
+
+    document.getElementById("bestScore").textContent =
+        best === null
+            ? "Best score: Not attempted yet"
+            : "Best score: " + best + "/5";
+}
+
+document.getElementById("finishQuiz").addEventListener("click", finishQuiz);
+document.getElementById("newQuiz").addEventListener("click", createQuiz);
+
+/* REVISION CHECKLIST */
+
+const trackerKey = "mathsutra_ch12_progress_v1";
+
+const trackerIds = [
+    "track1", "track2", "track3",
+    "track4", "track5", "track6"
+];
+
+function getTrackerState() {
+    try {
+        return JSON.parse(safeGet(trackerKey, "{}")) || {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function saveTracker() {
+    const state = {};
+
+    trackerIds.forEach(id => {
+        state[id] = document.getElementById(id).checked;
+    });
+
+    safeSet(trackerKey, JSON.stringify(state));
+    updateTrackerProgress();
+}
+
+function loadTracker() {
+    const state = getTrackerState();
+
+    trackerIds.forEach(id => {
+        document.getElementById(id).checked = Boolean(state[id]);
+
+        document.getElementById(id).addEventListener(
+            "change",
+            saveTracker
+        );
+    });
+
+    updateTrackerProgress();
+}
+
+function updateTrackerProgress() {
+    const completed = trackerIds.filter(id =>
+        document.getElementById(id).checked
+    ).length;
+
+    document.getElementById("trackerCount").textContent =
+        completed + " of 6 complete";
+
+    document.getElementById("trackerBar").style.width =
+        completed / 6 * 100 + "%";
+}
+
+document.getElementById("resetProgress").addEventListener("click", () => {
+    if (!confirm("Reset your revision checklist?")) return;
+
+    trackerIds.forEach(id => {
+        document.getElementById(id).checked = false;
+    });
+
+    safeRemove(trackerKey);
+    updateTrackerProgress();
+});
+
+/* INITIALISE */
+
+loadTracker();
+updateLearningProgress();
+updateBestScore();
+createQuiz();
+drawLineGraph();
+</script>
+
+<script src="../js/app.js"></script>
+
+</body>
+</html>

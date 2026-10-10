@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chapter 2: Inverse Trigonometric Functions | MathSutra</title>
+
+<style>
+:root {
+    --bg: #080b1b;
+    --panel: rgba(20, 27, 55, 0.88);
+    --border: rgba(139, 155, 255, 0.25);
+    --text: #f1f3ff;
+    --muted: #b8c1e5;
+    --purple: #a78bfa;
+    --cyan: #67e8f9;
+    --green: #86efac;
+    --pink: #f0abfc;
+    --red: #fca5a5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(ellipse at top, #19204c 0%, transparent 48%),
+        var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 70px;
+    padding: 14px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: rgba(8, 11, 27, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--purple);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    font-size: 0.92rem;
+    color: var(--muted);
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: var(--cyan);
+}
+
+main {
+    width: min(1050px, 92%);
+    margin: auto;
+    padding: 45px 0 80px;
+}
+
+.hero {
+    text-align: center;
+    padding: 55px 15px 35px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: rgba(167, 139, 250, 0.09);
+    color: var(--cyan);
+    font-size: 0.82rem;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(2.1rem, 6vw, 4rem);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    background: linear-gradient(100deg, var(--cyan), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 720px;
+    margin: 0 auto 25px;
+}
+
+.primary,
+.secondary,
+.small-btn {
+    display: inline-block;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 17px;
+    transition: 0.2s;
+}
+
+.primary {
+    color: #080b1b;
+    background: linear-gradient(110deg, var(--cyan), var(--purple));
+    border: none;
+    font-weight: 800;
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(103, 232, 249, 0.16);
+}
+
+.secondary,
+.small-btn {
+    color: var(--text);
+    background: rgba(167, 139, 250, 0.1);
+}
+
+.secondary:hover,
+.small-btn:hover {
+    border-color: var(--cyan);
+}
+
+.progress-box,
+.card,
+.content-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+.progress-box {
+    padding: 22px;
+    margin: 10px 0 35px;
+}
+
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.progress-heading h3 {
+    font-size: 1rem;
+}
+
+.progress-heading span {
+    color: var(--cyan);
+    font-size: 0.9rem;
+}
+
+.progress-track {
+    height: 9px;
+    border-radius: 20px;
+    background: #252b49;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    transition: width 0.35s;
+}
+
+.progress-tasks {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.progress-tasks span {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.progress-tasks span.done {
+    color: var(--green);
+    border-color: rgba(134, 239, 172, 0.4);
+}
+
+.content-section {
+    padding: clamp(18px, 4vw, 30px);
+    margin: 25px 0;
+    scroll-margin-top: 90px;
+}
+
+.section-title {
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    margin-bottom: 23px;
+}
+
+h3 {
+    margin: 18px 0 10px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+ul,
+ol {
+    padding-left: 24px;
+    margin: 12px 0;
+}
+
+li {
+    margin: 7px 0;
+}
+
+.card {
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--cyan);
+}
+
+.formula {
+    border: 1px solid rgba(103, 232, 249, 0.22);
+    background: rgba(103, 232, 249, 0.055);
+    border-radius: 12px;
+    padding: 15px 18px;
+    margin: 14px 0;
+    overflow-wrap: anywhere;
+}
+
+.formula strong {
+    color: var(--cyan);
+}
+
+.math {
+    color: var(--pink);
+    font-weight: 600;
+}
+
+.note {
+    padding: 14px 16px;
+    margin: 15px 0;
+    border-left: 3px solid var(--purple);
+    background: rgba(167, 139, 250, 0.08);
+    border-radius: 0 10px 10px 0;
+}
+
+.success {
+    border-left-color: var(--green);
+}
+
+.warning {
+    border-left-color: #fbbf24;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 15px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 480px;
+}
+
+th,
+td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    color: var(--cyan);
+    background: rgba(103, 232, 249, 0.07);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.graph-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 15px 0;
+}
+
+select {
+    background: #111832;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 10px 12px;
+    max-width: 100%;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 350px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(5, 8, 22, 0.8);
+}
+
+.graph-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.graph-info .card {
+    margin: 0;
+}
+
+.graph-info h4 {
+    color: var(--purple);
+    margin-bottom: 5px;
+}
+
+.example {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 17px;
+    margin: 15px 0;
+}
+
+.example h3 {
+    margin-top: 0;
+    color: var(--pink);
+}
+
+.solution {
+    margin-top: 10px;
+    color: var(--muted);
+}
+
+.answer {
+    display: none;
+    color: var(--green);
+    padding: 12px 0 0;
+}
+
+.answer.show {
+    display: block;
+}
+
+.quiz-question {
+    padding: 17px;
+    margin: 15px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.quiz-question h3 {
+    margin: 0 0 12px;
+    font-size: 1rem;
+}
+
+.option {
+    display: block;
+    padding: 9px 12px;
+    margin: 7px 0;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.option:hover {
+    border-color: var(--purple);
+    color: var(--text);
+}
+
+.option input {
+    margin-right: 9px;
+    accent-color: var(--purple);
+}
+
+.option.correct {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.option.incorrect {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.quiz-result {
+    margin-top: 18px;
+    padding: 17px;
+    background: rgba(167, 139, 250, 0.08);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: none;
+}
+
+.quiz-result.show {
+    display: block;
+}
+
+.tracker-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.tracker-item:last-child {
+    border-bottom: none;
+}
+
+.tracker-item input {
+    width: 18px;
+    height: 18px;
+    margin-top: 5px;
+    accent-color: var(--purple);
+    flex-shrink: 0;
+}
+
+.tracker-item label {
+    cursor: pointer;
+}
+
+.tracker-item small {
+    display: block;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 15px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+footer span {
+    color: var(--purple);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+    header {
+        padding: 12px 4%;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    nav a {
+        font-size: 0.84rem;
+    }
+
+    main {
+        width: 92%;
+        padding-top: 22px;
+    }
+
+    .hero {
+        padding: 38px 5px 25px;
+    }
+
+    .graph-info {
+        grid-template-columns: 1fr;
+    }
+
+    canvas {
+        height: 290px;
+    }
+
+    .content-section {
+        padding: 18px;
+    }
+
+    .progress-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <a class="logo" href="../index.html">Math<span>Sutra</span> ✦</a>
+
+    <nav aria-label="Main navigation">
+        <a href="../index.html">Home</a>
+        <a href="#intro">Concepts</a>
+        <a href="#graphs">Graphs</a>
+        <a href="#practice">Practice</a>
+        <a href="#quiz">Quiz</a>
+    </nav>
+</header>
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="tag">CLASS XII MATHEMATICS · CHAPTER 2</div>
+
+        <h1>Inverse Trigonometric<br>Functions</h1>
+
+        <p>
+            Understand principal value branches, domain and range,
+            important identities, interactive graphs and exam-style questions.
+        </p>
+
+        <a class="primary" href="#intro">Start Learning ↓</a>
+    </section>
+
+    <!-- LEARNING PROGRESS -->
+    <section class="progress-box">
+        <div class="progress-heading">
+            <h3>🚀 Chapter Learning Progress</h3>
+            <span id="learningCount">0 of 4 tasks completed</span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="learningBar"></div>
+        </div>
+
+        <div class="progress-tasks">
+            <span id="taskTag-concepts">📘 Concepts</span>
+            <span id="taskTag-graphs">📈 Graphs</span>
+            <span id="taskTag-practice">✍️ Practice</span>
+            <span id="taskTag-quiz">🧠 Quiz</span>
+        </div>
+    </section>
+
+    <!-- SECTION 1 -->
+    <section class="content-section" id="intro">
+        <h2 class="section-title">01. Introduction</h2>
+        <p class="section-subtitle">
+            What are inverse trigonometric functions?
+        </p>
+
+        <div class="card">
+            <h3>Basic Concept</h3>
+
+            <p>
+                Trigonometric functions convert an angle into a ratio.
+                Inverse trigonometric functions work in the opposite direction:
+                they help us find an angle when the ratio is known.
+            </p>
+
+            <div class="formula">
+                If <span class="math">sin θ = x</span>, then
+                <span class="math">θ = sin⁻¹(x)</span>, subject to the
+                principal value range.
+            </div>
+
+            <p>
+                For example, <span class="math">sin(π/6) = 1/2</span>.
+                Therefore, the principal value of
+                <span class="math">sin⁻¹(1/2)</span> is <span class="math">π/6</span>.
+            </p>
+
+            <div class="note warning">
+                <strong>Important:</strong> The notation
+                <span class="math">sin⁻¹ x</span> means inverse sine,
+                not <span class="math">1/sin x</span>.
+                The reciprocal is written as <span class="math">cosec x</span>.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Six Inverse Trigonometric Functions</h3>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Trigonometric function</th>
+                            <th>Inverse function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>sin x</td><td>sin⁻¹ x / arcsin x</td></tr>
+                        <tr><td>cos x</td><td>cos⁻¹ x / arccos x</td></tr>
+                        <tr><td>tan x</td><td>tan⁻¹ x / arctan x</td></tr>
+                        <tr><td>cot x</td><td>cot⁻¹ x / arccot x</td></tr>
+                        <tr><td>sec x</td><td>sec⁻¹ x / arcsec x</td></tr>
+                        <tr><td>cosec x</td><td>cosec⁻¹ x / arccsc x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Why Principal Values?</h3>
+
+            <p>
+                Trigonometric functions are periodic, so one ratio may
+                correspond to many angles. To define an inverse function
+                unambiguously, we restrict the original function to a suitable
+                interval. The resulting inverse value is called the
+                <strong>principal value</strong>.
+            </p>
+
+            <div class="formula">
+                <strong>Example:</strong><br>
+                sin θ = 1/2 has multiple solutions, but the principal value is
+                <span class="math">sin⁻¹(1/2) = π/6</span>.
+            </div>
+        </div>
+
+        <button class="secondary" onclick="markLearning('concepts')">
+            ✓ Mark Concepts Complete
+        </button>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="content-section" id="branches">
+        <h2 class="section-title">02. Principal Value Branches</h2>
+        <p class="section-subtitle">
+            Memorise these ranges carefully for CBSE and JEE Main.
+        </p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Principal value range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>sin⁻¹ x</td>
+                        <td>[−π/2, π/2]</td>
+                    </tr>
+                    <tr>
+                        <td>cos⁻¹ x</td>
+                        <td>[0, π]</td>
+                    </tr>
+                    <tr>
+                        <td>tan⁻¹ x</td>
+                        <td>(−π/2, π/2)</td>
+                    </tr>
+                    <tr>
+                        <td>cot⁻¹ x</td>
+                        <td>(0, π)</td>
+                    </tr>
+                    <tr>
+                        <td>sec⁻¹ x</td>
+                        <td>[0, π], excluding π/2</td>
+                    </tr>
+                    <tr>
+                        <td>cosec⁻¹ x</td>
+                        <td>[−π/2, π/2], excluding 0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>Quick Memory Tricks</h3>
+
+            <ul>
+                <li><strong>sin⁻¹:</strong> centred around zero, from −π/2 to π/2.</li>
+                <li><strong>cos⁻¹:</strong> from 0 to π.</li>
+                <li><strong>tan⁻¹:</strong> like sin⁻¹, but endpoints are excluded.</li>
+                <li><strong>cot⁻¹:</strong> from 0 to π, endpoints excluded.</li>
+                <li><strong>sec⁻¹ and cosec⁻¹:</strong> their domains require |x| ≥ 1.</li>
+            </ul>
+
+            <div class="note">
+                <strong>Board tip:</strong> Learn both the principal value
+                range and the domain. They are different things!
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="content-section" id="domain">
+        <h2 class="section-title">03. Domain and Range</h2>
+        <p class="section-subtitle">
+            The domain tells us which inputs are allowed; the range tells
+            us which outputs are possible.
+        </p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Domain</th>
+                        <th>Range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>sin⁻¹ x</td>
+                        <td>[−1, 1]</td>
+                        <td>[−π/2, π/2]</td>
+                    </tr>
+                    <tr>
+                        <td>cos⁻¹ x</td>
+                        <td>[−1, 1]</td>
+                        <td>[0, π]</td>
+                    </tr>
+                    <tr>
+                        <td>tan⁻¹ x</td>
+                        <td>ℝ</td>
+                        <td>(−π/2, π/2)</td>
+                    </tr>
+                    <tr>
+                        <td>cot⁻¹ x</td>
+                        <td>ℝ</td>
+                        <td>(0, π)</td>
+                    </tr>
+                    <tr>
+                        <td>sec⁻¹ x</td>
+                        <td>(−∞, −1] ∪ [1, ∞)</td>
+                        <td>[0, π], excluding π/2</td>
+                    </tr>
+                    <tr>
+                        <td>cosec⁻¹ x</td>
+                        <td>(−∞, −1] ∪ [1, ∞)</td>
+                        <td>[−π/2, π/2], excluding 0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>Domain Examples</h3>
+
+            <div class="formula">
+                <strong>Example 1:</strong>
+                <span class="math">sin⁻¹(2)</span> is not defined over the
+                real numbers because 2 is outside [−1, 1].
+            </div>
+
+            <div class="formula">
+                <strong>Example 2:</strong>
+                <span class="math">tan⁻¹(100)</span> is defined because
+                tan⁻¹ x accepts every real number.
+            </div>
+
+            <div class="formula">
+                <strong>Example 3:</strong>
+                <span class="math">sec⁻¹(−2)</span> is defined because
+                |−2| ≥ 1.
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="content-section" id="identities">
+        <h2 class="section-title">04. Important Identities</h2>
+        <p class="section-subtitle">
+            These identities are especially useful in simplification and
+            board-exam questions.
+        </p>
+
+        <div class="card">
+            <h3>Fundamental Identities</h3>
+
+            <div class="formula">
+                <strong>Identity 1</strong><br>
+                sin⁻¹ x + cos⁻¹ x = π/2, &nbsp; x ∈ [−1, 1]
+            </div>
+
+            <div class="formula">
+                <strong>Identity 2</strong><br>
+                tan⁻¹ x + cot⁻¹ x = π/2, &nbsp; x ∈ ℝ
+            </div>
+
+            <div class="formula">
+                <strong>Identity 3</strong><br>
+                tan⁻¹ x + tan⁻¹(1/x) = π/2, &nbsp; x &gt; 0
+            </div>
+
+            <div class="formula">
+                <strong>Identity 4</strong><br>
+                tan⁻¹ x + tan⁻¹(1/x) = −π/2, &nbsp; x &lt; 0
+            </div>
+
+            <div class="formula">
+                <strong>Identity 5</strong><br>
+                sin⁻¹(−x) = −sin⁻¹ x
+            </div>
+
+            <div class="formula">
+                <strong>Identity 6</strong><br>
+                tan⁻¹(−x) = −tan⁻¹ x
+            </div>
+
+            <div class="formula">
+                <strong>Identity 7</strong><br>
+                cos⁻¹(−x) = π − cos⁻¹ x
+            </div>
+
+            <div class="formula">
+                <strong>Identity 8</strong><br>
+                cot⁻¹(−x) = π − cot⁻¹ x
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Double-Angle Identity</h3>
+
+            <div class="formula">
+                tan⁻¹ x + tan⁻¹ y =
+                tan⁻¹((x + y)/(1 − xy))
+            </div>
+
+            <p>
+                This form needs care: when xy &gt; 1, the principal value
+                may require adding or subtracting π. Always check the signs
+                and principal value range before using it.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Square-Root Identity</h3>
+
+            <div class="formula">
+                sin⁻¹ x = tan⁻¹(x / √(1 − x²)),
+                &nbsp; −1 &lt; x &lt; 1
+            </div>
+
+            <div class="formula">
+                cos⁻¹ x = tan⁻¹(√(1 − x²) / x),
+                &nbsp; 0 &lt; x ≤ 1
+            </div>
+
+            <div class="note warning">
+                <strong>Remember:</strong> Before using an identity,
+                check its domain and principal value range.
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="content-section" id="graphs">
+        <h2 class="section-title">05. Interactive Graph Laboratory</h2>
+        <p class="section-subtitle">
+            Select a function to explore its shape, domain and range.
+        </p>
+
+        <div class="card">
+            <h3>Choose an Inverse Function</h3>
+
+            <div class="graph-controls">
+                <select id="graphFunction" aria-label="Choose graph function">
+                    <option value="asin">y = sin⁻¹(x)</option>
+                    <option value="acos">y = cos⁻¹(x)</option>
+                    <option value="atan">y = tan⁻¹(x)</option>
+                    <option value="acot">y = cot⁻¹(x)</option>
+                    <option value="asec">y = sec⁻¹(x)</option>
+                    <option value="acsc">y = cosec⁻¹(x)</option>
+                </select>
+
+                <button class="secondary" id="resetGraph">Reset Graph</button>
+
+                <button class="secondary" id="showDomain">
+                    Show Domain & Range
+                </button>
+            </div>
+
+            <canvas id="graphCanvas" aria-label="Inverse trigonometric function graph">
+                Your browser does not support canvas.
+            </canvas>
+
+            <div class="graph-info">
+                <div class="card">
+                    <h4>Domain</h4>
+                    <p id="graphDomain">[−1, 1]</p>
+                </div>
+
+                <div class="card">
+                    <h4>Range</h4>
+                    <p id="graphRange">[−π/2, π/2]</p>
+                </div>
+            </div>
+
+            <div class="note">
+                Graphs are schematic and use radians on the vertical axis.
+                Asymptotes are shown approximately.
+            </div>
+        </div>
+
+        <button class="secondary" onclick="markLearning('graphs')">
+            ✓ Mark Graphs Complete
+        </button>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="content-section" id="examples">
+        <h2 class="section-title">06. Solved Examples</h2>
+        <p class="section-subtitle">
+            Understand the method, then try similar questions yourself.
+        </p>
+
+        <div class="example">
+            <h3>Example 1: Evaluate sin⁻¹(1/2)</h3>
+            <p class="solution">
+                We know that sin(π/6) = 1/2 and π/6 lies in the principal
+                range [−π/2, π/2].
+            </p>
+            <div class="formula">
+                <strong>Answer:</strong> π/6
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>Example 2: Evaluate cos⁻¹(−1/2)</h3>
+            <p class="solution">
+                We need an angle in [0, π] whose cosine is −1/2.
+                That angle is 2π/3.
+            </p>
+            <div class="formula">
+                <strong>Answer:</strong> 2π/3
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>Example 3: Evaluate tan⁻¹(1)</h3>
+            <p class="solution">
+                Since tan(π/4) = 1 and π/4 lies in the principal range
+                of tan⁻¹ x:
+            </p>
+            <div class="formula">
+                <strong>Answer:</strong> π/4
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>Example 4: Simplify sin⁻¹(3/5) + cos⁻¹(3/5)</h3>
+            <p class="solution">
+                Apply sin⁻¹ x + cos⁻¹ x = π/2.
+            </p>
+            <div class="formula">
+                <strong>Answer:</strong> π/2
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>Example 5: Evaluate tan⁻¹(1) + tan⁻¹(0)</h3>
+            <p class="solution">
+                tan⁻¹(1) = π/4 and tan⁻¹(0) = 0.
+            </p>
+            <div class="formula">
+                <strong>Answer:</strong> π/4
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>Example 6: Evaluate sin⁻¹(−1)</h3>
+            <p class="solution">
+                The angle −π/2 lies in the principal range of inverse sine
+                and sin(−π/2) = −1.
+            </p>
+            <div class="formula">
+                <strong>Answer:</strong> −π/2
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="content-section" id="quiz">
+        <h2 class="section-title">07. Quick Quiz</h2>
+        <p class="section-subtitle">
+            Five questions are selected for each attempt. Answer all five
+            before submitting.
+        </p>
+
+        <div id="quizQuestions"></div>
+
+        <div class="graph-controls">
+            <button class="primary" id="finishQuiz" disabled>
+                Check My Answers
+            </button>
+
+            <button class="secondary" id="newQuiz">
+                New Quiz
+            </button>
+        </div>
+
+        <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+
+        <p class="section-subtitle" id="bestScore">
+            Best score: Not attempted yet
+        </p>
+    </section>
+
+    <!-- SECTION 8 -->
+    <section class="content-section" id="practice">
+        <h2 class="section-title">08. Board Practice</h2>
+        <p class="section-subtitle">
+            Try each question before revealing the answer.
+        </p>
+
+        <div class="example">
+            <h3>Question 1</h3>
+            <p>Evaluate: sin⁻¹(0).</p>
+            <button class="secondary" onclick="toggleAnswer('practice1')">
+                Reveal Answer
+            </button>
+            <div class="answer" id="practice1">Answer: 0</div>
+        </div>
+
+        <div class="example">
+            <h3>Question 2</h3>
+            <p>Evaluate: cos⁻¹(1).</p>
+            <button class="secondary" onclick="toggleAnswer('practice2')">
+                Reveal Answer
+            </button>
+            <div class="answer" id="practice2">Answer: 0</div>
+        </div>
+
+        <div class="example">
+            <h3>Question 3</h3>
+            <p>Evaluate: tan⁻¹(−1).</p>
+            <button class="secondary" onclick="toggleAnswer('practice3')">
+                Reveal Answer
+            </button>
+            <div class="answer" id="practice3">Answer: −π/4</div>
+        </div>
+
+        <div class="example">
+            <h3>Question 4</h3>
+            <p>Simplify: sin⁻¹ x + cos⁻¹ x, for x ∈ [−1, 1].</p>
+            <button class="secondary" onclick="toggleAnswer('practice4')">
+                Reveal Answer
+            </button>
+            <div class="answer" id="practice4">Answer: π/2</div>
+        </div>
+
+        <div class="example">
+            <h3>Question 5</h3>
+            <p>State the domain of sec⁻¹ x.</p>
+            <button class="secondary" onclick="toggleAnswer('practice5')">
+                Reveal Answer
+            </button>
+            <div class="answer" id="practice5">
+                Answer: (−∞, −1] ∪ [1, ∞)
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>Question 6</h3>
+            <p>Evaluate: cos⁻¹(0).</p>
+            <button class="secondary" onclick="toggleAnswer('practice6')">
+                Reveal Answer
+            </button>
+            <div class="answer" id="practice6">Answer: π/2</div>
+        </div>
+
+        <button class="secondary" onclick="markLearning('practice')">
+            ✓ Mark Practice Complete
+        </button>
+    </section>
+
+    <!-- SECTION 9 -->
+    <section class="content-section" id="tracker">
+        <h2 class="section-title">09. Progress Tracker</h2>
+        <p class="section-subtitle">
+            Keep track of your chapter revision. Your checklist is saved
+            in this browser.
+        </p>
+
+        <div class="card">
+            <div class="tracker-item">
+                <input type="checkbox" id="track1">
+                <label for="track1">
+                    Introduction and basic concepts
+                    <small>Understand inverse functions and principal values.</small>
+                </label>
+            </div>
+
+            <div class="tracker-item">
+                <input type="checkbox" id="track2">
+                <label for="track2">
+                    Principal value branches
+                    <small>Memorise all six principal value ranges.</small>
+                </label>
+            </div>
+
+            <div class="tracker-item">
+                <input type="checkbox" id="track3">
+                <label for="track3">
+                    Domain and range
+                    <small>Practise identifying valid inputs and outputs.</small>
+                </label>
+            </div>
+
+            <div class="tracker-item">
+                <input type="checkbox" id="track4">
+                <label for="track4">
+                    Important identities
+                    <small>Revise identities and their conditions.</small>
+                </label>
+            </div>
+
+            <div class="tracker-item">
+                <input type="checkbox" id="track5">
+                <label for="track5">
+                    Graphs and solved examples
+                    <small>Understand graph shapes and principal values.</small>
+                </label>
+            </div>
+
+            <div class="tracker-item">
+                <input type="checkbox" id="track6">
+                <label for="track6">
+                    Quiz and board practice
+                    <small>Attempt questions without looking at solutions first.</small>
+                </label>
+            </div>
+
+            <hr>
+
+            <div class="progress-heading">
+                <h3>Revision Checklist</h3>
+                <span id="trackerCount">0 of 6 complete</span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="trackerBar"></div>
+            </div>
+
+            <br>
+
+            <button class="secondary" id="resetProgress">
+                Reset Checklist
+            </button>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Made for learners with <span>MathSutra ✦</span></p>
+    <p>Class XII Mathematics · Inverse Trigonometric Functions</p>
+</footer>
+
+<script>
+/* =========================================
+   SAFE LOCAL STORAGE HELPERS
+========================================= */
+
+function safeGet(key, fallback = null) {
+    try {
+        const value = localStorage.getItem(key);
+        return value === null ? fallback : value;
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function safeSet(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (error) {
+        // The page still works if browser storage is unavailable.
+    }
+}
+
+function safeRemove(key) {
+    try {
+        localStorage.removeItem(key);
+    } catch (error) {
+        // Ignore unavailable storage.
+    }
+}
+
+/* =========================================
+   CHAPTER LEARNING PROGRESS
+========================================= */
+
+const learningTasks = ["concepts", "graphs", "practice", "quiz"];
+const learningKey = "mathsutra_ch2_learning_v1";
+
+function getLearningState() {
+    try {
+        return JSON.parse(safeGet(learningKey, "{}")) || {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function markLearning(task) {
+    if (!learningTasks.includes(task)) return;
+
+    const state = getLearningState();
+    state[task] = true;
+
+    safeSet(learningKey, JSON.stringify(state));
+    updateLearningProgress();
+}
+
+function updateLearningProgress() {
+    const state = getLearningState();
+    let completed = 0;
+
+    learningTasks.forEach(task => {
+        const tag = document.getElementById("taskTag-" + task);
+
+        if (state[task]) {
+            completed++;
+            if (tag) tag.classList.add("done");
+        } else if (tag) {
+            tag.classList.remove("done");
+        }
+    });
+
+    const count = document.getElementById("learningCount");
+    const bar = document.getElementById("learningBar");
+
+    count.textContent = completed + " of 4 tasks completed";
+    bar.style.width = (completed / 4 * 100) + "%";
+}
+
+/* =========================================
+   INTERACTIVE GRAPH LAB
+========================================= */
+
+const canvas = document.getElementById("graphCanvas");
+const ctx = canvas.getContext("2d");
+const functionSelect = document.getElementById("graphFunction");
+
+const graphDetails = {
+    asin: {
+        domain: "[−1, 1]",
+        range: "[−π/2, π/2]",
+        xmin: -1.4,
+        xmax: 1.4,
+        ymin: -2,
+        ymax: 2,
+        fn: x => Math.asin(x),
+        valid: x => Math.abs(x) <= 1
+    },
+
+    acos: {
+        domain: "[−1, 1]",
+        range: "[0, π]",
+        xmin: -1.4,
+        xmax: 1.4,
+        ymin: -0.5,
+        ymax: 3.7,
+        fn: x => Math.acos(x),
+        valid: x => Math.abs(x) <= 1
+    },
+
+    atan: {
+        domain: "ℝ (all real numbers)",
+        range: "(−π/2, π/2)",
+        xmin: -6,
+        xmax: 6,
+        ymin: -2,
+        ymax: 2,
+        fn: x => Math.atan(x),
+        valid: x => true
+    },
+
+    acot: {
+        domain: "ℝ (all real numbers)",
+        range: "(0, π)",
+        xmin: -6,
+        xmax: 6,
+        ymin: -0.3,
+        ymax: 3.5,
+        fn: x => Math.PI / 2 - Math.atan(x),
+        valid: x => true
+    },
+
+    asec: {
+        domain: "(−∞, −1] ∪ [1, ∞)",
+        range: "[0, π], excluding π/2",
+        xmin: -4,
+        xmax: 4,
+        ymin: -0.3,
+        ymax: 3.5,
+        fn: x => Math.acos(1 / x),
+        valid: x => Math.abs(x) >= 1
+    },
+
+    acsc: {
+        domain: "(−∞, −1] ∪ [1, ∞)",
+        range: "[−π/2, π/2], excluding 0",
+        xmin: -4,
+        xmax: 4,
+        ymin: -2,
+        ymax: 2,
+        fn: x => Math.asin(1 / x),
+        valid: x => Math.abs(x) >= 1
+    }
+};
+
+function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawGraph();
+}
+
+function drawGraph() {
+    if (!ctx) return;
+
+    const key = functionSelect.value;
+    const info = graphDetails[key];
+
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+
+    if (!width || !height) return;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const left = 43;
+    const right = 16;
+    const top = 17;
+    const bottom = 30;
+
+    const plotW = width - left - right;
+    const plotH = height - top - bottom;
+
+    const mapX = x =>
+        left + ((x - info.xmin) / (info.xmax - info.xmin)) * plotW;
+
+    const mapY = y =>
+        top + ((info.ymax - y) / (info.ymax - info.ymin)) * plotH;
+
+    /* Grid */
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(139,155,255,0.14)";
+
+    for (let i = 0; i <= 8; i++) {
+        const x = left + plotW * i / 8;
+
+        ctx.beginPath();
+        ctx.moveTo(x, top);
+        ctx.lineTo(x, top + plotH);
+        ctx.stroke();
+    }
+
+    for (let i = 0; i <= 6; i++) {
+        const y = top + plotH * i / 6;
+
+        ctx.beginPath();
+        ctx.moveTo(left, y);
+        ctx.lineTo(left + plotW, y);
+        ctx.stroke();
+    }
+
+    /* Axes */
+    ctx.strokeStyle = "rgba(241,243,255,0.55)";
+    ctx.lineWidth = 1.2;
+
+    if (info.xmin <= 0 && info.xmax >= 0) {
+        ctx.beginPath();
+        ctx.moveTo(mapX(0), top);
+        ctx.lineTo(mapX(0), top + plotH);
+        ctx.stroke();
+    }
+
+    if (info.ymin <= 0 && info.ymax >= 0) {
+        ctx.beginPath();
+        ctx.moveTo(left, mapY(0));
+        ctx.lineTo(left + plotW, mapY(0));
+        ctx.stroke();
+    }
+
+    /* Axis labels */
+    ctx.fillStyle = "#b8c1e5";
+    ctx.font = "11px Arial";
+    ctx.textAlign = "center";
+
+    for (let i = 0; i <= 4; i++) {
+        const xVal = info.xmin + (info.xmax - info.xmin) * i / 4;
+        ctx.fillText(xVal.toFixed(1), mapX(xVal), height - 10);
+    }
+
+    ctx.textAlign = "right";
+
+    for (let i = 0; i <= 4; i++) {
+        const yVal = info.ymin + (info.ymax - info.ymin) * i / 4;
+        ctx.fillText(yVal.toFixed(1), left - 6, mapY(yVal) + 4);
+    }
+
+    /* Function curve */
+    ctx.beginPath();
+    ctx.strokeStyle = "#67e8f9";
+    ctx.lineWidth = 2.6;
+
+    let drawing = false;
+
+    const steps = Math.max(500, Math.floor(plotW * 2));
+
+    for (let i = 0; i <= steps; i++) {
+        const x = info.xmin + (info.xmax - info.xmin) * i / steps;
+
+        if (!info.valid(x)) {
+            drawing = false;
+            continue;
+        }
+
+        const y = info.fn(x);
+
+        if (!Number.isFinite(y) || y < info.ymin || y > info.ymax) {
+            drawing = false;
+            continue;
+        }
+
+        const px = mapX(x);
+        const py = mapY(y);
+
+        if (!drawing) {
+            ctx.moveTo(px, py);
+            drawing = true;
+        } else {
+            ctx.lineTo(px, py);
+        }
+    }
+
+    ctx.stroke();
+
+    /* Function label */
+    const labels = {
+        asin: "y = sin⁻¹(x)",
+        acos: "y = cos⁻¹(x)",
+        atan: "y = tan⁻¹(x)",
+        acot: "y = cot⁻¹(x)",
+        asec: "y = sec⁻¹(x)",
+        acsc: "y = cosec⁻¹(x)"
+    };
+
+    ctx.fillStyle = "#f0abfc";
+    ctx.textAlign = "left";
+    ctx.font = "bold 13px Arial";
+    ctx.fillText(labels[key], left + 8, top + 17);
+}
+
+function updateGraphInfo() {
+    const info = graphDetails[functionSelect.value];
+
+    document.getElementById("graphDomain").textContent = info.domain;
+    document.getElementById("graphRange").textContent = info.range;
+
+    drawGraph();
+}
+
+function showGraphDomainRange() {
+    const info = graphDetails[functionSelect.value];
+
+    alert(
+        "Domain: " + info.domain +
+        "\nRange: " + info.range
+    );
+}
+
+function resetGraph() {
+    functionSelect.value = "asin";
+    updateGraphInfo();
+}
+
+functionSelect.addEventListener("change", updateGraphInfo);
+
+document.getElementById("resetGraph").addEventListener("click", resetGraph);
+
+document.getElementById("showDomain").addEventListener(
+    "click",
+    showGraphDomainRange
+);
+
+if ("ResizeObserver" in window) {
+    const graphObserver = new ResizeObserver(resizeCanvas);
+    graphObserver.observe(canvas);
+} else {
+    window.addEventListener("resize", resizeCanvas);
+}
+
+window.addEventListener("load", resizeCanvas);
+
+/* =========================================
+   BOARD PRACTICE ANSWERS
+========================================= */
+
+function toggleAnswer(id) {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    element.classList.toggle("show");
+
+    const button = element.previousElementSibling;
+
+    if (button && button.tagName === "BUTTON") {
+        button.textContent = element.classList.contains("show")
+            ? "Hide Answer"
+            : "Reveal Answer";
+    }
+}
+
+/* =========================================
+   QUIZ SYSTEM
+========================================= */
+
+const quizBank = [
+    {
+        q: "What is sin⁻¹(1)?",
+        options: ["0", "π/2", "π", "−π/2"],
+        answer: 1,
+        explanation: "sin(π/2) = 1, and π/2 is in the principal range."
+    },
+    {
+        q: "What is cos⁻¹(−1)?",
+        options: ["0", "π/2", "π", "−π"],
+        answer: 2,
+        explanation: "The principal value of cos⁻¹(−1) is π."
+    },
+    {
+        q: "What is tan⁻¹(0)?",
+        options: ["0", "π/4", "π/2", "π"],
+        answer: 0,
+        explanation: "tan(0) = 0."
+    },
+    {
+        q: "What is the domain of sin⁻¹ x?",
+        options: ["All real numbers", "[−1, 1]", "(0, π)", "[1, ∞)"],
+        answer: 1,
+        explanation: "The input of inverse sine must lie between −1 and 1."
+    },
+    {
+        q: "What is the range of cos⁻¹ x?",
+        options: ["[−π/2, π/2]", "(−π/2, π/2)", "[0, π]", "ℝ"],
+        answer: 2,
+        explanation: "The principal range of inverse cosine is [0, π]."
+    },
+    {
+        q: "sin⁻¹ x + cos⁻¹ x equals:",
+        options: ["0", "π", "π/2", "2π"],
+        answer: 2,
+        explanation: "This is a fundamental inverse trigonometric identity."
+    },
+    {
+        q: "What is tan⁻¹(−1)?",
+        options: ["π/4", "−π/4", "π/2", "−π/2"],
+        answer: 1,
+        explanation: "The principal value is −π/4."
+    },
+    {
+        q: "Which input is outside the real domain of sin⁻¹ x?",
+        options: ["−1", "0", "1", "2"],
+        answer: 3,
+        explanation: "The real domain of inverse sine is [−1, 1]."
+    },
+    {
+        q: "The domain of tan⁻¹ x is:",
+        options: ["[−1, 1]", "ℝ", "(0, π)", "[1, ∞)"],
+        answer: 1,
+        explanation: "Inverse tangent accepts every real input."
+    },
+    {
+        q: "What is cos⁻¹(0)?",
+        options: ["0", "π/4", "π/2", "π"],
+        answer: 2,
+        explanation: "cos(π/2) = 0."
+    },
+    {
+        q: "What is sin⁻¹(−1)?",
+        options: ["−π/2", "0", "π/2", "π"],
+        answer: 0,
+        explanation: "The principal value is −π/2."
+    },
+    {
+        q: "Which is the domain of sec⁻¹ x?",
+        options: ["[−1, 1]", "ℝ", "x ≤ −1 or x ≥ 1", "(0, π)"],
+        answer: 2,
+        explanation: "Real inverse secant requires |x| ≥ 1."
+    }
+];
+
+let currentQuiz = [];
+let quizSubmitted = false;
+
+function shuffleArray(array) {
+    const result = [...array];
+
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+    }
+
+    return result;
+}
+
+function createQuiz() {
+    currentQuiz = shuffleArray(quizBank).slice(0, 5);
+    quizSubmitted = false;
+
+    const container = document.getElementById("quizQuestions");
+    const finishButton = document.getElementById("finishQuiz");
+    const result = document.getElementById("quizResult");
+
+    container.innerHTML = "";
+    result.classList.remove("show");
+    result.innerHTML = "";
+    finishButton.disabled = true;
+
+    currentQuiz.forEach((item, questionIndex) => {
+        const box = document.createElement("div");
+        box.className = "quiz-question";
+
+        const heading = document.createElement("h3");
+        heading.textContent = (questionIndex + 1) + ". " + item.q;
+        box.appendChild(heading);
+
+        item.options.forEach((option, optionIndex) => {
+            const label = document.createElement("label");
+            label.className = "option";
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "quiz-" + questionIndex;
+            radio.value = optionIndex;
+
+            radio.addEventListener("change", updateFinishButton);
+
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(option));
+            box.appendChild(label);
+        });
+
+        container.appendChild(box);
+    });
+
+    updateFinishButton();
+}
+
+function updateFinishButton() {
+    if (quizSubmitted) return;
+
+    const allAnswered = currentQuiz.every((item, index) => {
+        return document.querySelector(
+            'input[name="quiz-' + index + '"]:checked'
+        );
+    });
+
+    document.getElementById("finishQuiz").disabled = !allAnswered;
+}
+
+function finishQuiz() {
+    if (quizSubmitted) return;
+
+    const answers = currentQuiz.map((item, index) => {
+        return document.querySelector(
+            'input[name="quiz-' + index + '"]:checked'
+        );
+    });
+
+    if (answers.some(answer => !answer)) {
+        alert("Please answer all five questions first.");
+        return;
+    }
+
+    quizSubmitted = true;
+
+    let score = 0;
+
+    currentQuiz.forEach((item, questionIndex) => {
+        const box = document.querySelectorAll(".quiz-question")[questionIndex];
+        const options = box.querySelectorAll(".option");
+
+        options.forEach((label, optionIndex) => {
+            const radio = label.querySelector("input");
+
+            radio.disabled = true;
+
+            if (optionIndex === item.answer) {
+                label.classList.add("correct");
+            }
+
+            if (
+                radio.checked &&
+                optionIndex !== item.answer
+            ) {
+                label.classList.add("incorrect");
+            }
+        });
+
+        if (Number(answers[questionIndex].value) === item.answer) {
+            score++;
+        }
+
+        const explanation = document.createElement("p");
+        explanation.className = "solution";
+        explanation.textContent = "Explanation: " + item.explanation;
+        box.appendChild(explanation);
+    });
+
+    const result = document.getElementById("quizResult");
+    result.classList.add("show");
+
+    let message;
+
+    if (score === 5) {
+        message = "Excellent! Perfect score! 🎉";
+    } else if (score >= 3) {
+        message = "Good effort! Revise the questions you missed. 💪";
+    } else {
+        message = "Keep practising. Review the concepts and try again. 📘";
+    }
+
+    result.innerHTML =
+        "<h3>Your Score: " + score + "/5</h3>" +
+        "<p>" + message + "</p>";
+
+    const previousBest = Number(safeGet("mathsutra_ch2_best_score", "0"));
+
+    if (score > previousBest) {
+        safeSet("mathsutra_ch2_best_score", String(score));
+    }
+
+    updateBestScore();
+    document.getElementById("finishQuiz").disabled = true;
+
+    markLearning("quiz");
+}
+
+function updateBestScore() {
+    const best = safeGet("mathsutra_ch2_best_score", null);
+    const element = document.getElementById("bestScore");
+
+    element.textContent = best === null
+        ? "Best score: Not attempted yet"
+        : "Best score: " + best + "/5";
+}
+
+document.getElementById("finishQuiz").addEventListener("click", finishQuiz);
+document.getElementById("newQuiz").addEventListener("click", createQuiz);
+
+/* =========================================
+   REVISION CHECKLIST
+========================================= */
+
+const trackerKey = "mathsutra_ch2_progress_v1";
+const trackerIds = [
+    "track1",
+    "track2",
+    "track3",
+    "track4",
+    "track5",
+    "track6"
+];
+
+function getTrackerState() {
+    try {
+        return JSON.parse(safeGet(trackerKey, "{}")) || {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function saveTracker() {
+    const state = {};
+
+    trackerIds.forEach(id => {
+        state[id] = document.getElementById(id).checked;
+    });
+
+    safeSet(trackerKey, JSON.stringify(state));
+    updateTrackerProgress();
+}
+
+function loadTracker() {
+    const state = getTrackerState();
+
+    trackerIds.forEach(id => {
+        document.getElementById(id).checked = Boolean(state[id]);
+
+        document.getElementById(id).addEventListener(
+            "change",
+            saveTracker
+        );
+    });
+
+    updateTrackerProgress();
+}
+
+function updateTrackerProgress() {
+    const completed = trackerIds.filter(id =>
+        document.getElementById(id).checked
+    ).length;
+
+    document.getElementById("trackerCount").textContent =
+        completed + " of 6 complete";
+
+    document.getElementById("trackerBar").style.width =
+        (completed / 6 * 100) + "%";
+}
+
+document.getElementById("resetProgress").addEventListener("click", () => {
+    const confirmed = confirm("Reset your chapter revision checklist?");
+
+    if (!confirmed) return;
+
+    trackerIds.forEach(id => {
+        document.getElementById(id).checked = false;
+    });
+
+    safeRemove(trackerKey);
+    updateTrackerProgress();
+});
+
+/* =========================================
+   INITIALISE PAGE
+========================================= */
+
+loadTracker();
+updateLearningProgress();
+updateBestScore();
+createQuiz();
+
+</script>
+
+<script src="../js/app.js"></script>
+
+</body>
+</html>

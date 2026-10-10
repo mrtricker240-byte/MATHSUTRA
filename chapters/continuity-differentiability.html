@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 5: Continuity and Differentiability | MathSutra</title>
+
+<style>
+:root {
+  --bg: #080b18;
+  --panel: #11182b;
+  --panel2: #151e35;
+  --text: #edf3ff;
+  --muted: #a8b5d1;
+  --cyan: #55e6ff;
+  --purple: #a78bfa;
+  --green: #6ee7b7;
+  --border: rgba(142, 164, 220, .2);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at top left, #192044 0, transparent 45%),
+    radial-gradient(ellipse at bottom right, #20133d 0, transparent 40%),
+    var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.7;
+}
+a { color: var(--cyan); text-decoration: none; }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 6%;
+  background: rgba(8,11,24,.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+.logo { font-size: 1.35rem; font-weight: 800; color: var(--cyan); }
+nav { display: flex; gap: 15px; flex-wrap: wrap; font-size: .9rem; }
+nav a { color: var(--muted); }
+nav a:hover { color: var(--cyan); }
+.container { width: min(1100px, 92%); margin: auto; }
+.hero { padding: 65px 0 35px; }
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--green);
+  font-size: .85rem;
+}
+h1 { font-size: clamp(2.1rem, 6vw, 4rem); line-height: 1.13; margin: 18px 0; }
+.gradient {
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  color: transparent;
+  background-clip: text;
+}
+.hero p { max-width: 720px; color: var(--muted); }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+button, .btn {
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel2);
+  color: var(--text);
+  font-size: .94rem;
+}
+button:hover, .btn:hover { border-color: var(--cyan); }
+.primary { background: var(--cyan); color: #06111a; font-weight: 700; }
+section { margin: 25px 0; scroll-margin-top: 90px; }
+.card {
+  background: linear-gradient(145deg, rgba(21,30,53,.95), rgba(13,19,36,.96));
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 23px;
+  margin-bottom: 18px;
+}
+h2 { margin-top: 0; font-size: 1.65rem; }
+h3 { color: var(--cyan); }
+.muted { color: var(--muted); }
+.formula {
+  margin: 13px 0;
+  padding: 14px;
+  background: rgba(85,230,255,.07);
+  border-left: 3px solid var(--cyan);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+  font-family: "Courier New", monospace;
+}
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+th, td { padding: 10px; text-align: left; border: 1px solid var(--border); }
+th { color: var(--cyan); }
+input[type="number"], input[type="text"], select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #080d1c;
+  color: var(--text);
+}
+.question {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 13px 0;
+}
+.option { display: block; padding: 6px 0; color: var(--muted); }
+.feedback { margin-top: 8px; font-weight: 700; }
+.good { color: var(--green); }
+.bad { color: #fca5a5; }
+.answer { display: none; padding: 12px; margin-top: 8px; background: rgba(110,231,183,.08); border-radius: 8px; }
+.progress-row { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; }
+.progress-row input { margin-top: 7px; }
+progress { width: 100%; height: 14px; accent-color: var(--cyan); }
+footer { text-align: center; color: var(--muted); padding: 35px 0; }
+.small { font-size: .88rem; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 20px 0; }
+@media(max-width:700px) {
+  header { align-items: flex-start; flex-direction: column; }
+  nav { gap: 10px; }
+  .grid { grid-template-columns: 1fr; }
+  .card { padding: 17px; }
+  .hero { padding-top: 42px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <a class="logo" href="../index.html">✦ MathSutra</a>
+  <nav>
+    <a href="#theory">Theory</a>
+    <a href="#examples">Examples</a>
+    <a href="#practice">Boards</a>
+    <a href="#jee">JEE MCQs</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#progress">Progress</a>
+  </nav>
+</header>
+
+<main class="container">
+  <div class="hero">
+    <span class="badge">CLASS 12 MATHEMATICS · CHAPTER 5</span>
+    <h1><span class="gradient">Continuity and<br>Differentiability</span></h1>
+    <p>Understand limits, continuity, differentiability and important derivative rules through clear notes, solved examples and interactive practice.</p>
+    <div class="actions">
+      <button class="primary" onclick="document.querySelector('#theory').scrollIntoView()">Start Learning ↓</button>
+      <button id="languageBtn">🌐 English / Hinglish</button>
+      <button id="modeBtn">Mode: Boards</button>
+    </div>
+    <p class="small muted" id="settingsInfo">Language: English · Mode: Boards</p>
+  </div>
+
+  <section id="theory">
+    <div class="card">
+      <h2>1. Limits — Quick Recap</h2>
+      <p>A limit describes the value a function approaches when x approaches a particular number.</p>
+      <div class="formula">lim (x → a) f(x) = L</div>
+      <p>For a two-sided limit to exist, the left-hand limit and right-hand limit must be equal.</p>
+      <div class="formula">LHL = lim (x → a⁻) f(x)</div>
+      <div class="formula">RHL = lim (x → a⁺) f(x)</div>
+      <p><strong>Limit exists when:</strong> LHL = RHL.</p>
+      <p class="muted">Remember: the limit at a point and the actual function value at that point are not necessarily the same.</p>
+    </div>
+
+    <div class="card">
+      <h2>2. Continuity at a Point</h2>
+      <p>A function f(x) is continuous at x = a if all three conditions hold:</p>
+      <div class="formula">1. f(a) is defined</div>
+      <div class="formula">2. lim (x → a) f(x) exists</div>
+      <div class="formula">3. lim (x → a) f(x) = f(a)</div>
+      <h3>Example</h3>
+      <p>Check continuity of f(x) = x² at x = 2.</p>
+      <div class="formula">lim (x → 2) x² = 4</div>
+      <div class="formula">f(2) = 2² = 4</div>
+      <p>Since the limit equals the function value, f is continuous at x = 2.</p>
+    </div>
+
+    <div class="card">
+      <h2>3. Continuity of Piecewise Functions</h2>
+      <p>For a piecewise function, check the left-hand limit, right-hand limit and value at the joining point.</p>
+      <div class="formula">
+        For continuity at x = a:<br>
+        LHL = RHL = f(a)
+      </div>
+      <h3>Worked Example</h3>
+      <p>Let f(x) = x + 1 for x &lt; 2, and f(x) = k for x ≥ 2. Find k for continuity at x = 2.</p>
+      <p>Left-hand limit = 2 + 1 = 3.</p>
+      <p>Right-hand limit = k, and f(2) = k.</p>
+      <div class="formula">For continuity: 3 = k ⇒ k = 3</div>
+    </div>
+
+    <div class="card">
+      <h2>4. Differentiability</h2>
+      <p>The derivative represents the instantaneous rate of change of a function. Geometrically, it gives the slope of the tangent to the curve where the derivative exists.</p>
+      <div class="formula">
+        f′(x) = lim (h → 0) [f(x+h) − f(x)] / h
+      </div>
+      <p>The left-hand derivative and right-hand derivative at x = a must be equal for the derivative to exist there.</p>
+      <div class="formula">LHD = RHD</div>
+      <p><strong>Important:</strong> Differentiability at a point implies continuity there, but continuity does not always imply differentiability.</p>
+      <h3>Classic Example: f(x) = |x| at x = 0</h3>
+      <p>The graph has a sharp corner at zero. Its left-hand derivative is −1 and right-hand derivative is +1. They are unequal, so |x| is not differentiable at zero, although it is continuous there.</p>
+    </div>
+
+    <div class="card">
+      <h2>5. Derivative Rules</h2>
+      <table>
+        <tr><th>Function</th><th>Derivative</th></tr>
+        <tr><td>c (constant)</td><td>0</td></tr>
+        <tr><td>xⁿ</td><td>nxⁿ⁻¹</td></tr>
+        <tr><td>sin x</td><td>cos x</td></tr>
+        <tr><td>cos x</td><td>−sin x</td></tr>
+        <tr><td>tan x</td><td>sec² x</td></tr>
+        <tr><td>eˣ</td><td>eˣ</td></tr>
+        <tr><td>ln x</td><td>1/x, for x &gt; 0</td></tr>
+        <tr><td>sin⁻¹x</td><td>1/√(1−x²), for |x| &lt; 1</td></tr>
+        <tr><td>tan⁻¹x</td><td>1/(1+x²)</td></tr>
+      </table>
+      <p class="muted small">Trigonometric derivative formulas assume angles are measured in radians.</p>
+    </div>
+
+    <div class="card">
+      <h2>6. Product, Quotient and Chain Rules</h2>
+      <h3>Product Rule</h3>
+      <div class="formula">d(uv)/dx = u′v + uv′</div>
+      <h3>Quotient Rule</h3>
+      <div class="formula">d(u/v)/dx = (vu′ − uv′)/v², v ≠ 0</div>
+      <h3>Chain Rule</h3>
+      <div class="formula">d[f(g(x))]/dx = f′(g(x)) × g′(x)</div>
+      <p><strong>Example:</strong> y = (3x + 2)⁵</p>
+      <div class="formula">dy/dx = 5(3x + 2)⁴ × 3 = 15(3x + 2)⁴</div>
+    </div>
+
+    <div class="card">
+      <h2>7. Implicit Differentiation</h2>
+      <p>When x and y occur together in an equation, differentiate both sides with respect to x. Remember that y is a function of x.</p>
+      <p><strong>Example:</strong> x² + y² = 25</p>
+      <div class="formula">2x + 2y(dy/dx) = 0</div>
+      <div class="formula">dy/dx = −x/y, when y ≠ 0</div>
+    </div>
+
+    <div class="card">
+      <h2>8. Logarithmic Differentiation</h2>
+      <p>Useful when a function contains products, quotients or variable powers.</p>
+      <p><strong>Example:</strong> y = xˣ for x &gt; 0.</p>
+      <div class="formula">ln y = x ln x</div>
+      <div class="formula">(1/y)(dy/dx) = ln x + 1</div>
+      <div class="formula">dy/dx = xˣ(ln x + 1)</div>
+    </div>
+
+    <div class="card">
+      <h2>9. Parametric Differentiation</h2>
+      <p>If x and y are both expressed in terms of t, then:</p>
+      <div class="formula">dy/dx = (dy/dt) / (dx/dt), provided dx/dt ≠ 0</div>
+      <p><strong>Example:</strong> x = t² and y = t³.</p>
+      <div class="formula">dx/dt = 2t, dy/dt = 3t²</div>
+      <div class="formula">dy/dx = 3t²/(2t) = 3t/2, for t ≠ 0</div>
+    </div>
+
+    <div class="card">
+      <h2>10. Second-Order Derivatives</h2>
+      <p>The second derivative is the derivative of the first derivative.</p>
+      <div class="formula">d²y/dx² = d/dx(dy/dx)</div>
+      <p><strong>Example:</strong> y = x⁴ − 3x².</p>
+      <div class="formula">dy/dx = 4x³ − 6x</div>
+      <div class="formula">d²y/dx² = 12x² − 6</div>
+    </div>
+
+    <div class="card">
+      <h2>11. Mean Value Theorems</h2>
+      <h3>Rolle's Theorem</h3>
+      <p>If f is continuous on [a,b], differentiable on (a,b), and f(a) = f(b), then there exists at least one c in (a,b) such that:</p>
+      <div class="formula">f′(c) = 0</div>
+      <h3>Lagrange's Mean Value Theorem</h3>
+      <p>If f is continuous on [a,b] and differentiable on (a,b), then some c in (a,b) satisfies:</p>
+      <div class="formula">f′(c) = [f(b) − f(a)] / (b − a)</div>
+      <p class="muted small">Learn the hypotheses as well as the conclusion; they matter in theorem-based questions.</p>
+    </div>
+
+    <div class="card">
+      <h2>12. Quick Concept Check</h2>
+      <p><strong>Q:</strong> Is every differentiable function continuous?</p>
+      <p><strong>Answer:</strong> Yes, at any point where it is differentiable.</p>
+      <hr>
+      <p><strong>Q:</strong> Is every continuous function differentiable?</p>
+      <p><strong>Answer:</strong> No. For example, f(x) = |x| is continuous but not differentiable at x = 0.</p>
+    </div>
+  </section>
+
+  <section id="examples">
+    <h2>🧠 Solved Examples</h2>
+    <div class="card">
+      <h3>Example 1 — Differentiate a polynomial</h3>
+      <p>Find dy/dx if y = 4x³ − 5x² + 7x − 9.</p>
+      <div class="formula">dy/dx = 12x² − 10x + 7</div>
+    </div>
+    <div class="card">
+      <h3>Example 2 — Chain Rule</h3>
+      <p>Differentiate y = sin(2x).</p>
+      <div class="formula">dy/dx = cos(2x) × 2 = 2cos(2x)</div>
+    </div>
+    <div class="card">
+      <h3>Example 3 — Product Rule</h3>
+      <p>Differentiate y = x² sin x.</p>
+      <div class="formula">dy/dx = 2x sin x + x² cos x</div>
+    </div>
+    <div class="card">
+      <h3>Example 4 — Continuity</h3>
+      <p>For f(x) = x² when x ≠ 1 and f(1) = 3, is f continuous at x = 1?</p>
+      <p>The limit is 1² = 1, but f(1) = 3.</p>
+      <div class="formula">lim (x → 1) f(x) ≠ f(1) ⇒ Not continuous</div>
+    </div>
+  </section>
+
+  <section id="practice">
+    <h2>📝 CBSE Board Practice</h2>
+    <div class="card">
+      <p>Attempt each question first, then reveal the answer.</p>
+
+      <div class="question">
+        <p><strong>1.</strong> State the three conditions for continuity of f at x = a.</p>
+        <button onclick="toggleAnswer('b1')">Show Answer</button>
+        <div class="answer" id="b1">f(a) is defined, the limit as x approaches a exists, and that limit equals f(a).</div>
+      </div>
+
+      <div class="question">
+        <p><strong>2.</strong> Differentiate y = x⁵ + 3x² − 4.</p>
+        <button onclick="toggleAnswer('b2')">Show Answer</button>
+        <div class="answer" id="b2">dy/dx = 5x⁴ + 6x.</div>
+      </div>
+
+      <div class="question">
+        <p><strong>3.</strong> Differentiate y = eˣ cos x.</p>
+        <button onclick="toggleAnswer('b3')">Show Answer</button>
+        <div class="answer" id="b3">Using product rule: dy/dx = eˣ cos x − eˣ sin x = eˣ(cos x − sin x).</div>
+      </div>
+
+      <div class="question">
+        <p><strong>4.</strong> Find d²y/dx² if y = x³ + 2x.</p>
+        <button onclick="toggleAnswer('b4')">Show Answer</button>
+        <div class="answer" id="b4">First derivative = 3x² + 2. Second derivative = 6x.</div>
+      </div>
+
+      <div class="question">
+        <p><strong>5.</strong> Differentiate y = ln(1 + x²).</p>
+        <button onclick="toggleAnswer('b5')">Show Answer</button>
+        <div class="answer" id="b5">dy/dx = 2x/(1 + x²).</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="jee">
+    <h2>⚡ JEE-Style MCQs</h2>
+    <p class="muted">Choose one answer for each question, then check your score.</p>
+    <div class="card" id="jeeQuestions"></div>
+    <button class="primary" onclick="checkJEE()">Check Answers</button>
+    <button onclick="resetJEE()">Reset</button>
+    <p id="jeeResult" class="feedback"></p>
+  </section>
+
+  <section id="quiz">
+    <h2>🎯 Quick Quiz</h2>
+    <div class="card">
+      <p id="quizCounter">Question 1 of 5</p>
+      <h3 id="quizQuestion"></h3>
+      <div id="quizOptions"></div>
+      <p id="quizFeedback" class="feedback"></p>
+      <button class="primary" id="nextQuiz">Next Question →</button>
+      <button id="restartQuiz">Restart Quiz</button>
+      <p id="quizScore" class="good"></p>
+      <p id="bestScore" class="muted small"></p>
+    </div>
+  </section>
+
+  <section id="progress">
+    <h2>🚀 Learning Progress</h2>
+    <div class="card">
+      <p class="muted">Tick each topic when you have studied and practised it.</p>
+      <progress id="progressBar" value="0" max="100"></progress>
+      <p id="progressText">0% completed</p>
+      <div id="checklist"></div>
+      <button onclick="resetProgress()">Reset Progress</button>
+    </div>
+  </section>
+
+  <div class="card">
+    <h2>📌 Chapter Revision Strategy</h2>
+    <ul>
+      <li>Learn the definitions and conditions of continuity.</li>
+      <li>Practise standard derivative rules without hesitation.</li>
+      <li>Identify when to use product, quotient and chain rules.</li>
+      <li>Practise implicit, logarithmic and parametric differentiation.</li>
+      <li>For Boards, write steps clearly and avoid skipping conditions.</li>
+      <li>For JEE, practise mixed questions and check domain restrictions.</li>
+    </ul>
+    <p class="muted small">Syllabus note: check the latest official CBSE and NTA syllabus before treating this page as a complete syllabus checklist.</p>
+    <a href="../index.html">← Back to MathSutra Home</a>
+  </div>
+</main>
+
+<footer>
+  <div class="container">✦ MathSutra · Learn concepts. Practise smart. Grow stronger.</div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const PROGRESS_KEY = "mathsutra_ch5_progress_v1";
+  const LANG_KEY = "mathsutra-language";
+  const MODE_KEY = "mathsutra-mode";
+  let language = localStorage.getItem(LANG_KEY) || "en";
+  let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+  function updateSettings() {
+    $("languageBtn").textContent = language === "en" ? "🌐 English / Hinglish" : "🌐 Hinglish / English";
+    $("modeBtn").textContent = "Mode: " + (mode === "boards" ? "Boards" : "JEE Main");
+    $("settingsInfo").textContent =
+      "Language: " + (language === "en" ? "English" : "Hinglish") +
+      " · Mode: " + (mode === "boards" ? "Boards" : "JEE Main");
+  }
+
+  $("languageBtn").addEventListener("click", () => {
+    language = language === "en" ? "hi" : "en";
+    localStorage.setItem(LANG_KEY, language);
+    updateSettings();
+    alert(language === "hi"
+      ? "Hinglish mode selected. Core mathematical notes remain in English for now."
+      : "English mode selected.");
+  });
+
+  $("modeBtn").addEventListener("click", () => {
+    mode = mode === "boards" ? "jee" : "boards";
+    localStorage.setItem(MODE_KEY, mode);
+    updateSettings();
+    alert(mode === "jee"
+      ? "JEE Main mode selected. Use the JEE-style MCQs below."
+      : "CBSE Boards mode selected. Start with theory and Board practice.");
+  });
+
+  window.toggleAnswer = id => {
+    const el = $(id);
+    el.style.display = el.style.display === "block" ? "none" : "block";
+  };
+
+  const jeeData = [
+    {q:"If f(x) = x³, then f′(2) is:", o:["6","8","12","4"], a:2, e:"f′(x) = 3x², so f′(2) = 12."},
+    {q:"The function |x| is not differentiable at:", o:["x = 1","x = −1","x = 0","Everywhere"], a:2, e:"At x = 0, its left and right derivatives differ."},
+    {q:"If y = sin(x²), then dy/dx equals:", o:["cos(x²)","2x cos(x²)","sin(2x)","2x sin(x²)"], a:1, e:"Apply the chain rule."},
+    {q:"The derivative of ln(3x), for x > 0, is:", o:["3/x","1/(3x)","1/x","ln 3"], a:2, e:"d/dx ln(3x) = 3/(3x) = 1/x."},
+    {q:"If f is differentiable at a point, it must be:", o:["Discontinuous","Continuous","Constant","Zero"], a:1, e:"Differentiability implies continuity."},
+    {q:"If y = x²eˣ, then y′ is:", o:["2xeˣ","x²eˣ","eˣ(x² + 2x)","eˣ(x² − 2x)"], a:2, e:"Product rule gives 2xeˣ + x²eˣ."},
+    {q:"If x = t² and y = t³, dy/dx is:", o:["2t/3","3t/2","3t²/2","2t²/3"], a:1, e:"dy/dx = (3t²)/(2t) = 3t/2 for t ≠ 0."},
+    {q:"For continuity at x = a, which equality must hold?", o:["LHL = 0","RHL = f′(a)","LHL = RHL = f(a)","f(a) = 0"], a:2, e:"The two-sided limit must exist and equal the function value."}
+  ];
+
+  function renderJEE() {
+    $("jeeQuestions").innerHTML = jeeData.map((q, i) => `
+      <div class="question" data-jee="${i}">
+        <p><strong>${i+1}.</strong> ${q.q}</p>
+        ${q.o.map((option,j)=>`
+          <label class="option">
+            <input type="radio" name="jee${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${option}
+          </label>`).join("")}
+        <div class="feedback" id="jeeFeedback${i}"></div>
+      </div>
+    `).join("");
+  }
+
+  window.checkJEE = () => {
+    let score = 0;
+    jeeData.forEach((q,i) => {
+      const selected = document.querySelector(`input[name="jee${i}"]:checked`);
+      const feedback = $("jeeFeedback" + i);
+      if (selected && Number(selected.value) === q.a) {
+        score++;
+        feedback.className = "feedback good";
+        feedback.textContent = "Correct! " + q.e;
+      } else {
+        feedback.className = "feedback bad";
+        feedback.textContent = "Correct answer: " + String.fromCharCode(65+q.a) + ". " + q.o[q.a] + " — " + q.e;
+      }
+    });
+    $("jeeResult").textContent = `Your score: ${score}/${jeeData.length}`;
+  };
+
+  window.resetJEE = () => {
+    document.querySelectorAll('#jeeQuestions input[type="radio"]').forEach(el => el.checked = false);
+    jeeData.forEach((_,i) => {
+      $("jeeFeedback" + i).textContent = "";
+      $("jeeFeedback" + i).className = "feedback";
+    });
+    $("jeeResult").textContent = "";
+  };
+
+  const quizData = [
+    {q:"What is required for continuity at x = a?", o:["Only f(a) exists","LHL = RHL = f(a)","Only derivative exists","f(a) = 0"], a:1, e:"The limit must exist and equal the function value."},
+    {q:"Derivative of x⁶ is:", o:["x⁵","6x⁵","6x","x⁶/6"], a:1, e:"Use the power rule."},
+    {q:"Derivative of cos x is:", o:["sin x","−sin x","tan x","−cos x"], a:1, e:"The derivative of cos x is −sin x."},
+    {q:"Which rule is useful for differentiating sin(5x)?", o:["Product rule","Quotient rule","Chain rule","Rolle's theorem"], a:2, e:"Differentiate the outer and inner functions."},
+    {q:"A differentiable function at a point is necessarily:", o:["Continuous there","Discontinuous there","Constant there","Undefined there"], a:0, e:"Differentiability implies continuity."}
+  ];
+  let quizIndex = 0, quizScore = 0, quizAnswered = false;
+
+  function renderQuiz() {
+    const q = quizData[quizIndex];
+    $("quizCounter").textContent = `Question ${quizIndex+1} of ${quizData.length}`;
+    $("quizQuestion").textContent = q.q;
+    $("quizOptions").innerHTML = q.o.map((option,j)=>`
+      <label class="option">
+        <input type="radio" name="quizOption" value="${j}"> ${String.fromCharCode(65+j)}. ${option}
+      </label>`).join("");
+    $("quizFeedback").textContent = "";
+    $("quizScore").textContent = "";
+    $("nextQuiz").textContent = quizIndex === quizData.length-1 ? "Finish Quiz" : "Check & Next →";
+    quizAnswered = false;
+  }
+
+  $("nextQuiz").addEventListener("click", () => {
+    if (quizAnswered) {
+      if (quizIndex < quizData.length - 1) {
+        quizIndex++;
+        renderQuiz();
+      } else {
+        $("quizQuestion").textContent = "Quiz completed!";
+        $("quizOptions").innerHTML = "";
+        $("quizCounter").textContent = "Finished";
+        $("quizFeedback").textContent = "";
+        $("quizScore").textContent = `Your score: ${quizScore}/${quizData.length}`;
+        const best = Number(localStorage.getItem("mathsutra_ch5_best") || 0);
+        if (quizScore > best) localStorage.setItem("mathsutra_ch5_best", String(quizScore));
+        updateBest();
+        $("nextQuiz").disabled = true;
+      }
+      return;
+    }
+    const selected = document.querySelector('input[name="quizOption"]:checked');
+    if (!selected) {
+      $("quizFeedback").textContent = "Choose an answer first.";
+      $("quizFeedback").className = "feedback bad";
+      return;
+    }
+    const q = quizData[quizIndex];
+    if (Number(selected.value) === q.a) {
+      quizScore++;
+      $("quizFeedback").textContent = "Correct! " + q.e;
+      $("quizFeedback").className = "feedback good";
+    } else {
+      $("quizFeedback").textContent = "Not quite. " + q.e;
+      $("quizFeedback").className = "feedback bad";
+    }
+    quizAnswered = true;
+    $("nextQuiz").textContent = quizIndex === quizData.length-1 ? "Finish Quiz" : "Next Question →";
+  });
+
+  function updateBest() {
+    $("bestScore").textContent = "Best score: " + (localStorage.getItem("mathsutra_ch5_best") || 0) + "/" + quizData.length;
+  }
+
+  $("restartQuiz").addEventListener("click", () => {
+    quizIndex = 0;
+    quizScore = 0;
+    $("nextQuiz").disabled = false;
+    renderQuiz();
+    updateBest();
+  });
+
+  const progressTopics = [
+    "Limits and one-sided limits",
+    "Continuity conditions",
+    "Piecewise function continuity",
+    "Differentiability and LHD/RHD",
+    "Standard derivatives",
+    "Product, quotient and chain rules",
+    "Implicit differentiation",
+    "Logarithmic differentiation",
+    "Parametric differentiation",
+    "Second-order derivatives",
+    "Rolle's and Lagrange's theorems",
+    "Board practice completed",
+    "JEE MCQs completed"
+  ];
+
+  function loadProgress() {
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}"); }
+    catch (_) { saved = {}; }
+
+    $("checklist").innerHTML = progressTopics.map((topic,i)=>`
+      <label class="progress-row">
+        <input type="checkbox" data-progress="${i}" ${saved[i] ? "checked" : ""}>
+        <span>${topic}</span>
+      </label>`).join("");
+
+    document.querySelectorAll("[data-progress]").forEach(box => {
+      box.addEventListener("change", saveProgress);
+    });
+    updateProgress();
+  }
+
+  function saveProgress() {
+    const saved = {};
+    document.querySelectorAll("[data-progress]").forEach(box => {
+      saved[box.dataset.progress] = box.checked;
+    });
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(saved));
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const boxes = [...document.querySelectorAll("[data-progress]")];
+    const done = boxes.filter(box => box.checked).length;
+    const percent = Math.round(done / boxes.length * 100);
+    $("progressBar").value = percent;
+    $("progressText").textContent = `${percent}% completed (${done}/${boxes.length} topics)`;
+  }
+
+  window.resetProgress = () => {
+    if (confirm("Reset all Chapter 5 progress?")) {
+      localStorage.removeItem(PROGRESS_KEY);
+      loadProgress();
+    }
+  };
+
+  updateSettings();
+  renderJEE();
+  renderQuiz();
+  updateBest();
+  loadProgress();
+})();
+</script>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

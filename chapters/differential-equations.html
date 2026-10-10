@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 9: Differential Equations | MathSutra</title>
+<style>
+:root{
+  --bg:#080b18;--panel:#11182b;--panel2:#151e35;
+  --text:#edf3ff;--muted:#a8b5d1;--cyan:#55e6ff;
+  --purple:#a78bfa;--green:#6ee7b7;--border:rgba(142,164,220,.2)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);
+  background:radial-gradient(ellipse at top left,#192044,transparent 45%),
+  radial-gradient(ellipse at bottom right,#20133d,transparent 40%),var(--bg);
+  font-family:Arial,sans-serif;line-height:1.7
+}
+a{color:var(--cyan);text-decoration:none}
+header{
+  position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;padding:14px 6%;
+  background:rgba(8,11,24,.94);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px)
+}
+.logo{font-size:1.35rem;font-weight:800;color:var(--cyan)}
+nav{display:flex;gap:13px;flex-wrap:wrap;font-size:.88rem}
+nav a{color:var(--muted)}
+nav a:hover{color:var(--cyan)}
+.container{width:min(1050px,92%);margin:auto}
+.hero{padding:60px 0 35px}
+.badge{display:inline-block;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--green);font-size:.85rem}
+h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.15;margin:18px 0}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--purple));color:transparent;background-clip:text}
+.hero p,.muted{color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{cursor:pointer;padding:10px 15px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);color:var(--text);font-size:.94rem}
+button:hover{border-color:var(--cyan)}
+.primary{background:var(--cyan);color:#06111a;font-weight:700}
+section{margin:26px 0;scroll-margin-top:90px}
+.card{background:linear-gradient(145deg,rgba(21,30,53,.96),rgba(13,19,36,.97));border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:17px}
+h2{margin-top:0;font-size:1.6rem}
+h3{color:var(--cyan)}
+.formula{padding:13px;margin:12px 0;background:rgba(85,230,255,.07);border-left:3px solid var(--cyan);border-radius:7px;overflow-wrap:anywhere;font-family:"Courier New",monospace}
+.question{border:1px solid var(--border);border-radius:12px;padding:15px;margin:13px 0}
+.option{display:block;padding:6px 0;color:var(--muted)}
+.feedback{font-weight:bold;margin-top:8px}
+.good{color:var(--green)}
+.bad{color:#fca5a5}
+.answer{display:none;padding:12px;margin-top:8px;background:rgba(110,231,183,.08);border-radius:8px}
+.progress-row{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.progress-row input{margin-top:7px}
+progress{width:100%;height:14px;accent-color:var(--cyan)}
+input[type=checkbox],input[type=radio]{accent-color:var(--cyan)}
+.small{font-size:.88rem}
+footer{text-align:center;color:var(--muted);padding:35px 0}
+@media(max-width:700px){
+ header{align-items:flex-start;flex-direction:column}
+ nav{gap:10px}.card{padding:17px}.hero{padding-top:40px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<a class="logo" href="../index.html">✦ MathSutra</a>
+<nav>
+<a href="#theory">Theory</a>
+<a href="#examples">Examples</a>
+<a href="#boards">Boards</a>
+<a href="#jee">JEE MCQs</a>
+<a href="#quiz">Quiz</a>
+<a href="#progress">Progress</a>
+</nav>
+</header>
+
+<main class="container">
+<div class="hero">
+<span class="badge">CLASS 12 MATHEMATICS · CHAPTER 9</span>
+<h1><span class="gradient">Differential Equations</span></h1>
+<p>Understand order, degree, general and particular solutions, formation of equations and standard solving methods.</p>
+<div class="actions">
+<button class="primary" onclick="document.querySelector('#theory').scrollIntoView()">Start Learning ↓</button>
+<button id="languageBtn">🌐 English / Hinglish</button>
+<button id="modeBtn">Mode: Boards</button>
+</div>
+<p id="settingsInfo" class="small muted">Language: English · Mode: Boards</p>
+</div>
+
+<section id="theory">
+
+<div class="card">
+<h2>1. What Is a Differential Equation?</h2>
+<p>A differential equation is an equation involving a dependent variable, an independent variable and one or more derivatives of the dependent variable.</p>
+<div class="formula">dy/dx = 2x</div>
+<p>Its general solution is:</p>
+<div class="formula">y = x² + C</div>
+<p>Because differentiating x² + C gives 2x.</p>
+</div>
+
+<div class="card">
+<h2>2. Order of a Differential Equation</h2>
+<p>The order is the highest order derivative present in the equation.</p>
+<div class="formula">d²y/dx² + 3dy/dx + y = 0</div>
+<p>The highest derivative is the second derivative. Therefore, the order is 2.</p>
+<h3>Another example</h3>
+<div class="formula">d³y/dx³ + (dy/dx)² = x</div>
+<p>The order is 3.</p>
+</div>
+
+<div class="card">
+<h2>3. Degree of a Differential Equation</h2>
+<p>When the equation is a polynomial in its derivatives, the degree is the power of the highest-order derivative after the equation has been made polynomial in derivatives, without radicals or fractions involving derivatives.</p>
+<div class="formula">(d²y/dx²)³ + dy/dx = 0</div>
+<p>Order = 2, Degree = 3.</p>
+<div class="formula">(d²y/dx²)² + (dy/dx)⁴ = 0</div>
+<p>Order = 2, Degree = 2.</p>
+<p class="muted small">If the equation cannot be expressed as a polynomial in derivatives, its degree is not defined under the usual Class 12 convention.</p>
+</div>
+
+<div class="card">
+<h2>4. General and Particular Solutions</h2>
+<p>A general solution usually contains arbitrary constants. A particular solution is obtained when the required conditions determine those constants.</p>
+<h3>Example</h3>
+<div class="formula">dy/dx = 2x</div>
+<div class="formula">General solution: y = x² + C</div>
+<p>If y = 3 when x = 1:</p>
+<div class="formula">3 = 1 + C → C = 2</div>
+<div class="formula">Particular solution: y = x² + 2</div>
+</div>
+
+<div class="card">
+<h2>5. Formation of Differential Equations</h2>
+<p>To eliminate arbitrary constants, differentiate the given family of curves as many times as needed, then eliminate the constants.</p>
+<h3>Example</h3>
+<p>Form a differential equation from y = Cx², where C is an arbitrary constant.</p>
+<div class="formula">y = Cx²</div>
+<p>Differentiate with respect to x:</p>
+<div class="formula">dy/dx = 2Cx</div>
+<p>From the original equation, C = y/x². Substitute:</p>
+<div class="formula">dy/dx = 2y/x</div>
+<div class="formula">x(dy/dx) − 2y = 0</div>
+<p>This equation no longer contains C.</p>
+</div>
+
+<div class="card">
+<h2>6. Variable Separable Method</h2>
+<p>Use this method when the variables can be separated so that all y-terms appear with dy and all x-terms appear with dx.</p>
+<div class="formula">dy/dx = f(x)g(y)</div>
+<p>Rearrange, then integrate both sides:</p>
+<div class="formula">dy/g(y) = f(x) dx</div>
+<h3>Example</h3>
+<p>Solve dy/dx = xy.</p>
+<div class="formula">dy/y = x dx</div>
+<div class="formula">ln|y| = x²/2 + C</div>
+<div class="formula">y = Ae^(x²/2)</div>
+<p>Here A is an arbitrary constant. Also check y = 0 separately, since dividing by y excludes that solution.</p>
+</div>
+
+<div class="card">
+<h2>7. Homogeneous Differential Equations</h2>
+<p>A first-order equation of the form dy/dx = F(y/x) can often be solved using the substitution:</p>
+<div class="formula">y = vx</div>
+<p>Then:</p>
+<div class="formula">dy/dx = v + x(dv/dx)</div>
+<p>Substitute into the original equation. The resulting equation may become separable in x and v.</p>
+<h3>Example setup</h3>
+<div class="formula">dy/dx = 1 + y/x</div>
+<p>Put y = vx:</p>
+<div class="formula">v + x(dv/dx) = 1 + v</div>
+<div class="formula">x(dv/dx) = 1</div>
+<div class="formula">v = ln|x| + C</div>
+<div class="formula">y = x(ln|x| + C), for x ≠ 0</div>
+</div>
+
+<div class="card">
+<h2>8. First-Order Linear Differential Equations</h2>
+<p>The standard form is:</p>
+<div class="formula">dy/dx + Py = Q</div>
+<p>Here P and Q may be functions of x. The integrating factor (I.F.) is:</p>
+<div class="formula">I.F. = e^(∫P dx)</div>
+<p>The solution is:</p>
+<div class="formula">y × I.F. = ∫ Q × I.F. dx + C</div>
+<h3>Example</h3>
+<p>Solve dy/dx + y = 1.</p>
+<div class="formula">P = 1 → I.F. = eˣ</div>
+<div class="formula">yeˣ = ∫eˣ dx + C</div>
+<div class="formula">yeˣ = eˣ + C</div>
+<div class="formula">y = 1 + Ce⁻ˣ</div>
+</div>
+
+<div class="card">
+<h2>9. Quick Method Selector</h2>
+<ul>
+<li><strong>Variables separate:</strong> move x and y terms to opposite sides.</li>
+<li><strong>dy/dx = F(y/x):</strong> try y = vx.</li>
+<li><strong>dy/dx + Py = Q:</strong> use the integrating factor.</li>
+<li><strong>Arbitrary constants in a family:</strong> differentiate and eliminate them.</li>
+<li><strong>Order and degree questions:</strong> identify the highest derivative first.</li>
+</ul>
+</div>
+
+</section>
+
+<section id="examples">
+<h2>🧠 Solved Examples</h2>
+
+<div class="card">
+<h3>Example 1 — Order and Degree</h3>
+<p>Determine the order and degree:</p>
+<div class="formula">(d²y/dx²)⁴ + (dy/dx)³ + y = 0</div>
+<p>Highest derivative: second derivative.</p>
+<div class="formula">Order = 2, Degree = 4</div>
+</div>
+
+<div class="card">
+<h3>Example 2 — Variable Separable</h3>
+<p>Solve dy/dx = 3x².</p>
+<div class="formula">dy = 3x² dx</div>
+<div class="formula">y = x³ + C</div>
+</div>
+
+<div class="card">
+<h3>Example 3 — Linear Differential Equation</h3>
+<p>Solve dy/dx + 2y = 0.</p>
+<div class="formula">P = 2, Q = 0</div>
+<div class="formula">I.F. = e^(∫2dx) = e^(2x)</div>
+<div class="formula">ye^(2x) = C</div>
+<div class="formula">y = Ce^(−2x)</div>
+</div>
+
+<div class="card">
+<h3>Example 4 — Particular Solution</h3>
+<p>Given dy/dx = 2x and y = 5 when x = 2, find y.</p>
+<div class="formula">y = x² + C</div>
+<div class="formula">5 = 4 + C → C = 1</div>
+<div class="formula">y = x² + 1</div>
+</div>
+</section>
+
+<section id="boards">
+<h2>📝 CBSE Board Practice</h2>
+<div class="card">
+
+<div class="question">
+<p><strong>1.</strong> Find the order and degree of (d²y/dx²)³ + dy/dx = 0.</p>
+<button onclick="toggleAnswer('b1')">Show Answer</button>
+<div class="answer" id="b1">Order = 2; Degree = 3.</div>
+</div>
+
+<div class="question">
+<p><strong>2.</strong> Solve dy/dx = 4x³.</p>
+<button onclick="toggleAnswer('b2')">Show Answer</button>
+<div class="answer" id="b2">y = x⁴ + C.</div>
+</div>
+
+<div class="question">
+<p><strong>3.</strong> Solve dy/dx = x/y, where y ≠ 0.</p>
+<button onclick="toggleAnswer('b3')">Show Answer</button>
+<div class="answer" id="b3">y dy = x dx → y²/2 = x²/2 + C → y² = x² + C.</div>
+</div>
+
+<div class="question">
+<p><strong>4.</strong> Solve dy/dx + y = 0.</p>
+<button onclick="toggleAnswer('b4')">Show Answer</button>
+<div class="answer" id="b4">I.F. = eˣ. Then yeˣ = C, so y = Ce⁻ˣ.</div>
+</div>
+
+<div class="question">
+<p><strong>5.</strong> Find the particular solution of dy/dx = 2x if y = 5 at x = 2.</p>
+<button onclick="toggleAnswer('b5')">Show Answer</button>
+<div class="answer" id="b5">y = x² + C. Using (2,5), C = 1. Hence y = x² + 1.</div>
+</div>
+
+</div>
+</section>
+
+<section id="jee">
+<h2>⚡ JEE-Style MCQs</h2>
+<p class="muted">Select one answer per question, then check your answers.</p>
+<div class="card" id="jeeQuestions"></div>
+<button class="primary" onclick="checkJEE()">Check Answers</button>
+<button onclick="resetJEE()">Reset</button>
+<p id="jeeResult" class="feedback"></p>
+</section>
+
+<section id="quiz">
+<h2>🎯 Quick Quiz</h2>
+<div class="card">
+<p id="quizCounter">Question 1 of 5</p>
+<h3 id="quizQuestion"></h3>
+<div id="quizOptions"></div>
+<p id="quizFeedback" class="feedback"></p>
+<button class="primary" id="nextQuiz">Check & Next →</button>
+<button id="restartQuiz">Restart Quiz</button>
+<p id="quizScore" class="good"></p>
+<p id="bestScore" class="muted small"></p>
+</div>
+</section>
+
+<section id="progress">
+<h2>🚀 Learning Progress</h2>
+<div class="card">
+<p class="muted">Tick each topic when you have studied and practised it. Progress is saved in this browser.</p>
+<progress id="progressBar" value="0" max="100"></progress>
+<p id="progressText">0% completed</p>
+<div id="checklist"></div>
+<button onclick="resetProgress()">Reset Progress</button>
+</div>
+</section>
+
+<div class="card">
+<h2>📌 Final Revision</h2>
+<ul>
+<li>Order means the highest derivative order.</li>
+<li>Degree is the power of the highest-order derivative when the equation is polynomial in derivatives.</li>
+<li>For variable separable equations, separate variables before integrating.</li>
+<li>For homogeneous first-order equations of the form dy/dx = F(y/x), try y = vx.</li>
+<li>For dy/dx + Py = Q, use I.F. = e^(∫P dx).</li>
+<li>Use initial conditions to find the arbitrary constant.</li>
+</ul>
+<p class="muted small">These notes are a learning resource, not a verified exhaustive syllabus checklist. Check the latest official CBSE and NTA syllabi for exam scope.</p>
+<a href="../index.html">← Back to MathSutra Home</a>
+</div>
+
+</main>
+
+<footer>✦ MathSutra · Learn concepts. Practise smart. Grow stronger.</footer>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const PROGRESS_KEY = "mathsutra_ch9_progress_v1";
+const LANG_KEY = "mathsutra-language";
+const MODE_KEY = "mathsutra-mode";
+
+let language = localStorage.getItem(LANG_KEY) || "en";
+let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+function updateSettings(){
+  $("languageBtn").textContent = language==="en" ? "🌐 English / Hinglish" : "🌐 Hinglish / English";
+  $("modeBtn").textContent = "Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+  $("settingsInfo").textContent = "Language: " + (language==="en" ? "English" : "Hinglish") + " · Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+}
+
+$("languageBtn").addEventListener("click",()=>{
+  language=language==="en"?"hi":"en";
+  localStorage.setItem(LANG_KEY,language);
+  updateSettings();
+  alert(language==="hi" ? "Hinglish preference saved. Full theory translation is not enabled yet." : "English preference saved.");
+});
+
+$("modeBtn").addEventListener("click",()=>{
+  mode=mode==="boards"?"jee":"boards";
+  localStorage.setItem(MODE_KEY,mode);
+  updateSettings();
+  alert(mode==="jee" ? "JEE Main mode selected. Practise the MCQs below." : "CBSE Boards mode selected. Try the Board practice section.");
+});
+
+window.toggleAnswer=id=>{
+  const el=$(id);
+  el.style.display=el.style.display==="block"?"none":"block";
+};
+
+const jeeData=[
+{q:"The order of d³y/dx³ + dy/dx = 0 is:",o:["1","2","3","4"],a:2,e:"The highest derivative is the third derivative."},
+{q:"The degree of (d²y/dx²)² + dy/dx = 0 is:",o:["1","2","3","Undefined"],a:1,e:"The highest derivative is squared."},
+{q:"The general solution of dy/dx = 2x is:",o:["2x+C","x²+C","x+C","x³+C"],a:1,e:"Integrating 2x gives x²+C."},
+{q:"The integrating factor for dy/dx + 3y = x is:",o:["eˣ","e^(3x)","3x","e^(x/3)"],a:1,e:"I.F. = e^(∫3dx) = e^(3x)."},
+{q:"The substitution commonly used for dy/dx = F(y/x) is:",o:["y = x²","y = vx","x = 0","y = C"],a:1,e:"Set y=vx, so dy/dx = v+x dv/dx."},
+{q:"The solution of dy/dx = y, for arbitrary constant C, is:",o:["y = x+C","y = Ceˣ","y = Cx","y = eˣ+C"],a:1,e:"Separate dy/y = dx and integrate."},
+{q:"The general solution of dy/dx + y = 0 is:",o:["y = Ceˣ","y = Ce⁻ˣ","y = x+C","y = 0 only"],a:1,e:"The integrating factor is eˣ."},
+{q:"If y = Cx², the differential equation after eliminating C is:",o:["x(dy/dx)−2y=0","dy/dx=2x","y=2x","x+y=0"],a:0,e:"Differentiate and substitute C=y/x²."}
+];
+
+function renderJEE(){
+  $("jeeQuestions").innerHTML=jeeData.map((q,i)=>`
+  <div class="question">
+  <p><strong>${i+1}.</strong> ${q.q}</p>
+  ${q.o.map((op,j)=>`<label class="option"><input type="radio" name="jee${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("")}
+  <div id="jeeFeedback${i}" class="feedback"></div>
+  </div>`).join("");
+}
+
+window.checkJEE=()=>{
+  let score=0;
+  jeeData.forEach((q,i)=>{
+    const chosen=document.querySelector(`input[name="jee${i}"]:checked`);
+    const fb=$("jeeFeedback"+i);
+    if(chosen && Number(chosen.value)===q.a){
+      score++;
+      fb.className="feedback good";
+      fb.textContent="Correct! "+q.e;
+    }else{
+      fb.className="feedback bad";
+      fb.textContent="Correct answer: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+". "+q.e;
+    }
+  });
+  $("jeeResult").textContent=`Your score: ${score}/${jeeData.length}`;
+};
+
+window.resetJEE=()=>{
+  document.querySelectorAll('#jeeQuestions input[type="radio"]').forEach(el=>el.checked=false);
+  jeeData.forEach((_,i)=>{$("jeeFeedback"+i).textContent="";});
+  $("jeeResult").textContent="";
+};
+
+const quizData=[
+{q:"What determines the order of a differential equation?",o:["The coefficient","The highest derivative present","The number of constants","The right-hand side"],a:1,e:"Order is the highest derivative order."},
+{q:"The general solution of dy/dx = 3x² is:",o:["3x+C","x³+C","x²+C","3x³+C"],a:1,e:"Integrate 3x²."},
+{q:"For dy/dx + Py = Q, the integrating factor is:",o:["e^(∫P dx)","e^(∫Q dx)","P+Q","PQ"],a:0,e:"This is the standard linear-equation formula."},
+{q:"For a homogeneous equation dy/dx = F(y/x), try:",o:["y = vx","y = x+C","x = y²","dy = 0"],a:0,e:"The substitution y=vx can make it separable."},
+{q:"If y = x² + C and y(1)=4, then C is:",o:["1","2","3","4"],a:2,e:"4=1+C, so C=3."}
+];
+
+let quizIndex=0,quizScore=0,quizAnswered=false;
+
+function renderQuiz(){
+  const q=quizData[quizIndex];
+  $("quizCounter").textContent=`Question ${quizIndex+1} of ${quizData.length}`;
+  $("quizQuestion").textContent=q.q;
+  $("quizOptions").innerHTML=q.o.map((op,j)=>`<label class="option"><input type="radio" name="quizOption" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("");
+  $("quizFeedback").textContent="";
+  $("quizFeedback").className="feedback";
+  $("quizScore").textContent="";
+  $("nextQuiz").textContent="Check & Next →";
+  quizAnswered=false;
+}
+
+$("nextQuiz").addEventListener("click",()=>{
+  if(quizAnswered){
+    if(quizIndex<quizData.length-1){
+      quizIndex++;
+      renderQuiz();
+    }else{
+      $("quizQuestion").textContent="Quiz completed!";
+      $("quizOptions").innerHTML="";
+      $("quizCounter").textContent="Finished";
+      $("quizScore").textContent=`Your score: ${quizScore}/${quizData.length}`;
+      const best=Number(localStorage.getItem("mathsutra_ch9_best")||0);
+      if(quizScore>best)localStorage.setItem("mathsutra_ch9_best",String(quizScore));
+      updateBest();
+      $("nextQuiz").disabled=true;
+    }
+    return;
+  }
+
+  const selected=document.querySelector('input[name="quizOption"]:checked');
+  if(!selected){
+    $("quizFeedback").textContent="Choose an answer first.";
+    $("quizFeedback").className="feedback bad";
+    return;
+  }
+
+  const q=quizData[quizIndex];
+  if(Number(selected.value)===q.a){
+    quizScore++;
+    $("quizFeedback").className="feedback good";
+    $("quizFeedback").textContent="Correct! "+q.e;
+  }else{
+    $("quizFeedback").className="feedback bad";
+    $("quizFeedback").textContent="Not quite. "+q.e;
+  }
+  quizAnswered=true;
+  $("nextQuiz").textContent=quizIndex===quizData.length-1?"Finish Quiz":"Next Question →";
+});
+
+$("restartQuiz").addEventListener("click",()=>{
+  quizIndex=0;
+  quizScore=0;
+  $("nextQuiz").disabled=false;
+  renderQuiz();
+  updateBest();
+});
+
+function updateBest(){
+  $("bestScore").textContent="Best score: "+(localStorage.getItem("mathsutra_ch9_best")||0)+"/"+quizData.length;
+}
+
+const topics=[
+"Meaning of differential equations","Order and degree","General and particular solutions",
+"Formation by eliminating constants","Variable separable method","Homogeneous equations",
+"Linear differential equations","Solved examples","Board practice","JEE MCQs and quiz"
+];
+
+function loadProgress(){
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)||"{}");}catch(e){saved={};}
+  $("checklist").innerHTML=topics.map((t,i)=>`<label class="progress-row"><input type="checkbox" data-progress="${i}" ${saved[i]?"checked":""}><span>${t}</span></label>`).join("");
+  document.querySelectorAll("[data-progress]").forEach(el=>el.addEventListener("change",saveProgress));
+  updateProgress();
+}
+
+function saveProgress(){
+  const saved={};
+  document.querySelectorAll("[data-progress]").forEach(el=>saved[el.dataset.progress]=el.checked);
+  localStorage.setItem(PROGRESS_KEY,JSON.stringify(saved));
+  updateProgress();
+}
+
+function updateProgress(){
+  const boxes=[...document.querySelectorAll("[data-progress]")];
+  const done=boxes.filter(el=>el.checked).length;
+  const percent=Math.round(done/boxes.length*100);
+  $("progressBar").value=percent;
+  $("progressText").textContent=`${percent}% completed (${done}/${boxes.length} topics)`;
+}
+
+window.resetProgress=()=>{
+  if(confirm("Reset Chapter 9 progress?")){
+    localStorage.removeItem(PROGRESS_KEY);
+    loadProgress();
+  }
+};
+
+updateSettings();
+renderJEE();
+renderQuiz();
+updateBest();
+loadProgress();
+})();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

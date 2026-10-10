@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 6: Applications of Derivatives | MathSutra</title>
+<style>
+:root{--bg:#080b18;--panel:#11182b;--panel2:#151e35;--text:#edf3ff;--muted:#a8b5d1;--cyan:#55e6ff;--purple:#a78bfa;--green:#6ee7b7;--border:rgba(142,164,220,.2)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);background:radial-gradient(ellipse at top left,#192044,transparent 45%),radial-gradient(ellipse at bottom right,#20133d,transparent 40%),var(--bg);font-family:Arial,sans-serif;line-height:1.7}
+a{color:var(--cyan);text-decoration:none}
+header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 6%;background:rgba(8,11,24,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+.logo{font-size:1.35rem;font-weight:800;color:var(--cyan)}
+nav{display:flex;gap:13px;flex-wrap:wrap;font-size:.88rem}
+nav a{color:var(--muted)}
+.container{width:min(1050px,92%);margin:auto}
+.hero{padding:60px 0 35px}
+.badge{display:inline-block;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--green);font-size:.85rem}
+h1{font-size:clamp(2.1rem,6vw,4rem);line-height:1.15;margin:18px 0}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--purple));color:transparent;background-clip:text}
+.hero p,.muted{color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{cursor:pointer;padding:10px 15px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);color:var(--text);font-size:.94rem}
+button:hover{border-color:var(--cyan)}
+.primary{background:var(--cyan);color:#06111a;font-weight:700}
+section{margin:26px 0;scroll-margin-top:90px}
+.card{background:linear-gradient(145deg,rgba(21,30,53,.96),rgba(13,19,36,.97));border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:17px}
+h2{margin-top:0;font-size:1.6rem}
+h3{color:var(--cyan)}
+.formula{padding:13px;margin:12px 0;background:rgba(85,230,255,.07);border-left:3px solid var(--cyan);border-radius:7px;overflow-wrap:anywhere;font-family:"Courier New",monospace}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th,td{border:1px solid var(--border);padding:10px;text-align:left}
+th{color:var(--cyan)}
+.question{border:1px solid var(--border);border-radius:12px;padding:15px;margin:13px 0}
+.option{display:block;padding:6px 0;color:var(--muted)}
+.feedback{font-weight:bold;margin-top:8px}
+.good{color:var(--green)}
+.bad{color:#fca5a5}
+.answer{display:none;padding:12px;margin-top:8px;background:rgba(110,231,183,.08);border-radius:8px}
+.progress-row{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.progress-row input{margin-top:7px}
+progress{width:100%;height:14px;accent-color:var(--cyan)}
+input[type=checkbox],input[type=radio]{accent-color:var(--cyan)}
+.small{font-size:.88rem}
+footer{text-align:center;color:var(--muted);padding:35px 0}
+hr{border:0;border-top:1px solid var(--border);margin:20px 0}
+@media(max-width:700px){header{align-items:flex-start;flex-direction:column}nav{gap:10px}.grid{grid-template-columns:1fr}.card{padding:17px}.hero{padding-top:40px}}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="../index.html">✦ MathSutra</a>
+<nav>
+<a href="#theory">Theory</a><a href="#examples">Examples</a><a href="#boards">Boards</a><a href="#jee">JEE MCQs</a><a href="#quiz">Quiz</a><a href="#progress">Progress</a>
+</nav>
+</header>
+
+<main class="container">
+<div class="hero">
+<span class="badge">CLASS 12 MATHEMATICS · CHAPTER 6</span>
+<h1><span class="gradient">Applications of<br>Derivatives</span></h1>
+<p>Learn how derivatives help us study rates of change, increasing and decreasing functions, tangents, normals and optimisation problems.</p>
+<div class="actions">
+<button class="primary" onclick="document.querySelector('#theory').scrollIntoView()">Start Learning ↓</button>
+<button id="languageBtn">🌐 English / Hinglish</button>
+<button id="modeBtn">Mode: Boards</button>
+</div>
+<p id="settingsInfo" class="small muted">Language: English · Mode: Boards</p>
+</div>
+
+<section id="theory">
+<div class="card">
+<h2>1. Rate of Change</h2>
+<p>If one quantity depends on another, its rate of change is found by differentiation.</p>
+<div class="formula">Rate of change of y with respect to x = dy/dx</div>
+<p>If y = x², then:</p>
+<div class="formula">dy/dx = 2x</div>
+<p>At x = 3, the instantaneous rate of change is 2(3) = 6.</p>
+<p class="muted">Always check which quantity is changing and with respect to which variable.</p>
+</div>
+
+<div class="card">
+<h2>2. Increasing and Decreasing Functions</h2>
+<p>Derivatives help identify where a function increases or decreases over an interval.</p>
+<div class="formula">f′(x) &gt; 0 ⇒ f is increasing on the interval</div>
+<div class="formula">f′(x) &lt; 0 ⇒ f is decreasing on the interval</div>
+<p>These tests are applied over an interval where the function is differentiable.</p>
+<h3>Example: f(x) = x²</h3>
+<div class="formula">f′(x) = 2x</div>
+<p>For x &lt; 0, f′(x) &lt; 0, so the function is decreasing on (−∞, 0).</p>
+<p>For x &gt; 0, f′(x) &gt; 0, so the function is increasing on (0, ∞).</p>
+</div>
+
+<div class="card">
+<h2>3. Tangents and Normals</h2>
+<p>The derivative at a point gives the slope of the tangent to a curve.</p>
+<div class="formula">Tangent slope at x = a: m = f′(a)</div>
+<p>If the curve passes through (a, f(a)), the tangent equation is:</p>
+<div class="formula">y − f(a) = f′(a)(x − a)</div>
+<p>The normal is perpendicular to the tangent. If the tangent slope is non-zero:</p>
+<div class="formula">Normal slope = −1/f′(a)</div>
+<div class="formula">y − f(a) = −[1/f′(a)](x − a)</div>
+<p>If the tangent is horizontal, the normal is vertical; use x = a.</p>
+<h3>Example</h3>
+<p>Find the tangent to y = x² at x = 2.</p>
+<div class="formula">f(2) = 4, f′(x) = 2x, f′(2) = 4</div>
+<div class="formula">y − 4 = 4(x − 2) ⇒ y = 4x − 4</div>
+</div>
+
+<div class="card">
+<h2>4. Approximations</h2>
+<p>For a small change Δx, the change in y can be approximated using the derivative.</p>
+<div class="formula">Δy ≈ dy = f′(x)Δx</div>
+<p>Therefore:</p>
+<div class="formula">f(x + Δx) ≈ f(x) + f′(x)Δx</div>
+<h3>Example</h3>
+<p>Estimate √(4.1) using the linear approximation near x = 4.</p>
+<p>Take f(x) = √x, so f(4) = 2 and f′(x) = 1/(2√x).</p>
+<div class="formula">f′(4) = 1/4, Δx = 0.1</div>
+<div class="formula">√4.1 ≈ 2 + (1/4)(0.1) = 2.025</div>
+</div>
+
+<div class="card">
+<h2>5. Critical Points</h2>
+<p>Critical points occur at interior points of a function's domain where its derivative is zero or does not exist.</p>
+<div class="formula">f′(x) = 0</div>
+<p>Solving this equation identifies stationary points, but not every stationary point is a maximum or minimum.</p>
+<h3>First Derivative Test</h3>
+<ul>
+<li>f′ changes from positive to negative: local maximum.</li>
+<li>f′ changes from negative to positive: local minimum.</li>
+<li>No sign change: neither a local maximum nor a local minimum by this test.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>6. Maxima and Minima</h2>
+<p>A local maximum is a point where nearby function values are no greater than the value at the point. A local minimum is defined similarly with no smaller nearby values.</p>
+<h3>Second Derivative Test</h3>
+<p>Suppose f′(a) = 0:</p>
+<div class="formula">f″(a) &lt; 0 ⇒ local maximum at x = a</div>
+<div class="formula">f″(a) &gt; 0 ⇒ local minimum at x = a</div>
+<p>If f″(a) = 0, the test is inconclusive; use another method.</p>
+<h3>Example: f(x) = x² − 6x + 5</h3>
+<div class="formula">f′(x) = 2x − 6 = 0 ⇒ x = 3</div>
+<div class="formula">f″(x) = 2 &gt; 0 ⇒ local minimum</div>
+<div class="formula">f(3) = 9 − 18 + 5 = −4</div>
+<p>Thus the minimum value is −4 at x = 3.</p>
+</div>
+
+<div class="card">
+<h2>7. Optimisation Problems</h2>
+<p>To find a maximum or minimum in a word problem:</p>
+<ol>
+<li>Identify the quantity to optimise.</li>
+<li>Express it as a function of one variable.</li>
+<li>Find its derivative.</li>
+<li>Set the derivative equal to zero and solve.</li>
+<li>Check whether the result is a maximum or minimum.</li>
+<li>Check domain restrictions and any endpoints where relevant.</li>
+</ol>
+<h3>Example: Maximum Product</h3>
+<p>Two positive numbers have sum 10. Find the maximum possible product.</p>
+<p>Let one number be x; the other is 10 − x.</p>
+<div class="formula">P(x) = x(10 − x) = 10x − x²</div>
+<div class="formula">P′(x) = 10 − 2x = 0 ⇒ x = 5</div>
+<div class="formula">P″(x) = −2 &lt; 0 ⇒ maximum</div>
+<p>The numbers are 5 and 5, and the maximum product is 25.</p>
+</div>
+
+<div class="card">
+<h2>8. Quick Formula Vault</h2>
+<table>
+<tr><th>Concept</th><th>Key result</th></tr>
+<tr><td>Rate of change</td><td>dy/dx</td></tr>
+<tr><td>Increasing interval</td><td>f′(x) &gt; 0</td></tr>
+<tr><td>Decreasing interval</td><td>f′(x) &lt; 0</td></tr>
+<tr><td>Tangent at x = a</td><td>y − f(a) = f′(a)(x − a)</td></tr>
+<tr><td>Normal slope</td><td>−1/f′(a), if f′(a) ≠ 0</td></tr>
+<tr><td>Linear approximation</td><td>f(x+h) ≈ f(x) + hf′(x)</td></tr>
+<tr><td>Second derivative test</td><td>f″ &lt; 0: max; f″ &gt; 0: min, when f′ = 0</td></tr>
+</table>
+</div>
+</section>
+
+<section id="examples">
+<h2>🧠 Solved Examples</h2>
+<div class="card">
+<h3>Example 1 — Increasing or Decreasing</h3>
+<p>Find the intervals of increase and decrease for f(x) = x² − 4x.</p>
+<div class="formula">f′(x) = 2x − 4</div>
+<p>Set f′(x) = 0: x = 2.</p>
+<p>For x &lt; 2, f′(x) &lt; 0; for x &gt; 2, f′(x) &gt; 0.</p>
+<div class="formula">Decreasing: (−∞, 2); Increasing: (2, ∞)</div>
+</div>
+<div class="card">
+<h3>Example 2 — Tangent</h3>
+<p>Find the tangent to y = x³ at x = 1.</p>
+<div class="formula">f(1) = 1, f′(x) = 3x², f′(1) = 3</div>
+<div class="formula">y − 1 = 3(x − 1) ⇒ y = 3x − 2</div>
+</div>
+<div class="card">
+<h3>Example 3 — Local Maximum</h3>
+<p>Find the local maximum of f(x) = −x² + 8x.</p>
+<div class="formula">f′(x) = −2x + 8 = 0 ⇒ x = 4</div>
+<div class="formula">f″(x) = −2 &lt; 0 ⇒ maximum</div>
+<div class="formula">f(4) = −16 + 32 = 16</div>
+</div>
+<div class="card">
+<h3>Example 4 — Rate of Change</h3>
+<p>If y = 3x² + 2x, find dy/dx at x = 2.</p>
+<div class="formula">dy/dx = 6x + 2</div>
+<div class="formula">At x = 2: dy/dx = 12 + 2 = 14</div>
+</div>
+</section>
+
+<section id="boards">
+<h2>📝 CBSE Board Practice</h2>
+<div class="card">
+<div class="question"><p><strong>1.</strong> Find the intervals of increase and decrease for f(x) = x² − 8x + 3.</p><button onclick="toggleAnswer('b1')">Show Answer</button><div class="answer" id="b1">f′(x) = 2x − 8. It is negative for x &lt; 4 and positive for x &gt; 4. Decreasing on (−∞,4); increasing on (4,∞).</div></div>
+<div class="question"><p><strong>2.</strong> Find the tangent to y = x² + 1 at x = 1.</p><button onclick="toggleAnswer('b2')">Show Answer</button><div class="answer" id="b2">Point = (1,2); derivative = 2x, slope = 2. Tangent: y − 2 = 2(x − 1), so y = 2x.</div></div>
+<div class="question"><p><strong>3.</strong> Find the local minimum of f(x) = x² − 10x + 7.</p><button onclick="toggleAnswer('b3')">Show Answer</button><div class="answer" id="b3">f′(x) = 2x − 10 = 0 gives x = 5. Since f″(x) = 2 &gt; 0, there is a minimum. f(5) = −18.</div></div>
+<div class="question"><p><strong>4.</strong> Find the normal to y = x² at x = 1.</p><button onclick="toggleAnswer('b4')">Show Answer</button><div class="answer" id="b4">Point = (1,1); tangent slope = 2, so normal slope = −1/2. Equation: y − 1 = −(1/2)(x − 1).</div></div>
+<div class="question"><p><strong>5.</strong> Find the approximate value of (1.02)³ using linear approximation near x = 1.</p><button onclick="toggleAnswer('b5')">Show Answer</button><div class="answer" id="b5">f(x) = x³, f(1) = 1 and f′(1) = 3. For h = 0.02, f(1.02) ≈ 1 + 3(0.02) = 1.06.</div></div>
+</div>
+</section>
+
+<section id="jee">
+<h2>⚡ JEE-Style MCQs</h2>
+<p class="muted">Select one option per question, then check your answers.</p>
+<div class="card" id="jeeQuestions"></div>
+<button class="primary" onclick="checkJEE()">Check Answers</button>
+<button onclick="resetJEE()">Reset</button>
+<p id="jeeResult" class="feedback"></p>
+</section>
+
+<section id="quiz">
+<h2>🎯 Quick Quiz</h2>
+<div class="card">
+<p id="quizCounter">Question 1 of 5</p>
+<h3 id="quizQuestion"></h3>
+<div id="quizOptions"></div>
+<p id="quizFeedback" class="feedback"></p>
+<button class="primary" id="nextQuiz">Check & Next →</button>
+<button id="restartQuiz">Restart Quiz</button>
+<p id="quizScore" class="good"></p>
+<p id="bestScore" class="muted small"></p>
+</div>
+</section>
+
+<section id="progress">
+<h2>🚀 Learning Progress</h2>
+<div class="card">
+<p class="muted">Tick each topic after studying and practising it.</p>
+<progress id="progressBar" value="0" max="100"></progress>
+<p id="progressText">0% completed</p>
+<div id="checklist"></div>
+<button onclick="resetProgress()">Reset Progress</button>
+</div>
+</section>
+
+<div class="card">
+<h2>📌 Final Revision Strategy</h2>
+<ul>
+<li>Practise derivative sign charts carefully.</li>
+<li>Memorise tangent and normal equations.</li>
+<li>For maxima/minima, show the critical point and the test used.</li>
+<li>For optimisation, define variables and write the objective function clearly.</li>
+<li>Check the current official syllabus before treating these notes as exhaustive.</li>
+</ul>
+<a href="../index.html">← Back to MathSutra Home</a>
+</div>
+</main>
+
+<footer>✦ MathSutra · Learn concepts. Practise smart. Grow stronger.</footer>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const PROGRESS_KEY = "mathsutra_ch6_progress_v1";
+const LANG_KEY = "mathsutra-language";
+const MODE_KEY = "mathsutra-mode";
+let language = localStorage.getItem(LANG_KEY) || "en";
+let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+function updateSettings(){
+  $("languageBtn").textContent = language==="en" ? "🌐 English / Hinglish" : "🌐 Hinglish / English";
+  $("modeBtn").textContent = "Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+  $("settingsInfo").textContent = "Language: " + (language==="en" ? "English" : "Hinglish") + " · Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+}
+$("languageBtn").addEventListener("click",()=>{
+  language=language==="en"?"hi":"en";
+  localStorage.setItem(LANG_KEY,language);
+  updateSettings();
+  alert(language==="hi" ? "Hinglish preference saved. Full theory translation is not enabled yet." : "English preference saved.");
+});
+$("modeBtn").addEventListener("click",()=>{
+  mode=mode==="boards"?"jee":"boards";
+  localStorage.setItem(MODE_KEY,mode);
+  updateSettings();
+  alert(mode==="jee"?"JEE Main mode selected. Try the JEE MCQs below.":"CBSE Boards mode selected. Try the Board practice section.");
+});
+
+window.toggleAnswer=id=>{
+  const el=$(id);
+  el.style.display=el.style.display==="block"?"none":"block";
+};
+
+const jeeData=[
+{q:"For f(x)=x³−3x, the stationary points occur at:",o:["x=0 only","x=±1","x=±3","x=1 only"],a:1,e:"f′(x)=3x²−3=0 gives x=±1."},
+{q:"If f′(x)>0 throughout an interval, f is:",o:["Decreasing","Increasing","Constant","Always zero"],a:1,e:"A positive derivative indicates increase."},
+{q:"The slope of the tangent to y=x² at x=3 is:",o:["3","6","9","12"],a:1,e:"dy/dx=2x, so the slope is 6."},
+{q:"For a stationary point, which equation must hold?",o:["f(x)=0","f″(x)=0 always","f′(x)=0","f(x)=f′(x)"],a:2,e:"A stationary point has derivative zero."},
+{q:"If f′(a)=0 and f″(a)>0, the second derivative test indicates:",o:["Local maximum","Local minimum","No conclusion ever","Discontinuity"],a:1,e:"A positive second derivative indicates a local minimum."},
+{q:"The normal slope when tangent slope is 4 is:",o:["4","−4","1/4","−1/4"],a:3,e:"Perpendicular non-vertical lines have slopes whose product is −1."},
+{q:"Using linear approximation, (1+h)² is approximately:",o:["1+h","1+2h","1+h²","1+2h²"],a:1,e:"f(1+h)≈f(1)+hf′(1)=1+2h."},
+{q:"For f(x)=−x²+6x, the maximum value is:",o:["3","6","9","18"],a:2,e:"The vertex is at x=3 and f(3)=9."}
+];
+
+function renderJEE(){
+  $("jeeQuestions").innerHTML=jeeData.map((q,i)=>`
+  <div class="question">
+  <p><strong>${i+1}.</strong> ${q.q}</p>
+  ${q.o.map((op,j)=>`<label class="option"><input type="radio" name="jee${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("")}
+  <div id="jeeFeedback${i}" class="feedback"></div>
+  </div>`).join("");
+}
+window.checkJEE=()=>{
+  let score=0;
+  jeeData.forEach((q,i)=>{
+    const chosen=document.querySelector(`input[name="jee${i}"]:checked`);
+    const feedback=$("jeeFeedback"+i);
+    if(chosen && Number(chosen.value)===q.a){
+      score++; feedback.className="feedback good"; feedback.textContent="Correct! "+q.e;
+    }else{
+      feedback.className="feedback bad"; feedback.textContent="Correct answer: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+". "+q.e;
+    }
+  });
+  $("jeeResult").textContent=`Your score: ${score}/${jeeData.length}`;
+};
+window.resetJEE=()=>{
+  document.querySelectorAll('#jeeQuestions input[type="radio"]').forEach(el=>el.checked=false);
+  jeeData.forEach((_,i)=>{$("jeeFeedback"+i).textContent="";});
+  $("jeeResult").textContent="";
+};
+
+const quizData=[
+{q:"If f′(x)<0 on an interval, f is:",o:["Increasing","Decreasing","Constant","Undefined"],a:1,e:"A negative derivative indicates decrease."},
+{q:"Derivative of x⁴ is:",o:["x³","4x³","4x","x⁵"],a:1,e:"Apply the power rule."},
+{q:"The tangent slope to y=x² at x=2 is:",o:["2","4","6","8"],a:1,e:"The derivative is 2x."},
+{q:"If f′(a)=0 and f″(a)<0, the point is a:",o:["Local minimum","Local maximum","Point of discontinuity","Vertical asymptote"],a:1,e:"A negative second derivative indicates a local maximum."},
+{q:"The normal is perpendicular to the:",o:["x-axis always","y-axis always","Tangent","Curve at every point regardless of slope"],a:2,e:"The normal is perpendicular to the tangent."}
+];
+let quizIndex=0,quizScore=0,quizAnswered=false;
+function renderQuiz(){
+  const q=quizData[quizIndex];
+  $("quizCounter").textContent=`Question ${quizIndex+1} of ${quizData.length}`;
+  $("quizQuestion").textContent=q.q;
+  $("quizOptions").innerHTML=q.o.map((op,j)=>`<label class="option"><input type="radio" name="quizOption" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("");
+  $("quizFeedback").textContent="";
+  $("quizScore").textContent="";
+  $("nextQuiz").textContent="Check & Next →";
+  quizAnswered=false;
+}
+$("nextQuiz").addEventListener("click",()=>{
+  if(quizAnswered){
+    if(quizIndex<quizData.length-1){quizIndex++;renderQuiz();}
+    else{
+      $("quizQuestion").textContent="Quiz completed!";
+      $("quizOptions").innerHTML="";
+      $("quizCounter").textContent="Finished";
+      $("quizScore").textContent=`Your score: ${quizScore}/${quizData.length}`;
+      const best=Number(localStorage.getItem("mathsutra_ch6_best")||0);
+      if(quizScore>best)localStorage.setItem("mathsutra_ch6_best",String(quizScore));
+      updateBest();
+      $("nextQuiz").disabled=true;
+    }
+    return;
+  }
+  const selected=document.querySelector('input[name="quizOption"]:checked');
+  if(!selected){$("quizFeedback").textContent="Choose an answer first.";return;}
+  const q=quizData[quizIndex];
+  if(Number(selected.value)===q.a){
+    quizScore++;$("quizFeedback").className="feedback good";$("quizFeedback").textContent="Correct! "+q.e;
+  }else{
+    $("quizFeedback").className="feedback bad";$("quizFeedback").textContent="Not quite. "+q.e;
+  }
+  quizAnswered=true;
+  $("nextQuiz").textContent=quizIndex===quizData.length-1?"Finish Quiz":"Next Question →";
+});
+$("restartQuiz").addEventListener("click",()=>{
+  quizIndex=0;quizScore=0;$("nextQuiz").disabled=false;renderQuiz();updateBest();
+});
+function updateBest(){
+  $("bestScore").textContent="Best score: "+(localStorage.getItem("mathsutra_ch6_best")||0)+"/"+quizData.length;
+}
+
+const topics=[
+"Rate of change","Increasing and decreasing functions","Tangents and normals",
+"Approximations","Critical points","First derivative test",
+"Second derivative test","Optimisation problems","Solved examples",
+"Board practice","JEE MCQs","Quick quiz"
+];
+function loadProgress(){
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)||"{}");}catch(e){saved={};}
+  $("checklist").innerHTML=topics.map((t,i)=>`<label class="progress-row"><input type="checkbox" data-progress="${i}" ${saved[i]?"checked":""}><span>${t}</span></label>`).join("");
+  document.querySelectorAll("[data-progress]").forEach(el=>el.addEventListener("change",saveProgress));
+  updateProgress();
+}
+function saveProgress(){
+  const saved={};
+  document.querySelectorAll("[data-progress]").forEach(el=>saved[el.dataset.progress]=el.checked);
+  localStorage.setItem(PROGRESS_KEY,JSON.stringify(saved));
+  updateProgress();
+}
+function updateProgress(){
+  const boxes=[...document.querySelectorAll("[data-progress]")];
+  const done=boxes.filter(el=>el.checked).length;
+  const percent=Math.round(done/boxes.length*100);
+  $("progressBar").value=percent;
+  $("progressText").textContent=`${percent}% completed (${done}/${boxes.length} topics)`;
+}
+window.resetProgress=()=>{
+  if(confirm("Reset Chapter 6 progress?")){localStorage.removeItem(PROGRESS_KEY);loadProgress();}
+};
+updateSettings();
+renderJEE();
+renderQuiz();
+updateBest();
+loadProgress();
+})();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

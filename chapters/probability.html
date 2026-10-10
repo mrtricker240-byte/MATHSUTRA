@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chapter 13: Probability | MathSutra</title>
+
+<style>
+:root {
+    --bg: #080b1b;
+    --panel: rgba(20,27,55,0.88);
+    --border: rgba(139,155,255,0.25);
+    --text: #f1f3ff;
+    --muted: #b8c1e5;
+    --purple: #a78bfa;
+    --cyan: #67e8f9;
+    --green: #86efac;
+    --pink: #f0abfc;
+    --red: #fca5a5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(ellipse at top, #19204c 0%, transparent 48%),
+        var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 14px 5%;
+    min-height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: rgba(8,11,27,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 1.45rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--purple);
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+nav a:hover {
+    color: var(--cyan);
+}
+
+main {
+    width: min(1050px, 92%);
+    margin: auto;
+    padding: 40px 0 80px;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 12px 35px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: rgba(167,139,250,0.09);
+    color: var(--cyan);
+    font-size: 0.82rem;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(2.2rem,6vw,4rem);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    background: linear-gradient(100deg,var(--cyan),var(--purple),var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 720px;
+    margin: 0 auto 25px;
+}
+
+.primary, .secondary {
+    display: inline-block;
+    padding: 10px 17px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.primary {
+    color: #080b1b;
+    background: linear-gradient(110deg,var(--cyan),var(--purple));
+    border: none;
+    font-weight: 800;
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+}
+
+.secondary {
+    color: var(--text);
+    background: rgba(167,139,250,0.1);
+    border: 1px solid var(--border);
+}
+
+.secondary:hover {
+    border-color: var(--cyan);
+}
+
+.progress-box, .content-section, .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+.progress-box {
+    padding: 22px;
+    margin: 10px 0 35px;
+}
+
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.progress-heading span {
+    color: var(--cyan);
+    font-size: 0.9rem;
+}
+
+.progress-track {
+    height: 9px;
+    background: #252b49;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg,var(--cyan),var(--purple));
+    transition: width 0.3s;
+}
+
+.progress-tasks {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.progress-tasks span {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.progress-tasks .done {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.content-section {
+    padding: clamp(18px,4vw,30px);
+    margin: 25px 0;
+    scroll-margin-top: 90px;
+}
+
+.section-title {
+    font-size: clamp(1.45rem,4vw,2rem);
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+
+.card {
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.card h3 {
+    color: var(--cyan);
+    margin: 0 0 12px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+ul, ol {
+    padding-left: 24px;
+    margin: 12px 0;
+}
+
+li {
+    margin: 7px 0;
+}
+
+.formula {
+    padding: 15px 18px;
+    margin: 14px 0;
+    border: 1px solid rgba(103,232,249,0.22);
+    background: rgba(103,232,249,0.055);
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+
+.formula strong {
+    color: var(--cyan);
+}
+
+.math {
+    color: var(--pink);
+    font-weight: 600;
+}
+
+.note {
+    padding: 14px 16px;
+    margin: 15px 0;
+    border-left: 3px solid var(--purple);
+    background: rgba(167,139,250,0.08);
+    border-radius: 0 10px 10px 0;
+}
+
+.warning {
+    border-left-color: #fbbf24;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 15px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 460px;
+}
+
+th, td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    color: var(--cyan);
+    background: rgba(103,232,249,0.07);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.example, .quiz-question {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 17px;
+    margin: 15px 0;
+}
+
+.example h3, .quiz-question h3 {
+    color: var(--pink);
+    margin: 0 0 10px;
+}
+
+.solution {
+    color: var(--muted);
+    margin-top: 10px;
+}
+
+.answer {
+    display: none;
+    color: var(--green);
+    margin-top: 12px;
+}
+
+.answer.show {
+    display: block;
+}
+
+.graph-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 15px 0;
+}
+
+input[type="number"], select {
+    width: 100px;
+    padding: 9px;
+    border-radius: 8px;
+    color: var(--text);
+    background: #111832;
+    border: 1px solid var(--border);
+}
+
+select {
+    width: auto;
+    max-width: 100%;
+}
+
+.calculator-result {
+    padding: 18px;
+    border: 1px solid var(--border);
+    background: rgba(167,139,250,0.08);
+    border-radius: 12px;
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+}
+
+.option {
+    display: block;
+    padding: 9px 12px;
+    margin: 7px 0;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.option input {
+    margin-right: 9px;
+    accent-color: var(--purple);
+}
+
+.option.correct {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.option.incorrect {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.quiz-result {
+    display: none;
+    padding: 17px;
+    margin-top: 18px;
+    background: rgba(167,139,250,0.08);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.quiz-result.show {
+    display: block;
+}
+
+.tracker-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.tracker-item:last-child {
+    border-bottom: none;
+}
+
+.tracker-item input {
+    width: 18px;
+    height: 18px;
+    margin-top: 5px;
+    accent-color: var(--purple);
+    flex-shrink: 0;
+}
+
+.tracker-item label {
+    cursor: pointer;
+}
+
+.tracker-item small {
+    display: block;
+    color: var(--muted);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 15px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+footer span {
+    color: var(--purple);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media(max-width:650px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 4%;
+        gap: 9px;
+    }
+
+    nav {
+        gap: 14px;
+    }
+
+    nav a {
+        font-size: 0.84rem;
+    }
+
+    main {
+        padding-top: 22px;
+    }
+
+    .hero {
+        padding: 38px 5px 25px;
+    }
+
+    .progress-heading {
+        flex-direction: column;
+    }
+
+    .content-section {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <a class="logo" href="../index.html">Math<span>Sutra</span> ✦</a>
+
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#formulas">Formulas</a>
+        <a href="#practice">Practice</a>
+        <a href="#quiz">Quiz</a>
+    </nav>
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+    <div class="tag">CLASS XII MATHEMATICS · CHAPTER 13</div>
+
+    <h1>Probability</h1>
+
+    <p>
+        Master conditional probability, multiplication theorem,
+        independent events, total probability and Bayes' theorem
+        through examples and interactive practice.
+    </p>
+
+    <a class="primary" href="#concepts">Start Learning ↓</a>
+</section>
+
+<!-- LEARNING PROGRESS -->
+
+<section class="progress-box">
+    <div class="progress-heading">
+        <h3>🚀 Chapter Learning Progress</h3>
+        <span id="learningCount">0 of 4 tasks completed</span>
+    </div>
+
+    <div class="progress-track">
+        <div class="progress-fill" id="learningBar"></div>
+    </div>
+
+    <div class="progress-tasks">
+        <span id="tag-concepts">📘 Concepts</span>
+        <span id="tag-formulas">📐 Formulas</span>
+        <span id="tag-practice">✍️ Practice</span>
+        <span id="tag-quiz">🧠 Quiz</span>
+    </div>
+</section>
+
+<!-- SECTION 1 -->
+
+<section class="content-section" id="concepts">
+    <h2 class="section-title">01. Basic Concepts</h2>
+    <p class="section-subtitle">
+        Understand events and conditional probability.
+    </p>
+
+    <div class="card">
+        <h3>Random Experiment</h3>
+
+        <p>
+            A random experiment is an experiment whose exact outcome
+            cannot be predicted with certainty before it is performed.
+        </p>
+
+        <div class="formula">
+            <strong>Example:</strong><br>
+            Tossing a coin or rolling a die.
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Sample Space and Events</h3>
+
+        <p>
+            The sample space is the set of all possible outcomes.
+            An event is a subset of the sample space.
+        </p>
+
+        <div class="formula">
+            <strong>Example: One die roll</strong><br>
+            S = {1, 2, 3, 4, 5, 6}<br>
+            A = getting an even number = {2, 4, 6}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Conditional Probability</h3>
+
+        <p>
+            Conditional probability measures the probability of event A
+            when we know that event B has occurred.
+        </p>
+
+        <div class="formula">
+            <strong>Formula:</strong><br>
+            P(A | B) = P(A ∩ B) / P(B), provided P(B) &gt; 0
+        </div>
+
+        <p>
+            Here, A ∩ B means both A and B occur, and P(A | B)
+            is read as "probability of A given B".
+        </p>
+
+        <div class="note warning">
+            <strong>Important:</strong> The event after the vertical bar
+            is the given condition. P(A | B) and P(B | A) are generally
+            not equal.
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Complement of an Event</h3>
+
+        <div class="formula">
+            P(A') = 1 − P(A)
+        </div>
+
+        <p>
+            A' means that event A does not occur.
+        </p>
+    </div>
+
+    <button class="secondary" onclick="markLearning('concepts')">
+        ✓ Mark Concepts Complete
+    </button>
+</section>
+
+<!-- SECTION 2 -->
+
+<section class="content-section" id="formulas">
+    <h2 class="section-title">02. Important Formulas</h2>
+    <p class="section-subtitle">
+        Revise the key results from the Class XII Probability chapter.
+    </p>
+
+    <div class="card">
+        <h3>1. Addition Rule</h3>
+
+        <div class="formula">
+            P(A ∪ B) = P(A) + P(B) − P(A ∩ B)
+        </div>
+
+        <p>
+            If A and B are mutually exclusive, then
+            P(A ∩ B) = 0, so:
+        </p>
+
+        <div class="formula">
+            P(A ∪ B) = P(A) + P(B)
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>2. Conditional Probability</h3>
+
+        <div class="formula">
+            P(A | B) = P(A ∩ B) / P(B), P(B) &gt; 0
+        </div>
+
+        <div class="formula">
+            P(B | A) = P(A ∩ B) / P(A), P(A) &gt; 0
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>3. Multiplication Theorem</h3>
+
+        <div class="formula">
+            P(A ∩ B) = P(A) P(B | A)
+        </div>
+
+        <div class="formula">
+            P(A ∩ B) = P(B) P(A | B)
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>4. Independent Events</h3>
+
+        <p>
+            Events A and B are independent if the occurrence of one
+            does not change the probability of the other.
+        </p>
+
+        <div class="formula">
+            P(A ∩ B) = P(A) P(B)
+        </div>
+
+        <p>For independent events with positive probabilities:</p>
+
+        <div class="formula">
+            P(A | B) = P(A)
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>5. Total Probability Theorem</h3>
+
+        <p>
+            If B₁, B₂, ..., Bₙ form a partition of the sample space
+            and P(Bᵢ) &gt; 0, then:
+        </p>
+
+        <div class="formula">
+            P(A) = Σ P(Bᵢ) P(A | Bᵢ)
+        </div>
+
+        <p>For two events forming a partition:</p>
+
+        <div class="formula">
+            P(A) = P(B)P(A | B) + P(B')P(A | B')
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>6. Bayes' Theorem</h3>
+
+        <div class="formula">
+            P(Bᵢ | A) =
+            [P(Bᵢ) P(A | Bᵢ)] /
+            [Σ P(Bⱼ) P(A | Bⱼ)]
+        </div>
+
+        <p>For two possible causes B and B':</p>
+
+        <div class="formula">
+            P(B | A) =
+            [P(B)P(A | B)] /
+            [P(B)P(A | B) + P(B')P(A | B')]
+        </div>
+
+        <div class="note">
+            <strong>Exam tip:</strong> Total probability calculates the
+            probability of the observed event. Bayes' theorem uses that
+            observation to calculate the probability of a possible cause.
+        </div>
+    </div>
+
+    <button class="secondary" onclick="markLearning('formulas')">
+        ✓ Mark Formulas Complete
+    </button>
+</section>
+
+<!-- SECTION 3 -->
+
+<section class="content-section" id="independence">
+    <h2 class="section-title">03. Independent and Mutually Exclusive Events</h2>
+    <p class="section-subtitle">
+        These two concepts are different. Do not confuse them.
+    </p>
+
+    <div class="card">
+        <h3>Independent Events</h3>
+
+        <p>
+            Two events are independent when one event occurring does not
+            change the probability of the other.
+        </p>
+
+        <div class="formula">
+            P(A ∩ B) = P(A)P(B)
+        </div>
+
+        <p>
+            Example: Tossing a fair coin twice. The first toss does not
+            affect the result of the second toss.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Mutually Exclusive Events</h3>
+
+        <p>
+            Two events are mutually exclusive if they cannot happen
+            simultaneously in the same trial.
+        </p>
+
+        <div class="formula">
+            P(A ∩ B) = 0
+        </div>
+
+        <p>
+            Example: On a single die roll, getting a 2 and getting a 5
+            are mutually exclusive events.
+        </p>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Independent</th>
+                    <th>Mutually exclusive</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>One event does not affect the other.</td>
+                    <td>Both events cannot occur together.</td>
+                </tr>
+                <tr>
+                    <td>P(A ∩ B) = P(A)P(B)</td>
+                    <td>P(A ∩ B) = 0</td>
+                </tr>
+                <tr>
+                    <td>Can have a non-zero intersection.</td>
+                    <td>Have no common outcomes.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="note warning">
+        <strong>Key result:</strong> Two mutually exclusive events with
+        positive probabilities cannot be independent.
+    </div>
+</section>
+
+<!-- SECTION 4 -->
+
+<section class="content-section" id="tree">
+    <h2 class="section-title">04. Multiplication and Probability Trees</h2>
+    <p class="section-subtitle">
+        Use conditional probabilities to calculate the probability of
+        successive events.
+    </p>
+
+    <div class="card">
+        <h3>Example: Two Draws Without Replacement</h3>
+
+        <p>
+            A bag contains 3 red balls and 2 blue balls. Two balls are
+            drawn one after another without replacement.
+        </p>
+
+        <p>Probability that both balls are red:</p>
+
+        <div class="formula">
+            P(R₁ ∩ R₂) = P(R₁) × P(R₂ | R₁)
+        </div>
+
+        <div class="formula">
+            = (3/5) × (2/4) = 3/10
+        </div>
+
+        <p>
+            After the first red ball is removed, only 2 red balls remain
+            out of 4 total balls.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>With Replacement vs Without Replacement</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>With replacement</th>
+                        <th>Without replacement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>The item is returned after the draw.</td>
+                        <td>The item is not returned.</td>
+                    </tr>
+                    <tr>
+                        <td>Probabilities may remain unchanged.</td>
+                        <td>Probabilities generally change.</td>
+                    </tr>
+                    <tr>
+                        <td>Draws from a well-mixed bag are independent.</td>
+                        <td>Draws are generally dependent.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 5 -->
+
+<section class="content-section" id="bayes">
+    <h2 class="section-title">05. Total Probability and Bayes' Theorem</h2>
+    <p class="section-subtitle">
+        Learn how to solve questions involving multiple sources or causes.
+    </p>
+
+    <div class="card">
+        <h3>Worked Example</h3>
+
+        <p>
+            Factory A produces 60% of a company's items, and Factory B
+            produces 40%. The defect rates are 2% for A and 5% for B.
+            Find the probability that a randomly selected item is defective.
+        </p>
+
+        <p>Let D represent the event that an item is defective.</p>
+
+        <div class="formula">
+            P(A) = 0.6, &nbsp; P(B) = 0.4
+        </div>
+
+        <div class="formula">
+            P(D | A) = 0.02, &nbsp; P(D | B) = 0.05
+        </div>
+
+        <p>By the total probability theorem:</p>
+
+        <div class="formula">
+            P(D) = P(A)P(D | A) + P(B)P(D | B)
+        </div>
+
+        <div class="formula">
+            = (0.6)(0.02) + (0.4)(0.05)<br>
+            = 0.012 + 0.020<br>
+            = 0.032
+        </div>
+
+        <p>
+            <strong>Answer:</strong> The probability of selecting a
+            defective item is 0.032, or 3.2%.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Now Find the Probability the Defective Item Came from B</h3>
+
+        <p>We need P(B | D).</p>
+
+        <div class="formula">
+            P(B | D) = P(B)P(D | B) / P(D)
+        </div>
+
+        <div class="formula">
+            = (0.4 × 0.05) / 0.032<br>
+            = 0.020 / 0.032<br>
+            = 0.625
+        </div>
+
+        <p>
+            <strong>Answer:</strong> The probability is 0.625, or 62.5%.
+        </p>
+
+        <div class="note">
+            Notice the difference: P(D | B) is the defect rate in B,
+            whereas P(B | D) is the probability that a defective item
+            came from B.
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 6: CALCULATOR -->
+
+<section class="content-section" id="calculator">
+    <h2 class="section-title">06. Interactive Probability Calculator</h2>
+    <p class="section-subtitle">
+        Enter the probabilities to calculate conditional probability,
+        multiplication or total probability.
+    </p>
+
+    <div class="card">
+        <h3>Choose a Calculation</h3>
+
+        <div class="graph-controls">
+            <select id="calcType">
+                <option value="conditional">Conditional probability P(A | B)</option>
+                <option value="intersection">Intersection P(A ∩ B)</option>
+                <option value="total">Total probability P(A)</option>
+                <option value="bayes">Bayes' theorem P(B | A)</option>
+            </select>
+        </div>
+
+        <div class="graph-controls">
+            <label>
+                P(A)
+                <input type="number" id="probA" min="0" max="1" step="0.01" value="0.4">
+            </label>
+
+            <label>
+                P(B)
+                <input type="number" id="probB" min="0" max="1" step="0.01" value="0.5">
+            </label>
+
+            <label>
+                P(A ∩ B)
+                <input type="number" id="probAB" min="0" max="1" step="0.01" value="0.2">
+            </label>
+        </div>
+
+        <div class="graph-controls">
+            <label>
+                P(A | B₁)
+                <input type="number" id="probA1" min="0" max="1" step="0.01" value="0.02">
+            </label>
+
+            <label>
+                P(A | B₂)
+                <input type="number" id="probA2" min="0" max="1" step="0.01" value="0.05">
+            </label>
+
+            <label>
+                P(B₁)
+                <input type="number" id="probB1" min="0" max="1" step="0.01" value="0.6">
+            </label>
+        </div>
+
+        <button class="primary" id="calculateProbability">
+            Calculate
+        </button>
+
+        <button class="secondary" id="resetCalculator">
+            Reset
+        </button>
+
+        <div class="calculator-result" id="calcResult" aria-live="polite">
+            Choose a calculation and press Calculate.
+        </div>
+
+        <div class="note warning">
+            Enter probabilities between 0 and 1. For a conditional
+            probability, the given event must have non-zero probability.
+            For total probability and Bayes' theorem, the two source
+            probabilities are P(B₁) and P(B₂) = 1 − P(B₁).
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 7: SOLVED EXAMPLES -->
+
+<section class="content-section" id="examples">
+    <h2 class="section-title">07. Solved Examples</h2>
+    <p class="section-subtitle">
+        Practise common board-exam question types.
+    </p>
+
+    <div class="example">
+        <h3>Example 1: Find a Conditional Probability</h3>
+
+        <p>
+            Given P(A ∩ B) = 0.2 and P(B) = 0.5, find P(A | B).
+        </p>
+
+        <div class="solution">
+            P(A | B) = P(A ∩ B) / P(B) = 0.2 / 0.5.
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> 0.4
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 2: Find an Intersection Probability</h3>
+
+        <p>
+            If A and B are independent, P(A) = 0.3 and P(B) = 0.4.
+            Find P(A ∩ B).
+        </p>
+
+        <div class="solution">
+            P(A ∩ B) = P(A)P(B) = 0.3 × 0.4.
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> 0.12
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 3: Complement</h3>
+
+        <p>If P(A) = 0.7, find P(A').</p>
+
+        <div class="solution">
+            P(A') = 1 − P(A) = 1 − 0.7.
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> 0.3
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 4: Total Probability</h3>
+
+        <p>
+            Suppose P(B) = 0.6, P(A | B) = 0.2 and P(A | B') = 0.5.
+            Find P(A).
+        </p>
+
+        <div class="solution">
+            P(B') = 1 − 0.6 = 0.4.
+        </div>
+
+        <div class="formula">
+            P(A) = (0.6)(0.2) + (0.4)(0.5)<br>
+            = 0.12 + 0.20<br>
+            = 0.32
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> 0.32
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 5: Bayes' Theorem</h3>
+
+        <p>
+            Suppose P(B) = 0.4, P(A | B) = 0.5 and P(A) = 0.3.
+            Find P(B | A).
+        </p>
+
+        <div class="solution">
+            P(B | A) = P(B)P(A | B) / P(A).
+        </div>
+
+        <div class="formula">
+            = (0.4 × 0.5) / 0.3<br>
+            = 0.2 / 0.3<br>
+            = 2/3
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> 2/3
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Example 6: Check Independence</h3>
+
+        <p>
+            Suppose P(A) = 0.5, P(B) = 0.4 and P(A ∩ B) = 0.2.
+            Are A and B independent?
+        </p>
+
+        <div class="solution">
+            P(A)P(B) = 0.5 × 0.4 = 0.2.
+            Since P(A ∩ B) = P(A)P(B), the events are independent.
+        </div>
+
+        <div class="formula">
+            <strong>Answer:</strong> Yes, A and B are independent.
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 8: QUIZ -->
+
+<section class="content-section" id="quiz">
+    <h2 class="section-title">08. Quick Quiz</h2>
+    <p class="section-subtitle">
+        Five random questions per attempt. Answer all five to check your score.
+    </p>
+
+    <div id="quizQuestions"></div>
+
+    <div class="graph-controls">
+        <button class="primary" id="finishQuiz" disabled>
+            Check My Answers
+        </button>
+
+        <button class="secondary" id="newQuiz">
+            New Quiz
+        </button>
+    </div>
+
+    <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+
+    <p class="section-subtitle" id="bestScore">
+        Best score: Not attempted yet
+    </p>
+</section>
+
+<!-- SECTION 9: BOARD PRACTICE -->
+
+<section class="content-section" id="practice">
+    <h2 class="section-title">09. Board Practice</h2>
+    <p class="section-subtitle">
+        Try solving the question before revealing the answer.
+    </p>
+
+    <div class="example">
+        <h3>Question 1</h3>
+        <p>State the formula for P(A | B).</p>
+        <button class="secondary" onclick="toggleAnswer('ans1')">Reveal Answer</button>
+        <div class="answer" id="ans1">
+            P(A | B) = P(A ∩ B) / P(B), provided P(B) &gt; 0.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Question 2</h3>
+        <p>If A and B are independent, what is P(A ∩ B)?</p>
+        <button class="secondary" onclick="toggleAnswer('ans2')">Reveal Answer</button>
+        <div class="answer" id="ans2">
+            P(A ∩ B) = P(A)P(B).
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Question 3</h3>
+        <p>If P(A) = 0.65, find P(A').</p>
+        <button class="secondary" onclick="toggleAnswer('ans3')">Reveal Answer</button>
+        <div class="answer" id="ans3">
+            P(A') = 1 − 0.65 = 0.35.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Question 4</h3>
+        <p>What condition defines mutually exclusive events?</p>
+        <button class="secondary" onclick="toggleAnswer('ans4')">Reveal Answer</button>
+        <div class="answer" id="ans4">
+            P(A ∩ B) = 0.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Question 5</h3>
+        <p>What is the purpose of Bayes' theorem?</p>
+        <button class="secondary" onclick="toggleAnswer('ans5')">Reveal Answer</button>
+        <div class="answer" id="ans5">
+            It calculates the conditional probability of a possible cause
+            after observing an event.
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Question 6</h3>
+        <p>If P(A) = 0.4 and P(B | A) = 0.5, find P(A ∩ B).</p>
+        <button class="secondary" onclick="toggleAnswer('ans6')">Reveal Answer</button>
+        <div class="answer" id="ans6">
+            P(A ∩ B) = P(A)P(B | A) = 0.4 × 0.5 = 0.2.
+        </div>
+    </div>
+
+    <button class="secondary" onclick="markLearning('practice')">
+        ✓ Mark Practice Complete
+    </button>
+</section>
+
+<!-- SECTION 10: PROGRESS TRACKER -->
+
+<section class="content-section" id="tracker">
+    <h2 class="section-title">10. Progress Tracker</h2>
+    <p class="section-subtitle">
+        Track your revision. The checklist is saved in this browser.
+    </p>
+
+    <div class="card">
+        <div class="tracker-item">
+            <input type="checkbox" id="track1">
+            <label for="track1">
+                Basic concepts
+                <small>Events, sample space and complement.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track2">
+            <label for="track2">
+                Conditional probability
+                <small>Understand P(A | B) and P(B | A).</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track3">
+            <label for="track3">
+                Multiplication theorem
+                <small>Practise calculating intersection probabilities.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track4">
+            <label for="track4">
+                Independent events
+                <small>Know the difference from mutually exclusive events.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track5">
+            <label for="track5">
+                Total probability and Bayes' theorem
+                <small>Practise source-based probability questions.</small>
+            </label>
+        </div>
+
+        <div class="tracker-item">
+            <input type="checkbox" id="track6">
+            <label for="track6">
+                Quiz and board practice
+                <small>Attempt questions independently.</small>
+            </label>
+        </div>
+
+        <hr>
+
+        <div class="progress-heading">
+            <h3>Revision Checklist</h3>
+            <span id="trackerCount">0 of 6 complete</span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="trackerBar"></div>
+        </div>
+
+        <br>
+
+        <button class="secondary" id="resetProgress">
+            Reset Checklist
+        </button>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>Made for learners with <span>MathSutra ✦</span></p>
+    <p>Class XII Mathematics · Probability</p>
+</footer>
+
+<script>
+/* =====================================
+   SAFE LOCAL STORAGE
+===================================== */
+
+function safeGet(key, fallback = null) {
+    try {
+        const value = localStorage.getItem(key);
+        return value === null ? fallback : value;
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function safeSet(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (error) {}
+}
+
+function safeRemove(key) {
+    try {
+        localStorage.removeItem(key);
+    } catch (error) {}
+}
+
+/* =====================================
+   LEARNING PROGRESS
+===================================== */
+
+const learningTasks = ["concepts", "formulas", "practice", "quiz"];
+const learningKey = "mathsutra_ch13_learning_v1";
+
+function getLearningState() {
+    try {
+        return JSON.parse(safeGet(learningKey, "{}")) || {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function markLearning(task) {
+    if (!learningTasks.includes(task)) return;
+
+    const state = getLearningState();
+    state[task] = true;
+
+    safeSet(learningKey, JSON.stringify(state));
+    updateLearningProgress();
+}
+
+function updateLearningProgress() {
+    const state = getLearningState();
+    let completed = 0;
+
+    learningTasks.forEach(task => {
+        const tag = document.getElementById("tag-" + task);
+
+        if (state[task]) {
+            completed++;
+            tag.classList.add("done");
+        } else {
+            tag.classList.remove("done");
+        }
+    });
+
+    document.getElementById("learningCount").textContent =
+        completed + " of 4 tasks completed";
+
+    document.getElementById("learningBar").style.width =
+        (completed / 4 * 100) + "%";
+}
+
+/* =====================================
+   PROBABILITY CALCULATOR
+===================================== */
+
+function readProbability(id) {
+    const value = Number(document.getElementById(id).value);
+
+    if (
+        document.getElementById(id).value.trim() === "" ||
+        !Number.isFinite(value) ||
+        value < 0 ||
+        value > 1
+    ) {
+        throw new Error(
+            "All probabilities must be between 0 and 1."
+        );
+    }
+
+    return value;
+}
+
+function calculateProbability() {
+    const type = document.getElementById("calcType").value;
+    const output = document.getElementById("calcResult");
+
+    try {
+        let result;
+        let explanation;
+
+        if (type === "conditional") {
+            const intersection = readProbability("probAB");
+            const probabilityB = readProbability("probB");
+
+            if (probabilityB === 0) {
+                throw new Error("P(B) must be greater than zero.");
+            }
+
+            if (intersection > probabilityB) {
+                throw new Error(
+                    "P(A ∩ B) cannot be greater than P(B)."
+                );
+            }
+
+            result = intersection / probabilityB;
+            explanation =
+                "P(A | B) = P(A ∩ B) / P(B)";
+        }
+
+        else if (type === "intersection") {
+            const probabilityA = readProbability("probA");
+            const probabilityB = readProbability("probB");
+            const intersection = readProbability("probAB");
+
+            if (
+                intersection > probabilityA ||
+                intersection > probabilityB
+            ) {
+                throw new Error(
+                    "P(A ∩ B) cannot exceed P(A) or P(B)."
+                );
+            }
+
+            result = intersection;
+            explanation =
+                "Using the supplied intersection probability P(A ∩ B).";
+        }
+
+        else if (type === "total") {
+            const pB1 = readProbability("probB1");
+            const pA1 = readProbability("probA1");
+            const pA2 = readProbability("probA2");
+
+            const pB2 = 1 - pB1;
+
+            result = pB1 * pA1 + pB2 * pA2;
+
+            explanation =
+                "P(A) = P(B₁)P(A | B₁) + P(B₂)P(A | B₂)";
+        }
+
+        else if (type === "bayes") {
+            const pB1 = readProbability("probB1");
+            const pA1 = readProbability("probA1");
+            const pA2 = readProbability("probA2");
+
+            const pB2 = 1 - pB1;
+            const numerator = pB1 * pA1;
+            const denominator =
+                pB1 * pA1 + pB2 * pA2;
+
+            if (denominator === 0) {
+                throw new Error(
+                    "The probability of the observed event is zero, so Bayes' formula cannot be applied."
+                );
+            }
+
+            result = numerator / denominator;
+
+            explanation =
+                "P(B₁ | A) = P(B₁)P(A | B₁) / P(A)";
+        }
+
+        output.innerHTML =
+            "<h3>Result: " + result.toFixed(6) + "</h3>" +
+            "<p>" + explanation + "</p>" +
+            "<p>Percentage: " + (result * 100).toFixed(2) + "%</p>";
+
+    } catch (error) {
+        output.innerHTML =
+            "<p style='color:var(--red)'>" +
+            error.message +
+            "</p>";
+    }
+}
+
+document.getElementById("calculateProbability")
+    .addEventListener("click", calculateProbability);
+
+document.getElementById("resetCalculator")
+    .addEventListener("click", () => {
+        document.getElementById("calcType").value = "conditional";
+        document.getElementById("probA").value = 0.4;
+        document.getElementById("probB").value = 0.5;
+        document.getElementById("probAB").value = 0.2;
+        document.getElementById("probA1").value = 0.02;
+        document.getElementById("probA2").value = 0.05;
+        document.getElementById("probB1").value = 0.6;
+
+        document.getElementById("calcResult").textContent =
+            "Choose a calculation and press Calculate.";
+    });
+
+/* =====================================
+   PRACTICE ANSWERS
+===================================== */
+
+function toggleAnswer(id) {
+    const answer = document.getElementById(id);
+    answer.classList.toggle("show");
+
+    const button = answer.previousElementSibling;
+
+    if (button && button.tagName === "BUTTON") {
+        button.textContent = answer.classList.contains("show")
+            ? "Hide Answer"
+            : "Reveal Answer";
+    }
+}
+
+/* =====================================
+   QUIZ SYSTEM
+===================================== */
+
+const quizBank = [
+    {
+        q: "If P(A ∩ B) = 0.2 and P(B) = 0.5, find P(A | B).",
+        options: ["0.1", "0.4", "0.5", "0.7"],
+        answer: 1,
+        explanation: "P(A | B) = 0.2 / 0.5 = 0.4."
+    },
+    {
+        q: "If A and B are independent, P(A ∩ B) equals:",
+        options: [
+            "P(A) + P(B)",
+            "P(A) − P(B)",
+            "P(A)P(B)",
+            "Zero always"
+        ],
+        answer: 2,
+        explanation: "For independent events, the intersection probability is the product."
+    },
+    {
+        q: "If P(A) = 0.7, then P(A') is:",
+        options: ["0.7", "0.3", "1.7", "0"],
+        answer: 1,
+        explanation: "P(A') = 1 − 0.7 = 0.3."
+    },
+    {
+        q: "For mutually exclusive events A and B:",
+        options: [
+            "P(A ∩ B) = 1",
+            "P(A ∩ B) = P(A)",
+            "P(A ∩ B) = 0",
+            "P(A) = P(B)"
+        ],
+        answer: 2,
+        explanation: "Mutually exclusive events cannot occur together."
+    },
+    {
+        q: "Which formula represents conditional probability?",
+        options: [
+            "P(A) + P(B)",
+            "P(A ∩ B) / P(B)",
+            "P(A) / P(B')",
+            "P(A)P(B')"
+        ],
+        answer: 1,
+        explanation: "P(A | B) = P(A ∩ B) / P(B), provided P(B) > 0."
+    },
+    {
+        q: "If P(A) = 0.4 and P(B) = 0.5 for independent events, P(A ∩ B) is:",
+        options: ["0.9", "0.1", "0.2", "0.4"],
+        answer: 2,
+        explanation: "0.4 × 0.5 = 0.2."
+    },
+    {
+        q: "Bayes' theorem is used to find:",
+        options: [
+            "A conditional probability of a cause given an observation",
+            "Only a complement",
+            "A derivative",
+            "A determinant"
+        ],
+        answer: 0,
+        explanation: "Bayes' theorem updates the probability of a cause given evidence."
+    },
+    {
+        q: "If P(A) = 0.25, P(B) = 0.4 and P(A ∩ B) = 0.1, then:",
+        options: [
+            "A and B are independent",
+            "A and B are mutually exclusive",
+            "P(A ∩ B) = 0",
+            "P(A) = 1"
+        ],
+        answer: 0,
+        explanation: "P(A)P(B) = 0.25 × 0.4 = 0.1, equal to P(A ∩ B)."
+    },
+    {
+        q: "If P(B) = 0.6, P(A | B) = 0.2 and P(A | B') = 0.5, find P(A).",
+        options: ["0.12", "0.2", "0.32", "0.7"],
+        answer: 2,
+        explanation: "P(A) = 0.6 × 0.2 + 0.4 × 0.5 = 0.32."
+    },
+    {
+        q: "If P(A) = 0.8, what is P(A')?",
+        options: ["0.8", "0.2", "1", "0"],
+        answer: 1,
+        explanation: "P(A') = 1 − 0.8 = 0.2."
+    },
+    {
+        q: "If P(A ∩ B) = 0.15 and P(A) = 0.3, find P(B | A).",
+        options: ["0.15", "0.3", "0.5", "0.75"],
+        answer: 2,
+        explanation: "P(B | A) = 0.15 / 0.3 = 0.5."
+    },
+    {
+        q: "Two mutually exclusive events with positive probabilities are:",
+        options: [
+            "Always independent",
+            "Not independent",
+            "Always identical",
+            "Always certain"
+        ],
+        answer: 1,
+        explanation: "Their intersection is zero, whereas the product of their positive probabilities is positive."
+    }
+];
+
+let currentQuiz = [];
+let quizSubmitted = false;
+
+function shuffleArray(array) {
+    const copy = [...array];
+
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+
+    return copy;
+}
+
+function createQuiz() {
+    currentQuiz = shuffleArray(quizBank).slice(0, 5);
+    quizSubmitted = false;
+
+    const container = document.getElementById("quizQuestions");
+    const result = document.getElementById("quizResult");
+
+    container.innerHTML = "";
+    result.classList.remove("show");
+    result.innerHTML = "";
+
+    document.getElementById("finishQuiz").disabled = true;
+
+    currentQuiz.forEach((question, index) => {
+        const box = document.createElement("div");
+        box.className = "quiz-question";
+
+        const heading = document.createElement("h3");
+        heading.textContent = (index + 1) + ". " + question.q;
+        box.appendChild(heading);
+
+        question.options.forEach((option, optionIndex) => {
+            const label = document.createElement("label");
+            label.className = "option";
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "quiz-" + index;
+            radio.value = optionIndex;
+
+            radio.addEventListener("change", updateFinishButton);
+
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(option));
+            box.appendChild(label);
+        });
+
+        container.appendChild(box);
+    });
+
+    updateFinishButton();
+}
+
+function updateFinishButton() {
+    if (quizSubmitted) return;
+
+    const allAnswered = currentQuiz.every((question, index) =>
+        document.querySelector('input[name="quiz-' + index + '"]:checked')
+    );
+
+    document.getElementById("finishQuiz").disabled = !allAnswered;
+}
+
+function finishQuiz() {
+    if (quizSubmitted) return;
+
+    const answers = currentQuiz.map((question, index) =>
+        document.querySelector('input[name="quiz-' + index + '"]:checked')
+    );
+
+    if (answers.some(answer => !answer)) {
+        alert("Please answer all five questions first.");
+        return;
+    }
+
+    quizSubmitted = true;
+    let score = 0;
+
+    currentQuiz.forEach((question, index) => {
+        const box = document.querySelectorAll(".quiz-question")[index];
+        const options = box.querySelectorAll(".option");
+
+        options.forEach((label, optionIndex) => {
+            const radio = label.querySelector("input");
+            radio.disabled = true;
+
+            if (optionIndex === question.answer) {
+                label.classList.add("correct");
+            }
+
+            if (radio.checked && optionIndex !== question.answer) {
+                label.classList.add("incorrect");
+            }
+        });
+
+        if (Number(answers[index].value) === question.answer) {
+            score++;
+        }
+
+        const explanation = document.createElement("p");
+        explanation.className = "solution";
+        explanation.textContent = "Explanation: " + question.explanation;
+        box.appendChild(explanation);
+    });
+
+    const result = document.getElementById("quizResult");
+    result.classList.add("show");
+
+    result.innerHTML =
+        "<h3>Your Score: " + score + "/5</h3>" +
+        "<p>" +
+        (score === 5
+            ? "Perfect score! Excellent work! 🎉"
+            : score >= 3
+                ? "Good effort! Revise your mistakes. 💪"
+                : "Keep practising and try again. 📘") +
+        "</p>";
+
+    const best = Number(safeGet("mathsutra_ch13_best_score", "0"));
+
+    if (score > best) {
+        safeSet("mathsutra_ch13_best_score", String(score));
+    }
+
+    updateBestScore();
+    document.getElementById("finishQuiz").disabled = true;
+
+    markLearning("quiz");
+}
+
+function updateBestScore() {
+    const best = safeGet("mathsutra_ch13_best_score", null);
+
+    document.getElementById("bestScore").textContent =
+        best === null
+            ? "Best score: Not attempted yet"
+            : "Best score: " + best + "/5";
+}
+
+document.getElementById("finishQuiz").addEventListener("click", finishQuiz);
+document.getElementById("newQuiz").addEventListener("click", createQuiz);
+
+/* =====================================
+   REVISION CHECKLIST
+===================================== */
+
+const trackerKey = "mathsutra_ch13_progress_v1";
+
+const trackerIds = [
+    "track1", "track2", "track3",
+    "track4", "track5", "track6"
+];
+
+function getTrackerState() {
+    try {
+        return JSON.parse(safeGet(trackerKey, "{}")) || {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function saveTracker() {
+    const state = {};
+
+    trackerIds.forEach(id => {
+        state[id] = document.getElementById(id).checked;
+    });
+
+    safeSet(trackerKey, JSON.stringify(state));
+    updateTrackerProgress();
+}
+
+function loadTracker() {
+    const state = getTrackerState();
+
+    trackerIds.forEach(id => {
+        document.getElementById(id).checked = Boolean(state[id]);
+
+        document.getElementById(id).addEventListener(
+            "change",
+            saveTracker
+        );
+    });
+
+    updateTrackerProgress();
+}
+
+function updateTrackerProgress() {
+    const completed = trackerIds.filter(id =>
+        document.getElementById(id).checked
+    ).length;
+
+    document.getElementById("trackerCount").textContent =
+        completed + " of 6 complete";
+
+    document.getElementById("trackerBar").style.width =
+        (completed / 6 * 100) + "%";
+}
+
+document.getElementById("resetProgress").addEventListener("click", () => {
+    if (!confirm("Reset your revision checklist?")) return;
+
+    trackerIds.forEach(id => {
+        document.getElementById(id).checked = false;
+    });
+
+    safeRemove(trackerKey);
+    updateTrackerProgress();
+});
+
+/* =====================================
+   INITIALISE
+===================================== */
+
+loadTracker();
+updateLearningProgress();
+updateBestScore();
+createQuiz();
+</script>
+
+<script src="../js/app.js"></script>
+
+</body>
+</html>

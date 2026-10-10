@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 10: Vector Algebra | MathSutra</title>
+<style>
+:root{
+  --bg:#080b18;--panel:#11182b;--panel2:#151e35;
+  --text:#edf3ff;--muted:#a8b5d1;--cyan:#55e6ff;
+  --purple:#a78bfa;--green:#6ee7b7;--border:rgba(142,164,220,.2)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);
+  background:radial-gradient(ellipse at top left,#192044,transparent 45%),
+  radial-gradient(ellipse at bottom right,#20133d,transparent 40%),var(--bg);
+  font-family:Arial,sans-serif;line-height:1.7
+}
+a{color:var(--cyan);text-decoration:none}
+header{
+  position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;padding:14px 6%;
+  background:rgba(8,11,24,.94);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px)
+}
+.logo{font-size:1.35rem;font-weight:800;color:var(--cyan)}
+nav{display:flex;gap:13px;flex-wrap:wrap;font-size:.88rem}
+nav a{color:var(--muted)}
+nav a:hover{color:var(--cyan)}
+.container{width:min(1050px,92%);margin:auto}
+.hero{padding:60px 0 35px}
+.badge{display:inline-block;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--green);font-size:.85rem}
+h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.15;margin:18px 0}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--purple));color:transparent;background-clip:text}
+.hero p,.muted{color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{cursor:pointer;padding:10px 15px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);color:var(--text);font-size:.94rem}
+button:hover{border-color:var(--cyan)}
+.primary{background:var(--cyan);color:#06111a;font-weight:700}
+section{margin:26px 0;scroll-margin-top:90px}
+.card{background:linear-gradient(145deg,rgba(21,30,53,.96),rgba(13,19,36,.97));border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:17px}
+h2{margin-top:0;font-size:1.6rem}
+h3{color:var(--cyan)}
+.formula{padding:13px;margin:12px 0;background:rgba(85,230,255,.07);border-left:3px solid var(--cyan);border-radius:7px;overflow-wrap:anywhere;font-family:"Courier New",monospace}
+.question{border:1px solid var(--border);border-radius:12px;padding:15px;margin:13px 0}
+.option{display:block;padding:6px 0;color:var(--muted)}
+.feedback{font-weight:bold;margin-top:8px}
+.good{color:var(--green)}
+.bad{color:#fca5a5}
+.answer{display:none;padding:12px;margin-top:8px;background:rgba(110,231,183,.08);border-radius:8px}
+.progress-row{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.progress-row input{margin-top:7px}
+progress{width:100%;height:14px;accent-color:var(--cyan)}
+input[type=checkbox],input[type=radio]{accent-color:var(--cyan)}
+canvas{display:block;width:100%;max-width:600px;height:300px;margin:15px auto;border:1px solid var(--border);border-radius:12px;background:#0b1124}
+input[type=number]{width:75px;padding:8px;border-radius:7px;border:1px solid var(--border);background:#080d1c;color:var(--text)}
+.small{font-size:.88rem}
+footer{text-align:center;color:var(--muted);padding:35px 0}
+@media(max-width:700px){
+ header{align-items:flex-start;flex-direction:column}
+ nav{gap:10px}.card{padding:17px}.hero{padding-top:40px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<a class="logo" href="../index.html">✦ MathSutra</a>
+<nav>
+<a href="#theory">Theory</a>
+<a href="#examples">Examples</a>
+<a href="#visualizer">Visualizer</a>
+<a href="#boards">Boards</a>
+<a href="#jee">JEE MCQs</a>
+<a href="#quiz">Quiz</a>
+<a href="#progress">Progress</a>
+</nav>
+</header>
+
+<main class="container">
+<div class="hero">
+<span class="badge">CLASS 12 MATHEMATICS · CHAPTER 10</span>
+<h1><span class="gradient">Vector Algebra</span></h1>
+<p>Explore vectors, components, magnitude, direction, scalar product and vector product with examples and practice.</p>
+<div class="actions">
+<button class="primary" onclick="document.querySelector('#theory').scrollIntoView()">Start Learning ↓</button>
+<button id="languageBtn">🌐 English / Hinglish</button>
+<button id="modeBtn">Mode: Boards</button>
+</div>
+<p id="settingsInfo" class="small muted">Language: English · Mode: Boards</p>
+</div>
+
+<section id="theory">
+<div class="card">
+<h2>1. What Is a Vector?</h2>
+<p>A vector quantity has both magnitude and direction. Examples include displacement, velocity and force.</p>
+<p>A scalar has magnitude only, such as mass, time and temperature.</p>
+<div class="formula">a⃗ = a₁î + a₂ĵ + a₃k̂</div>
+<p>Here a₁, a₂ and a₃ are the components along the x, y and z axes.</p>
+</div>
+
+<div class="card">
+<h2>2. Types of Vectors</h2>
+<ul>
+<li><strong>Zero vector:</strong> magnitude is zero.</li>
+<li><strong>Unit vector:</strong> magnitude is one.</li>
+<li><strong>Equal vectors:</strong> same magnitude and direction.</li>
+<li><strong>Negative vectors:</strong> same magnitude but opposite directions.</li>
+<li><strong>Parallel vectors:</strong> their directions are parallel or antiparallel.</li>
+<li><strong>Position vector:</strong> vector from the origin to a point.</li>
+<li><strong>Collinear vectors:</strong> vectors parallel to the same line.</li>
+</ul>
+<div class="formula">Unit vector along a⃗ = a⃗ / |a⃗|, provided |a⃗| ≠ 0</div>
+</div>
+
+<div class="card">
+<h2>3. Magnitude of a Vector</h2>
+<p>If a⃗ = aî + bĵ + ck̂, then its magnitude is:</p>
+<div class="formula">|a⃗| = √(a² + b² + c²)</div>
+<h3>Example</h3>
+<p>For a⃗ = 2î + 3ĵ + 6k̂:</p>
+<div class="formula">|a⃗| = √(4 + 9 + 36) = 7</div>
+<p>Its unit vector is:</p>
+<div class="formula">â = (2î + 3ĵ + 6k̂)/7</div>
+</div>
+
+<div class="card">
+<h2>4. Addition and Subtraction</h2>
+<p>Add or subtract corresponding components.</p>
+<div class="formula">a⃗ = a₁î + a₂ĵ + a₃k̂</div>
+<div class="formula">b⃗ = b₁î + b₂ĵ + b₃k̂</div>
+<div class="formula">a⃗ + b⃗ = (a₁+b₁)î + (a₂+b₂)ĵ + (a₃+b₃)k̂</div>
+<div class="formula">a⃗ − b⃗ = (a₁−b₁)î + (a₂−b₂)ĵ + (a₃−b₃)k̂</div>
+<h3>Example</h3>
+<p>If a⃗ = 2î + 3ĵ and b⃗ = î − ĵ:</p>
+<div class="formula">a⃗ + b⃗ = 3î + 2ĵ</div>
+<div class="formula">a⃗ − b⃗ = î + 4ĵ</div>
+</div>
+
+<div class="card">
+<h2>5. Position Vector</h2>
+<p>The position vector of point P(x,y,z) is the vector from the origin O to P.</p>
+<div class="formula">OP⃗ = xî + yĵ + zk̂</div>
+<p>For points A and B, the vector from A to B is:</p>
+<div class="formula">AB⃗ = OB⃗ − OA⃗</div>
+<div class="formula">AB⃗ = (x₂−x₁)î + (y₂−y₁)ĵ + (z₂−z₁)k̂</div>
+<h3>Example</h3>
+<p>A(1,2,3), B(4,0,5).</p>
+<div class="formula">AB⃗ = 3î − 2ĵ + 2k̂</div>
+<div class="formula">|AB⃗| = √(9+4+4) = √17</div>
+</div>
+
+<div class="card">
+<h2>6. Direction Cosines</h2>
+<p>If a nonzero vector makes angles α, β and γ with the positive x, y and z axes, respectively, then:</p>
+<div class="formula">l = cos α, m = cos β, n = cos γ</div>
+<div class="formula">l² + m² + n² = 1</div>
+<p>For a⃗ = aî + bĵ + ck̂:</p>
+<div class="formula">l = a/|a⃗|, m = b/|a⃗|, n = c/|a⃗|</div>
+</div>
+
+<div class="card">
+<h2>7. Scalar Product (Dot Product)</h2>
+<p>The dot product of two vectors produces a scalar.</p>
+<div class="formula">a⃗ · b⃗ = |a⃗||b⃗| cos θ</div>
+<p>In component form:</p>
+<div class="formula">a⃗ · b⃗ = a₁b₁ + a₂b₂ + a₃b₃</div>
+<p>For nonzero vectors, perpendicularity means:</p>
+<div class="formula">a⃗ · b⃗ = 0</div>
+<h3>Important properties</h3>
+<ul>
+<li>a⃗ · b⃗ = b⃗ · a⃗</li>
+<li>a⃗ · a⃗ = |a⃗|²</li>
+<li>î · î = ĵ · ĵ = k̂ · k̂ = 1</li>
+<li>î · ĵ = ĵ · k̂ = k̂ · î = 0</li>
+</ul>
+<h3>Example</h3>
+<p>a⃗ = î + 2ĵ + 3k̂, b⃗ = 2î − ĵ + k̂.</p>
+<div class="formula">a⃗ · b⃗ = 1(2) + 2(−1) + 3(1) = 3</div>
+</div>
+
+<div class="card">
+<h2>8. Angle Between Two Vectors</h2>
+<div class="formula">cos θ = (a⃗ · b⃗)/(|a⃗||b⃗|)</div>
+<p>Use this formula when both vectors are nonzero.</p>
+<h3>Example</h3>
+<p>a⃗ = î and b⃗ = î + ĵ.</p>
+<div class="formula">a⃗ · b⃗ = 1</div>
+<div class="formula">|a⃗| = 1, |b⃗| = √2</div>
+<div class="formula">cos θ = 1/√2 → θ = 45°</div>
+</div>
+
+<div class="card">
+<h2>9. Vector Product (Cross Product)</h2>
+<p>The cross product is a vector perpendicular to both input vectors.</p>
+<div class="formula">|a⃗ × b⃗| = |a⃗||b⃗| sin θ</div>
+<p>Its direction follows the right-hand rule.</p>
+<div class="formula">a⃗ × b⃗ = (a₂b₃−a₃b₂)î − (a₁b₃−a₃b₁)ĵ + (a₁b₂−a₂b₁)k̂</div>
+<h3>Unit-vector identities</h3>
+<div class="formula">î × ĵ = k̂; ĵ × k̂ = î; k̂ × î = ĵ</div>
+<div class="formula">ĵ × î = −k̂; k̂ × ĵ = −î; î × k̂ = −ĵ</div>
+<div class="formula">a⃗ × b⃗ = −(b⃗ × a⃗)</div>
+<p>For parallel vectors, a⃗ × b⃗ = 0⃗.</p>
+<h3>Example</h3>
+<p>a⃗ = î + ĵ and b⃗ = î − ĵ.</p>
+<div class="formula">a⃗ × b⃗ = −2k̂</div>
+</div>
+
+<div class="card">
+<h2>10. Area Using Vectors</h2>
+<p>The area of a parallelogram formed by vectors a⃗ and b⃗ is:</p>
+<div class="formula">Area = |a⃗ × b⃗|</div>
+<p>The area of a triangle formed by the same two vectors is:</p>
+<div class="formula">Area = ½|a⃗ × b⃗|</div>
+<p>For points A, B and C, use AB⃗ and AC⃗ to calculate the triangle's area.</p>
+</div>
+
+<div class="card">
+<h2>11. Formula Vault</h2>
+<div class="formula">|a⃗| = √(a₁²+a₂²+a₃²)</div>
+<div class="formula">â = a⃗/|a⃗|</div>
+<div class="formula">a⃗ · b⃗ = a₁b₁+a₂b₂+a₃b₃</div>
+<div class="formula">cos θ = (a⃗ · b⃗)/(|a⃗||b⃗|)</div>
+<div class="formula">|a⃗ × b⃗| = |a⃗||b⃗| sin θ</div>
+<div class="formula">Triangle area = ½|AB⃗ × AC⃗|</div>
+</div>
+</section>
+
+<section id="examples">
+<h2>🧠 Solved Examples</h2>
+
+<div class="card">
+<h3>Example 1 — Magnitude and Unit Vector</h3>
+<p>Find the magnitude and unit vector of a⃗ = 3î + 4ĵ.</p>
+<div class="formula">|a⃗| = √(9+16) = 5</div>
+<div class="formula">â = (3î + 4ĵ)/5</div>
+</div>
+
+<div class="card">
+<h3>Example 2 — Dot Product</h3>
+<p>a⃗ = 2î + ĵ − k̂, b⃗ = î + 3ĵ + 2k̂.</p>
+<div class="formula">a⃗ · b⃗ = 2(1) + 1(3) + (−1)(2) = 3</div>
+</div>
+
+<div class="card">
+<h3>Example 3 — Perpendicular Vectors</h3>
+<p>Find k if a⃗ = 2î + kĵ and b⃗ = 3î − 2ĵ are perpendicular.</p>
+<div class="formula">a⃗ · b⃗ = 0</div>
+<div class="formula">2(3) + k(−2) = 0</div>
+<div class="formula">6 − 2k = 0 → k = 3</div>
+</div>
+
+<div class="card">
+<h3>Example 4 — Cross Product</h3>
+<p>Find (î + 2ĵ) × (3î + ĵ).</p>
+<div class="formula">= (1×1 − 2×3)k̂</div>
+<div class="formula">= −5k̂</div>
+</div>
+
+<div class="card">
+<h3>Example 5 — Triangle Area</h3>
+<p>Two sides of a triangle from the same vertex are a⃗ = î + ĵ and b⃗ = î − ĵ.</p>
+<div class="formula">a⃗ × b⃗ = −2k̂</div>
+<div class="formula">Area = ½|−2k̂| = 1 square unit</div>
+</div>
+</section>
+
+<section id="visualizer">
+<h2>🪐 Vector Visualizer</h2>
+<div class="card">
+<p>Enter the components of two 2D vectors to compare their directions and calculate the dot product.</p>
+<div class="actions">
+<label>a₁ <input id="ax" type="number" value="3" step="any"></label>
+<label>a₂ <input id="ay" type="number" value="1" step="any"></label>
+<label>b₁ <input id="bx" type="number" value="1" step="any"></label>
+<label>b₂ <input id="by" type="number" value="3" step="any"></label>
+<button class="primary" onclick="drawVectors()">Draw Vectors</button>
+</div>
+<canvas id="vectorCanvas" width="600" height="300"></canvas>
+<p id="vectorResult" class="formula">Enter components and select Draw Vectors.</p>
+<p class="muted small">The drawing is schematic. It shows the two vectors from the origin in a 2D coordinate plane.</p>
+</div>
+</section>
+
+<section id="boards">
+<h2>📝 CBSE Board Practice</h2>
+<div class="card">
+
+<div class="question">
+<p><strong>1.</strong> Find the magnitude of 2î − 3ĵ + 6k̂.</p>
+<button onclick="toggleAnswer('b1')">Show Answer</button>
+<div class="answer" id="b1">Magnitude = √(4+9+36) = 7.</div>
+</div>
+
+<div class="question">
+<p><strong>2.</strong> Find the unit vector along 3î + 4ĵ.</p>
+<button onclick="toggleAnswer('b2')">Show Answer</button>
+<div class="answer" id="b2">Magnitude = 5. Unit vector = (3/5)î + (4/5)ĵ.</div>
+</div>
+
+<div class="question">
+<p><strong>3.</strong> Find (î + 2ĵ) · (3î − ĵ).</p>
+<button onclick="toggleAnswer('b3')">Show Answer</button>
+<div class="answer" id="b3">3 − 2 = 1.</div>
+</div>
+
+<div class="question">
+<p><strong>4.</strong> Find î × ĵ.</p>
+<button onclick="toggleAnswer('b4')">Show Answer</button>
+<div class="answer" id="b4">î × ĵ = k̂.</div>
+</div>
+
+<div class="question">
+<p><strong>5.</strong> Find the area of a triangle whose two sides from the same vertex are î + ĵ and î − ĵ.</p>
+<button onclick="toggleAnswer('b5')">Show Answer</button>
+<div class="answer" id="b5">Cross product = −2k̂. Area = ½ × 2 = 1 square unit.</div>
+</div>
+</div>
+</section>
+
+<section id="jee">
+<h2>⚡ JEE-Style MCQs</h2>
+<div class="card" id="jeeQuestions"></div>
+<button class="primary" onclick="checkJEE()">Check Answers</button>
+<button onclick="resetJEE()">Reset</button>
+<p id="jeeResult" class="feedback"></p>
+</section>
+
+<section id="quiz">
+<h2>🎯 Quick Quiz</h2>
+<div class="card">
+<p id="quizCounter">Question 1 of 5</p>
+<h3 id="quizQuestion"></h3>
+<div id="quizOptions"></div>
+<p id="quizFeedback" class="feedback"></p>
+<button class="primary" id="nextQuiz">Check & Next →</button>
+<button id="restartQuiz">Restart Quiz</button>
+<p id="quizScore" class="good"></p>
+<p id="bestScore" class="muted small"></p>
+</div>
+</section>
+
+<section id="progress">
+<h2>🚀 Learning Progress</h2>
+<div class="card">
+<p class="muted">Tick a topic after studying and practising it. Progress is saved in this browser.</p>
+<progress id="progressBar" value="0" max="100"></progress>
+<p id="progressText">0% completed</p>
+<div id="checklist"></div>
+<button onclick="resetProgress()">Reset Progress</button>
+</div>
+</section>
+
+<div class="card">
+<h2>📌 Final Revision</h2>
+<ul>
+<li>Magnitude: square root of the sum of squares of components.</li>
+<li>Unit vector: divide the vector by its nonzero magnitude.</li>
+<li>Dot product produces a scalar; use it to find angles and test perpendicularity.</li>
+<li>Cross product produces a vector; use its magnitude to find areas.</li>
+<li>Cross product changes sign when the order of the vectors is reversed.</li>
+<li>Direction cosines satisfy l² + m² + n² = 1.</li>
+</ul>
+<p class="muted small">These notes are a learning resource, not a verified exhaustive syllabus checklist. Check the latest official CBSE and NTA syllabi for exam scope.</p>
+<a href="../index.html">← Back to MathSutra Home</a>
+</div>
+
+</main>
+
+<footer>✦ MathSutra · Learn concepts. Practise smart. Grow stronger.</footer>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const PROGRESS_KEY = "mathsutra_ch10_progress_v1";
+const LANG_KEY = "mathsutra-language";
+const MODE_KEY = "mathsutra-mode";
+
+let language = localStorage.getItem(LANG_KEY) || "en";
+let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+function updateSettings(){
+  $("languageBtn").textContent = language==="en" ? "🌐 English / Hinglish" : "🌐 Hinglish / English";
+  $("modeBtn").textContent = "Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+  $("settingsInfo").textContent = "Language: " + (language==="en" ? "English" : "Hinglish") + " · Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+}
+
+$("languageBtn").addEventListener("click",()=>{
+  language=language==="en"?"hi":"en";
+  localStorage.setItem(LANG_KEY,language);
+  updateSettings();
+  alert(language==="hi" ? "Hinglish preference saved. Full theory translation is not enabled yet." : "English preference saved.");
+});
+
+$("modeBtn").addEventListener("click",()=>{
+  mode=mode==="boards"?"jee":"boards";
+  localStorage.setItem(MODE_KEY,mode);
+  updateSettings();
+  alert(mode==="jee" ? "JEE Main mode selected. Practise the MCQs below." : "CBSE Boards mode selected. Try the Board practice section.");
+});
+
+window.toggleAnswer=id=>{
+  const el=$(id);
+  el.style.display=el.style.display==="block"?"none":"block";
+};
+
+const jeeData=[
+{q:"The magnitude of 2î − ĵ + 2k̂ is:",o:["3","√5","5","9"],a:0,e:"Magnitude = √(4+1+4) = 3."},
+{q:"If a⃗ · b⃗ = 0 for two nonzero vectors, they are:",o:["Parallel","Perpendicular","Equal","Opposite"],a:1,e:"A zero dot product means cos θ = 0."},
+{q:"î × ĵ equals:",o:["−k̂","k̂","î","ĵ"],a:1,e:"Use the right-hand-rule cyclic identities."},
+{q:"If |a⃗| = 2, |b⃗| = 3 and the angle is 60°, then a⃗ · b⃗ is:",o:["3","6","√3","0"],a:0,e:"2 × 3 × cos 60° = 3."},
+{q:"The area of a parallelogram formed by a⃗ and b⃗ is:",o:["a⃗ · b⃗","|a⃗ × b⃗|","½|a⃗ × b⃗|","|a⃗|+|b⃗|"],a:1,e:"The magnitude of the cross product gives parallelogram area."},
+{q:"The unit vector along 6î + 8ĵ is:",o:["6î+8ĵ","(3/5)î+(4/5)ĵ","(4/5)î+(3/5)ĵ","î+ĵ"],a:1,e:"Magnitude = 10, so divide each component by 10."},
+{q:"If a⃗ × b⃗ = 0⃗ and both vectors are nonzero, they are:",o:["Perpendicular","Parallel or antiparallel","Always equal","Always unit vectors"],a:1,e:"The cross-product magnitude is |a||b||sin θ|."},
+{q:"The direction cosines l, m, n satisfy:",o:["l+m+n=1","l²+m²+n²=1","lm+mn+nl=1","lmn=1"],a:1,e:"This is the standard direction-cosine identity."}
+];
+
+function renderJEE(){
+  $("jeeQuestions").innerHTML=jeeData.map((q,i)=>`
+  <div class="question">
+  <p><strong>${i+1}.</strong> ${q.q}</p>
+  ${q.o.map((op,j)=>`<label class="option"><input type="radio" name="jee${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("")}
+  <div id="jeeFeedback${i}" class="feedback"></div>
+  </div>`).join("");
+}
+
+window.checkJEE=()=>{
+  let score=0;
+  jeeData.forEach((q,i)=>{
+    const chosen=document.querySelector(`input[name="jee${i}"]:checked`);
+    const fb=$("jeeFeedback"+i);
+    if(chosen && Number(chosen.value)===q.a){
+      score++;
+      fb.className="feedback good";
+      fb.textContent="Correct! "+q.e;
+    }else{
+      fb.className="feedback bad";
+      fb.textContent="Correct answer: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+". "+q.e;
+    }
+  });
+  $("jeeResult").textContent=`Your score: ${score}/${jeeData.length}`;
+};
+
+window.resetJEE=()=>{
+  document.querySelectorAll('#jeeQuestions input[type="radio"]').forEach(el=>el.checked=false);
+  jeeData.forEach((_,i)=>{$("jeeFeedback"+i).textContent="";});
+  $("jeeResult").textContent="";
+};
+
+const quizData=[
+{q:"What does the dot product produce?",o:["A scalar","Always a unit vector","A matrix","A point"],a:0,e:"The dot product is a scalar."},
+{q:"What is the magnitude of 3î + 4ĵ?",o:["7","1","5","25"],a:2,e:"Magnitude = √(9+16) = 5."},
+{q:"î × k̂ equals:",o:["ĵ","−ĵ","k̂","−k̂"],a:1,e:"The reverse cyclic order gives a negative sign."},
+{q:"For nonzero perpendicular vectors, their dot product is:",o:["1","−1","0","Undefined"],a:2,e:"cos 90° = 0."},
+{q:"The area of a triangle formed by vectors a⃗ and b⃗ from the same vertex is:",o:["|a⃗ × b⃗|","2|a⃗ × b⃗|","½|a⃗ × b⃗|","a⃗ · b⃗"],a:2,e:"Triangle area is half the parallelogram area."}
+];
+
+let quizIndex=0,quizScore=0,quizAnswered=false;
+
+function renderQuiz(){
+  const q=quizData[quizIndex];
+  $("quizCounter").textContent=`Question ${quizIndex+1} of ${quizData.length}`;
+  $("quizQuestion").textContent=q.q;
+  $("quizOptions").innerHTML=q.o.map((op,j)=>`<label class="option"><input type="radio" name="quizOption" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("");
+  $("quizFeedback").textContent="";
+  $("quizFeedback").className="feedback";
+  $("quizScore").textContent="";
+  $("nextQuiz").textContent="Check & Next →";
+  quizAnswered=false;
+}
+
+$("nextQuiz").addEventListener("click",()=>{
+  if(quizAnswered){
+    if(quizIndex<quizData.length-1){
+      quizIndex++;
+      renderQuiz();
+    }else{
+      $("quizQuestion").textContent="Quiz completed!";
+      $("quizOptions").innerHTML="";
+      $("quizCounter").textContent="Finished";
+      $("quizScore").textContent=`Your score: ${quizScore}/${quizData.length}`;
+      const best=Number(localStorage.getItem("mathsutra_ch10_best")||0);
+      if(quizScore>best)localStorage.setItem("mathsutra_ch10_best",String(quizScore));
+      updateBest();
+      $("nextQuiz").disabled=true;
+    }
+    return;
+  }
+
+  const selected=document.querySelector('input[name="quizOption"]:checked');
+  if(!selected){
+    $("quizFeedback").textContent="Choose an answer first.";
+    $("quizFeedback").className="feedback bad";
+    return;
+  }
+
+  const q=quizData[quizIndex];
+  if(Number(selected.value)===q.a){
+    quizScore++;
+    $("quizFeedback").className="feedback good";
+    $("quizFeedback").textContent="Correct! "+q.e;
+  }else{
+    $("quizFeedback").className="feedback bad";
+    $("quizFeedback").textContent="Not quite. "+q.e;
+  }
+  quizAnswered=true;
+  $("nextQuiz").textContent=quizIndex===quizData.length-1?"Finish Quiz":"Next Question →";
+});
+
+$("restartQuiz").addEventListener("click",()=>{
+  quizIndex=0;
+  quizScore=0;
+  $("nextQuiz").disabled=false;
+  renderQuiz();
+  updateBest();
+});
+
+function updateBest(){
+  $("bestScore").textContent="Best score: "+(localStorage.getItem("mathsutra_ch10_best")||0)+"/"+quizData.length;
+}
+
+const topics=[
+"Vector basics and types","Magnitude and unit vectors","Vector addition and subtraction",
+"Position vectors","Direction cosines","Scalar product and angle",
+"Vector product and identities","Area applications","Solved examples","Board and JEE practice"
+];
+
+function loadProgress(){
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)||"{}");}catch(e){saved={};}
+  $("checklist").innerHTML=topics.map((t,i)=>`<label class="progress-row"><input type="checkbox" data-progress="${i}" ${saved[i]?"checked":""}><span>${t}</span></label>`).join("");
+  document.querySelectorAll("[data-progress]").forEach(el=>el.addEventListener("change",saveProgress));
+  updateProgress();
+}
+
+function saveProgress(){
+  const saved={};
+  document.querySelectorAll("[data-progress]").forEach(el=>saved[el.dataset.progress]=el.checked);
+  localStorage.setItem(PROGRESS_KEY,JSON.stringify(saved));
+  updateProgress();
+}
+
+function updateProgress(){
+  const boxes=[...document.querySelectorAll("[data-progress]")];
+  const done=boxes.filter(el=>el.checked).length;
+  const percent=Math.round(done/boxes.length*100);
+  $("progressBar").value=percent;
+  $("progressText").textContent=`${percent}% completed (${done}/${boxes.length} topics)`;
+}
+
+window.resetProgress=()=>{
+  if(confirm("Reset Chapter 10 progress?")){
+    localStorage.removeItem(PROGRESS_KEY);
+    loadProgress();
+  }
+};
+
+function drawVectors(){
+  const a1=Number($("ax").value),a2=Number($("ay").value);
+  const b1=Number($("bx").value),b2=Number($("by").value);
+  if(![$("ax").value,$("ay").value,$("bx").value,$("by").value].every(v=>v.trim()!=="") ||
+     ![a1,a2,b1,b2].every(Number.isFinite)){
+    $("vectorResult").textContent="Please enter valid numeric components.";
+    return;
+  }
+
+  const canvas=$("vectorCanvas");
+  const ctx=canvas.getContext("2d");
+  const w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+
+  const max=Math.max(1,Math.abs(a1),Math.abs(a2),Math.abs(b1),Math.abs(b2));
+  const scale=Math.min((w/2-35)/max,(h/2-30)/max);
+  const ox=w/2,oy=h/2;
+
+  ctx.strokeStyle="#263451";ctx.lineWidth=1;
+  for(let x=0;x<=w;x+=30){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+  for(let y=0;y<=h;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+
+  ctx.strokeStyle="#9aabc9";ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(15,oy);ctx.lineTo(w-15,oy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ox,h-15);ctx.lineTo(ox,15);ctx.stroke();
+
+  function arrow(x,y,label){
+    const px=ox+x*scale,py=oy-y*scale;
+    ctx.strokeStyle=label==="$a"?"#55e6ff":"#a78bfa";
+    ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(px,py);ctx.stroke();
+    const angle=Math.atan2(py-oy,px-ox),head=9;
+    ctx.beginPath();
+    ctx.moveTo(px,py);
+    ctx.lineTo(px-head*Math.cos(angle-0.5),py-head*Math.sin(angle-0.5));
+    ctx.lineTo(px-head*Math.cos(angle+0.5),py-head*Math.sin(angle+0.5));
+    ctx.closePath();ctx.fill();
+    ctx.font="bold 15px Arial";
+    ctx.fillText(label,px+5,py-7);
+  }
+
+  arrow(a1,a2,"a");
+  arrow(b1,b2,"b");
+
+  const dot=a1*b1+a2*b2;
+  const magA=Math.hypot(a1,a2),magB=Math.hypot(b1,b2);
+  let angleText="undefined (zero vector)";
+  if(magA>0&&magB>0){
+    const cos=Math.max(-1,Math.min(1,dot/(magA*magB)));
+    angleText=(Math.acos(cos)*180/Math.PI).toFixed(2)+"°";
+  }
+  $("vectorResult").textContent=`a · b = ${dot} | |a| = ${magA.toFixed(2)} | |b| = ${magB.toFixed(2)} | Angle = ${angleText}`;
+}
+
+$("ax").addEventListener("input",()=>{});
+$("ay").addEventListener("input",()=>{});
+$("bx").addEventListener("input",()=>{});
+$("by").addEventListener("input",()=>{});
+
+updateSettings();
+renderJEE();
+renderQuiz();
+updateBest();
+loadProgress();
+drawVectors();
+window.drawVectors=drawVectors;
+})();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relations and Functions | MathSutra</title>
+
+<style>
+:root {
+  --bg: #080b1b;
+  --panel: rgba(20, 27, 55, 0.88);
+  --border: rgba(139, 155, 255, 0.25);
+  --text: #f1f3ff;
+  --muted: #b8c1e5;
+  --purple: #a78bfa;
+  --cyan: #67e8f9;
+  --green: #86efac;
+  --pink: #f0abfc;
+}
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at top, #19204c 0%, transparent 48%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  line-height: 1.75;
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(8, 11, 27, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: white;
+}
+
+.logo span {
+  color: var(--cyan);
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  font-size: 0.88rem;
+}
+
+main {
+  width: min(1050px, 92%);
+  margin: auto;
+}
+
+.hero {
+  padding: 65px 0 35px;
+}
+
+.tag {
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.78rem;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: clamp(2.3rem, 7vw, 4rem);
+  line-height: 1.15;
+  margin: 14px 0;
+  background: linear-gradient(100deg, #fff, #a5b4fc, #67e8f9);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.hero p {
+  max-width: 750px;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.progress-box,
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  margin: 22px 0;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.progress-track {
+  height: 9px;
+  background: #252b4b;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  transition: width 0.3s;
+}
+
+h2 {
+  font-size: 1.65rem;
+  margin-top: 0;
+  color: #c4b5fd;
+}
+
+h3 {
+  color: var(--cyan);
+}
+
+section {
+  padding-top: 12px;
+  scroll-margin-top: 85px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.mini {
+  padding: 17px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  background: rgba(9, 14, 36, 0.75);
+}
+
+.formula {
+  padding: 15px;
+  margin: 13px 0;
+  background: rgba(103, 232, 249, 0.07);
+  border-left: 3px solid var(--cyan);
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.answer {
+  display: none;
+  background: rgba(134, 239, 172, 0.08);
+  border-left: 3px solid var(--green);
+  padding: 13px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+button, select {
+  background: #242b52;
+  border: 1px solid #6875b8;
+  color: white;
+  padding: 11px 15px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+button:hover {
+  background: #353e70;
+}
+
+button:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.primary {
+  background: linear-gradient(100deg, #7254dc, #287fba);
+  border: none;
+  font-weight: bold;
+}
+
+.mapping {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.set {
+  border: 2px solid var(--purple);
+  border-radius: 50%;
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(167, 139, 250, 0.07);
+}
+
+.set span {
+  color: var(--cyan);
+  font-weight: bold;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  height: 360px;
+  margin: 20px auto;
+  background: #090e24;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+select {
+  max-width: 100%;
+}
+
+.question {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 15px 0;
+  background: rgba(8, 12, 32, 0.75);
+}
+
+.option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0;
+  background: #151c3b;
+}
+
+.option.correct {
+  border-color: var(--green);
+  background: rgba(134, 239, 172, 0.12);
+}
+
+.option.wrong {
+  border-color: #fca5a5;
+  background: rgba(252, 165, 165, 0.1);
+}
+
+#quizResult {
+  font-weight: bold;
+  color: var(--cyan);
+  margin: 16px 0;
+}
+
+.check {
+  display: block;
+  padding: 8px 0;
+  color: var(--muted);
+}
+
+footer {
+  text-align: center;
+  padding: 35px 15px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+@media(max-width: 600px) {
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  .mapping {
+    gap: 10px;
+  }
+
+  .set {
+    min-height: 135px;
+  }
+
+  canvas {
+    height: 300px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="../index.html">Math<span>Sutra</span> ✦</a>
+
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="#concepts">Concepts</a>
+    <a href="#graphs">Graphs</a>
+    <a href="#practice">Practice</a>
+    <a href="#quiz">Quiz</a>
+  </nav>
+</header>
+
+<main>
+
+<div class="hero">
+  <div class="tag">Class XII Mathematics · Chapter 1</div>
+
+  <h1>Relations &amp;<br>Functions</h1>
+
+  <p>
+    Understand the concepts, visualize mappings, explore graphs,
+    practise questions and test your knowledge — all in one place.
+  </p>
+
+  <a class="primary" href="#concepts"
+     style="display:inline-block;padding:12px 18px;border-radius:9px">
+    Start Learning ↓
+  </a>
+</div>
+
+<div class="progress-box">
+  <strong>🚀 Your Learning Progress</strong>
+  <p class="note">Complete the concepts, graphs, practice and quiz.</p>
+
+  <div id="progressText">0 of 4 learning tasks completed</div>
+
+  <div class="progress-track">
+    <div id="progressBar"></div>
+  </div>
+</div>
+
+<!-- CONCEPTS -->
+
+<section id="concepts">
+  <h2>01 · Foundation Concepts</h2>
+
+  <div class="card">
+    <h3>1. Cartesian Product</h3>
+
+    If A and B are two non-empty sets, their Cartesian product is
+
+    <div class="formula">
+      A × B = {(a,b) : a ∈ A and b ∈ B}
+    </div>
+
+    <p>Example: A = {1,2}, B = {x,y}</p>
+
+    <div class="formula">
+      A × B = {(1,x), (1,y), (2,x), (2,y)}
+    </div>
+
+    <div class="formula">
+      If n(A) = m and n(B) = n, then
+      <strong>n(A × B) = mn.</strong>
+    </div>
+
+    <p class="note">
+      Generally, A × B is not equal to B × A.
+      Ordered pairs (1,x) and (x,1) are different.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>2. Relations</h3>
+
+    A relation R from A to B is any subset of A × B.
+
+    <div class="formula">
+      R ⊆ A × B
+    </div>
+
+    Example: A = {1,2}, B = {3,4}
+
+    <div class="formula">
+      R = {(1,3), (2,4)}
+    </div>
+
+    Here:
+    <ul>
+      <li><strong>Domain:</strong> first components = {1,2}</li>
+      <li><strong>Range:</strong> second components actually used = {3,4}</li>
+      <li><strong>Codomain:</strong> target set B = {3,4}</li>
+    </ul>
+
+    <div class="formula">
+      Number of relations from A to B = 2<sup>mn</sup>
+      <br>
+      where n(A) = m and n(B) = n.
+    </div>
+
+    <p class="note">
+      Why? A × B has mn ordered pairs. Each pair can either
+      be included in a relation or left out.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>3. Types of Relations</h3>
+
+    <div class="mini">
+      <strong>Reflexive</strong>
+
+      <div class="formula">
+        (a,a) ∈ R for every a ∈ A
+      </div>
+
+      Every element must be related to itself.
+
+      Example: On A = {1,2}, a reflexive relation must include
+      (1,1) and (2,2).
+    </div>
+
+    <div class="mini">
+      <strong>Symmetric</strong>
+
+      <div class="formula">
+        (a,b) ∈ R ⇒ (b,a) ∈ R
+      </div>
+
+      If a is related to b, b must be related to a.
+
+      Example: {(1,2),(2,1)} is symmetric.
+    </div>
+
+    <div class="mini">
+      <strong>Transitive</strong>
+
+      <div class="formula">
+        (a,b) ∈ R and (b,c) ∈ R ⇒ (a,c) ∈ R
+      </div>
+
+      Example: If (1,2) and (2,3) are in R,
+      transitivity requires (1,3) to be in R.
+    </div>
+
+    <div class="mini">
+      <strong>Equivalence Relation</strong>
+
+      A relation is an equivalence relation if it is
+      <strong>reflexive, symmetric and transitive</strong>
+      simultaneously.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>4. Functions</h3>
+
+    A function f from A to B assigns every element of A
+    exactly one image in B.
+
+    <div class="formula">
+      f : A → B
+    </div>
+
+    Remember:
+    <ul>
+      <li>Every domain element must have an image.</li>
+      <li>A domain element cannot have two different images.</li>
+      <li>Different domain elements may have the same image.</li>
+      <li>Some elements of the codomain may have no preimage.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>5. Types of Functions</h3>
+
+    <div class="mini">
+      <strong>One-one / Injective</strong>
+
+      Different inputs always have different outputs.
+
+      <div class="formula">
+        f(a) = f(b) ⇒ a = b
+      </div>
+
+      Example: f(x) = 2x on ℝ.
+    </div>
+
+    <div class="mini">
+      <strong>Many-one</strong>
+
+      Two or more different inputs can have the same output.
+
+      Example: f(x) = x² on ℝ, since f(2) = f(-2) = 4.
+    </div>
+
+    <div class="mini">
+      <strong>Onto / Surjective</strong>
+
+      Every element of the codomain is reached by at least
+      one domain element.
+
+      <div class="formula">
+        Range = Codomain
+      </div>
+
+      Example: f(x) = x³ from ℝ to ℝ.
+    </div>
+
+    <div class="mini">
+      <strong>Into</strong>
+
+      At least one element of the codomain is not reached.
+
+      <div class="formula">
+        Range ⊂ Codomain
+      </div>
+
+      Example: f(x) = x² from ℝ to ℝ.
+    </div>
+
+    <div class="mini">
+      <strong>Bijective</strong>
+
+      A function that is both one-one and onto.
+    </div>
+
+    <p class="note">
+      The classification depends on the specified domain and
+      codomain, not just the formula.
+    </p>
+  </div>
+</section>
+
+<!-- MAPPING DIAGRAM -->
+
+<section id="mapping">
+  <h2>02 · Mapping Diagram</h2>
+
+  <div class="card">
+    <p>
+      A mapping diagram shows how elements of one set are
+      assigned to elements of another set.
+    </p>
+
+    <div class="mapping">
+      <div class="set">
+        <strong>Domain A</strong>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+      </div>
+
+      <div class="set">
+        <strong>Codomain B</strong>
+        <span>2 ← 1</span>
+        <span>4 ← 2</span>
+        <span>6 ← 3</span>
+      </div>
+    </div>
+
+    <div class="formula">
+      f(x) = 2x
+    </div>
+
+    <p>
+      The arrows represent 1 → 2, 2 → 4 and 3 → 6.
+      Every domain element has exactly one image.
+    </p>
+
+    <p class="note">
+      This mapping is one-one and onto if the codomain is
+      exactly {2,4,6}. If the codomain is {2,4,6,8},
+      it is into instead.
+    </p>
+  </div>
+</section>
+
+<!-- GRAPHS -->
+
+<section id="graphs">
+  <h2>03 · Interactive Function Graphs</h2>
+
+  <div class="card">
+    <p>
+      Choose a function below. Its graph will update automatically.
+      Use the graph to understand how input x relates to output y.
+    </p>
+
+    <label for="functionSelect"><strong>Select a function:</strong></label>
+    <br><br>
+
+    <select id="functionSelect">
+      <option value="linear">f(x) = x</option>
+      <option value="square">f(x) = x²</option>
+      <option value="cubic">f(x) = x³</option>
+      <option value="absolute">f(x) = |x|</option>
+      <option value="reciprocal">f(x) = 1/x</option>
+    </select>
+
+    <canvas id="graphCanvas"
+            width="700"
+            height="360"
+            role="img"
+            aria-label="Interactive graph of the selected function">
+    </canvas>
+
+    <div id="graphExplanation" class="formula" aria-live="polite"></div>
+
+    <p class="note">
+      Graphs are visual aids. For a full function analysis,
+      always check the domain and codomain as well.
+    </p>
+
+    <button class="primary" onclick="markDone('graphs')">
+      ✓ Mark Graphs Complete
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>Vertical Line Test</h3>
+
+    A graph represents y as a function of x if every vertical
+    line intersects the graph at most once.
+
+    <div class="formula">
+      One x-value must not have two different y-values.
+    </div>
+
+    <p>
+      For example, y = x² passes the vertical line test.
+      A full circle does not, because some vertical lines
+      intersect it at two points.
+    </p>
+
+    <p class="note">
+      Important: The vertical line test checks whether a graph
+      defines y as a function of x. It does not, by itself,
+      establish whether a function is one-one or onto.
+    </p>
+  </div>
+</section>
+
+<!-- FORMULAS -->
+
+<section id="formulas">
+  <h2>04 · Formula Vault</h2>
+
+  <div class="card">
+    <div class="formula">
+      n(A × B) = n(A) × n(B)
+    </div>
+
+    <div class="formula">
+      Number of relations from A to B = 2<sup>mn</sup>
+    </div>
+
+    <div class="formula">
+      Number of relations on a set with n elements = 2<sup>n²</sup>
+    </div>
+
+    <div class="formula">
+      Number of reflexive relations on a set with n elements
+      = 2<sup>n² − n</sup>
+    </div>
+
+    <div class="formula">
+      Number of functions from an m-element set to an
+      n-element set = n<sup>m</sup>
+    </div>
+
+    <p class="note">
+      Here, m and n are non-negative integer set sizes, with
+      the usual counting assumptions. The reflexive-relation
+      formula follows because all n diagonal ordered pairs
+      are compulsory, while the other n² − n pairs are optional.
+    </p>
+  </div>
+</section>
+
+<!-- SOLVED EXAMPLES -->
+
+<section id="examples">
+  <h2>05 · Solved Examples</h2>
+
+  <div class="card">
+    <h3>Example 1: Number of Relations</h3>
+
+    If A has 2 elements and B has 3 elements, find the number
+    of relations from A to B.
+
+    <button onclick="toggleAnswer('ex1')">Reveal Solution</button>
+
+    <div class="answer" id="ex1">
+      m = 2, n = 3
+
+      <div class="formula">
+        Number of relations = 2<sup>mn</sup>
+        = 2<sup>2×3</sup> = 2⁶ = <strong>64</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Example 2: Number of Functions</h3>
+
+    A has 3 elements and B has 2 elements. How many functions
+    are possible from A to B?
+
+    <button onclick="toggleAnswer('ex2')">Reveal Solution</button>
+
+    <div class="answer" id="ex2">
+      Each of the 3 domain elements can map to either of the
+      2 codomain elements.
+
+      <div class="formula">
+        Number of functions = n<sup>m</sup>
+        = 2³ = <strong>8</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Example 3: Identify the Function Type</h3>
+
+    Consider f : ℝ → ℝ defined by f(x) = x².
+
+    <button onclick="toggleAnswer('ex3')">Reveal Solution</button>
+
+    <div class="answer" id="ex3">
+      <ul>
+        <li>Not one-one: f(2) = f(-2) = 4.</li>
+        <li>Not onto ℝ: negative real numbers are not in its range.</li>
+        <li>It is many-one and into for the stated domain and codomain.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Example 4: Equivalence Relation</h3>
+
+    On integers, define a relation by aRb if a − b is divisible
+    by 3. Is it an equivalence relation?
+
+    <button onclick="toggleAnswer('ex4')">Reveal Solution</button>
+
+    <div class="answer" id="ex4">
+      <ul>
+        <li>Reflexive: a − a = 0, divisible by 3.</li>
+        <li>Symmetric: if 3 divides a − b, it divides b − a.</li>
+        <li>Transitive: if 3 divides a − b and b − c, it divides a − c.</li>
+      </ul>
+
+      Therefore, it is an <strong>equivalence relation</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+
+<section id="practice">
+  <h2>06 · Board-Style Practice</h2>
+
+  <div class="card">
+    <p>Try each question on paper before revealing the answer.</p>
+
+    <div class="question">
+      <strong>Q1.</strong> A set has 3 elements. Find the total
+      number of relations on it.
+
+      <br><br>
+      <button onclick="toggleAnswer('p1')">Reveal Answer</button>
+
+      <div class="answer" id="p1">
+        2<sup>3²</sup> = 2⁹ = <strong>512</strong>.
+      </div>
+    </div>
+
+    <div class="question">
+      <strong>Q2.</strong> How many functions can be defined from
+      a 2-element set to a 3-element set?
+
+      <br><br>
+      <button onclick="toggleAnswer('p2')">Reveal Answer</button>
+
+      <div class="answer" id="p2">
+        3² = <strong>9 functions</strong>.
+      </div>
+    </div>
+
+    <div class="question">
+      <strong>Q3.</strong> Is f : ℝ → ℝ, f(x) = 2x + 1
+      one-one? Give a reason.
+
+      <br><br>
+      <button onclick="toggleAnswer('p3')">Reveal Answer</button>
+
+      <div class="answer" id="p3">
+        Yes. If 2a + 1 = 2b + 1, then 2a = 2b,
+        so a = b. Therefore f is one-one.
+      </div>
+    </div>
+
+    <div class="question">
+      <strong>Q4.</strong> Is f : ℝ → ℝ, f(x) = x² onto?
+
+      <br><br>
+      <button onclick="toggleAnswer('p4')">Reveal Answer</button>
+
+      <div class="answer" id="p4">
+        No. Its range is [0,∞), so negative real numbers
+        in the codomain are not reached.
+      </div>
+    </div>
+
+    <div class="question">
+      <strong>Q5.</strong> State the three properties required
+      for a relation to be an equivalence relation.
+
+      <br><br>
+      <button onclick="toggleAnswer('p5')">Reveal Answer</button>
+
+      <div class="answer" id="p5">
+        Reflexive, symmetric and transitive.
+      </div>
+    </div>
+
+    <button class="primary" onclick="markDone('practice')">
+      ✓ Mark Practice Complete
+    </button>
+  </div>
+</section>
+
+<!-- QUIZ -->
+
+<section id="quiz">
+  <h2>07 · Randomized Quiz</h2>
+
+  <div class="card">
+    <p>
+      Five questions are selected randomly for each attempt.
+      Options are shuffled too.
+    </p>
+
+    <div id="quizContainer"></div>
+    <div id="quizResult" aria-live="polite"></div>
+
+    <button class="primary" id="submitQuiz">Check Answers</button>
+    <button id="newQuiz">Try Another Quiz ↻</button>
+
+    <p class="note">
+      Your score will be saved in this browser for progress tracking.
+    </p>
+  </div>
+</section>
+
+<!-- REVISION -->
+
+<section id="revision">
+  <h2>08 · Revision Checklist</h2>
+
+  <div class="card">
+    <p>Tick each topic after revising it.</p>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Cartesian product and ordered pairs
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Relations, domain, codomain and range
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Reflexive, symmetric and transitive relations
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Equivalence relations
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      One-one, many-one, onto, into and bijective functions
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Graphs and vertical line test
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Important counting formulas
+    </label>
+
+    <label class="check">
+      <input type="checkbox" class="revisionCheck">
+      Board-style practice and quiz
+    </label>
+
+    <br>
+
+    <button class="primary" onclick="markDone('revision')">
+      ✓ Mark Revision Complete
+    </button>
+  </div>
+</section>
+
+<div class="card">
+  <h2>Chapter Complete? Not Quite Yet.</h2>
+
+  <p>
+    This is an upgraded learning module, not a claim that every
+    NCERT exercise, official board question or JEE Main PYQ is included.
+    Use your prescribed NCERT textbook and current syllabus alongside it.
+  </p>
+
+  <p>
+    <a href="https://cbseacademic.nic.in/curriculum_2027.html"
+       target="_blank" rel="noopener">
+      Check the official CBSE 2026–27 curriculum ↗
+    </a>
+  </p>
+
+  <a href="../index.html">← Back to All Chapters</a>
+</div>
+
+</main>
+
+<footer>
+  <div class="logo">Math<span>Sutra</span> ✦</div>
+  <p>Understand the universe, one equation at a time.</p>
+  <p>Class XII Mathematics · Relations and Functions</p>
+</footer>
+
+<script>
+/* ------------------------------
+   SIMPLE INTERACTIVE ANSWERS
+-------------------------------- */
+
+function toggleAnswer(id) {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.style.display =
+      element.style.display === "block" ? "none" : "block";
+  }
+}
+
+/* ------------------------------
+   GRAPH DRAWING
+-------------------------------- */
+
+const canvas = document.getElementById("graphCanvas");
+const ctx = canvas.getContext("2d");
+const selector = document.getElementById("functionSelect");
+const explanation = document.getElementById("graphExplanation");
+
+const graphFunctions = {
+  linear: {
+    fn: x => x,
+    text: "f(x) = x. This is a straight line. It is one-one and onto from ℝ to ℝ."
+  },
+
+  square: {
+    fn: x => x * x,
+    text: "f(x) = x². The graph is a parabola. On ℝ → ℝ, it is many-one and into."
+  },
+
+  cubic: {
+    fn: x => x * x * x,
+    text: "f(x) = x³. The graph increases throughout ℝ. It is one-one and onto from ℝ to ℝ."
+  },
+
+  absolute: {
+    fn: x => Math.abs(x),
+    text: "f(x) = |x|. The graph is V-shaped. On ℝ → ℝ, it is many-one and into."
+  },
+
+  reciprocal: {
+    fn: x => 1 / x,
+    text: "f(x) = 1/x. Its domain excludes x = 0. The graph has two separate branches."
+  }
+};
+
+function drawGraph() {
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+
+  const originX = width / 2;
+  const originY = height / 2;
+  const scale = 35;
+
+  // Grid
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "rgba(150, 165, 220, 0.15)";
+
+  for (let x = 0; x <= width; x += scale) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
+
+  for (let y = 0; y <= height; y += scale) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = "#dbeafe";
+  ctx.lineWidth = 1.5;
+
+  ctx.beginPath();
+  ctx.moveTo(0, originY);
+  ctx.lineTo(width, originY);
+  ctx.moveTo(originX, 0);
+  ctx.lineTo(originX, height);
+  ctx.stroke();
+
+  ctx.fillStyle = "#dbeafe";
+  ctx.font = "13px Arial";
+  ctx.fillText("x", width - 16, originY - 8);
+  ctx.fillText("y", originX + 8, 16);
+  ctx.fillText("0", originX + 6, originY + 15);
+
+  const fn = graphFunctions[selector.value].fn;
+
+  // Function curve
+  ctx.strokeStyle = "#67e8f9";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+
+  let drawing = false;
+
+  for (let px = 0; px < width; px++) {
+    const x = (px - originX) / scale;
+    const y = fn(x);
+    const py = originY - y * scale;
+
+    const valid =
+      Number.isFinite(y) &&
+      Math.abs(y) < 100 &&
+      py >= -height &&
+      py <= height * 2;
+
+    if (!valid) {
+      drawing = false;
+      continue;
+    }
+
+    if (!drawing) {
+      ctx.moveTo(px, py);
+      drawing = true;
+    } else {
+      ctx.lineTo(px, py);
+    }
+  }
+
+  ctx.stroke();
+
+  explanation.textContent = graphFunctions[selector.value].text;
+}
+
+selector.addEventListener("change", drawGraph);
+
+drawGraph();
+
+/* ------------------------------
+   RANDOMIZED QUIZ
+-------------------------------- */
+
+const questionBank = [
+  {
+    q: "A relation from A to B is a subset of:",
+    options: ["A ∪ B", "A × B", "A ∩ B", "B × B"],
+    answer: "A × B",
+    why: "A relation from A to B consists of selected ordered pairs from A × B."
+  },
+
+  {
+    q: "If n(A) = 2 and n(B) = 3, the number of relations from A to B is:",
+    options: ["6", "8", "32", "64"],
+    answer: "64",
+    why: "There are 2 × 3 = 6 ordered pairs, so there are 2⁶ = 64 subsets."
+  },
+
+  {
+    q: "A relation that is reflexive, symmetric and transitive is called:",
+    options: ["An equivalence relation", "A function", "An inverse", "An onto relation"],
+    answer: "An equivalence relation",
+    why: "All three properties are required."
+  },
+
+  {
+    q: "For an onto function:",
+    options: [
+      "Domain equals range",
+      "Range equals codomain",
+      "Every input has two outputs",
+      "The domain must be empty"
+    ],
+    answer: "Range equals codomain",
+    why: "Onto means every codomain element has at least one preimage."
+  },
+
+  {
+    q: "Which function is one-one from ℝ to ℝ?",
+    options: ["f(x) = x²", "f(x) = |x|", "f(x) = 3x + 2", "f(x) = 5"],
+    answer: "f(x) = 3x + 2",
+    why: "A non-zero-slope linear function takes distinct inputs to distinct outputs."
+  },
+
+  {
+    q: "How many functions exist from a 2-element set to a 3-element set?",
+    options: ["5", "6", "8", "9"],
+    answer: "9",
+    why: "The number of functions is nᵐ = 3² = 9."
+  },
+
+  {
+    q: "For f : ℝ → ℝ defined by f(x) = x², the function is:",
+    options: [
+      "One-one and onto",
+      "One-one and into",
+      "Many-one and into",
+      "Many-one and onto"
+    ],
+    answer: "Many-one and into",
+    why: "Opposite inputs can have the same square, and negative values are not in the range."
+  },
+
+  {
+    q: "A relation R on A is reflexive if:",
+    options: [
+      "(a,a) belongs to R for every a in A",
+      "(a,b) always belongs to R",
+      "(b,a) never belongs to R",
+      "A and B must be equal"
+    ],
+    answer: "(a,a) belongs to R for every a in A",
+    why: "Every element must be related to itself."
+  },
+
+  {
+    q: "If (a,b) belongs to R implies (b,a) belongs to R, R is:",
+    options: ["Reflexive", "Symmetric", "Transitive", "Onto"],
+    answer: "Symmetric",
+    why: "This is the definition of a symmetric relation."
+  },
+
+  {
+    q: "Which graph passes the vertical line test?",
+    options: ["A full circle", "A vertical line", "y = x²", "A sideways parabola"],
+    answer: "y = x²",
+    why: "Each x-value gives exactly one y-value on y = x²."
+  },
+
+  {
+    q: "A function is bijective if it is:",
+    options: [
+      "Only one-one",
+      "Only onto",
+      "Both one-one and onto",
+      "Neither one-one nor onto"
+    ],
+    answer: "Both one-one and onto",
+    why: "Bijective means injective and surjective together."
+  },
+
+  {
+    q: "How many relations exist on a set with 2 elements?",
+    options: ["4", "8", "16", "32"],
+    answer: "16",
+    why: "There are 2² = 4 ordered pairs in A × A, giving 2⁴ = 16 relations."
+  }
+];
+
+let currentQuestions = [];
+let submitted = false;
+
+function shuffle(array) {
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+function createQuiz() {
+  currentQuestions = shuffle(questionBank)
+    .slice(0, 5)
+    .map(item => ({
+      ...item,
+      options: shuffle(item.options)
+    }));
+
+  submitted = false;
+
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = "";
+
+  document.getElementById("quizResult").textContent = "";
+  document.getElementById("submitQuiz").disabled = false;
+
+  currentQuestions.forEach((item, index) => {
+    const question = document.createElement("div");
+    question.className = "question";
+
+    const title = document.createElement("strong");
+    title.textContent = `${index + 1}. ${item.q}`;
+    question.appendChild(title);
+
+    item.options.forEach(option => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.textContent = option;
+
+      button.addEventListener("click", () => {
+        if (submitted) return;
+
+        question.querySelectorAll(".option").forEach(btn => {
+          btn.style.outline = "none";
+          btn.removeAttribute("aria-pressed");
+        });
+
+        button.style.outline = "2px solid #a78bfa";
+        button.setAttribute("aria-pressed", "true");
+        question.dataset.selected = option;
+      });
+
+      question.appendChild(button);
+    });
+
+    const feedback = document.createElement("div");
+    feedback.className = "answer";
+    feedback.id = `feedback${index}`;
+    question.appendChild(feedback);
+
+    container.appendChild(question);
+  });
+}
+
+document.getElementById("submitQuiz").addEventListener("click", () => {
+  if (submitted) return;
+
+  submitted = true;
+
+  let score = 0;
+
+  const questions = document.querySelectorAll("#quizContainer .question");
+
+  currentQuestions.forEach((item, index) => {
+    const question = questions[index];
+    const selected = question.dataset.selected;
+    const feedback = question.querySelector(".answer");
+
+    question.querySelectorAll(".option").forEach(button => {
+      if (button.textContent === item.answer) {
+        button.classList.add("correct");
+      }
+
+      if (
+        button.textContent === selected &&
+        selected !== item.answer
+      ) {
+        button.classList.add("wrong");
+      }
+
+      button.disabled = true;
+    });
+
+    if (selected === item.answer) {
+      score++;
+      feedback.textContent = "Correct! " + item.why;
+    } else {
+      feedback.textContent =
+        "Correct answer: " + item.answer + ". " + item.why;
+    }
+
+    feedback.style.display = "block";
+  });
+
+  document.getElementById("quizResult").textContent =
+    `Your score: ${score}/5`;
+
+  document.getElementById("submitQuiz").disabled = true;
+
+  localStorage.setItem("mathsutra-relations-best",
+    Math.max(
+      score,
+      Number(localStorage.getItem("mathsutra-relations-best") || 0)
+    )
+  );
+
+  markDone("quiz");
+  updateProgress();
+});
+
+document.getElementById("newQuiz").addEventListener("click", createQuiz);
+
+/* ------------------------------
+   PROGRESS TRACKER
+-------------------------------- */
+
+const taskNames = ["graphs", "practice", "quiz", "revision"];
+
+function markDone(name) {
+  const key = "mathsutra-relations-" + name;
+  localStorage.setItem(key, "done");
+  updateProgress();
+}
+
+function updateProgress() {
+  const completed = taskNames.filter(name =>
+    localStorage.getItem("mathsutra-relations-" + name) === "done"
+  ).length;
+
+  document.getElementById("progressText").textContent =
+    `${completed} of ${taskNames.length} learning tasks completed`;
+
+  document.getElementById("progressBar").style.width =
+    (completed / taskNames.length * 100) + "%";
+}
+
+createQuiz();
+updateProgress();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3: Matrices | MathSutra</title>
+
+<style>
+:root{
+  --bg:#070b18;
+  --panel:#10182b;
+  --panel2:#151f36;
+  --cyan:#54e7ff;
+  --purple:#a78bfa;
+  --text:#edf4ff;
+  --muted:#a8b5d1;
+  --green:#64e8ad;
+  --red:#ff8297;
+  --border:rgba(140,170,255,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(ellipse at 15% 0%,rgba(69,94,180,.20),transparent 35%),
+    radial-gradient(ellipse at 90% 20%,rgba(125,63,190,.13),transparent 30%),
+    var(--bg);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.7;
+}
+a{color:var(--cyan);text-decoration:none}
+button,select,input{font:inherit}
+button{cursor:pointer}
+.container{width:min(1100px,92%);margin:auto}
+header{
+  border-bottom:1px solid var(--border);
+  background:rgba(7,11,24,.88);
+  position:sticky;top:0;z-index:10;
+  backdrop-filter:blur(12px);
+}
+.nav{
+  min-height:68px;display:flex;align-items:center;
+  justify-content:space-between;gap:15px;flex-wrap:wrap;
+}
+.logo{
+  font-size:1.4rem;font-weight:900;letter-spacing:1px;
+  color:var(--cyan);
+}
+.navlinks{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}
+.hero{padding:48px 0 28px;text-align:center}
+.eyebrow{
+  color:var(--cyan);text-transform:uppercase;
+  letter-spacing:3px;font-size:.78rem;font-weight:bold;
+}
+h1{
+  font-size:clamp(2.2rem,6vw,4rem);line-height:1.12;
+  margin:12px 0;background:linear-gradient(90deg,#fff,var(--cyan),var(--purple));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+h2{font-size:1.65rem;margin-top:0}
+h3{margin-top:0}
+.hero p{color:var(--muted);max-width:760px;margin:12px auto}
+.pills{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.pill{
+  border:1px solid var(--border);border-radius:999px;
+  padding:6px 12px;background:rgba(255,255,255,.035);
+  color:#dce8ff;font-size:.83rem;
+}
+main{padding-bottom:60px}
+.section{margin:25px auto;scroll-margin-top:90px}
+.card{
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(18,27,48,.96),rgba(10,16,32,.96));
+  border-radius:18px;padding:24px;margin:18px 0;
+  box-shadow:0 12px 36px rgba(0,0,0,.13);
+}
+.card p{color:#d5def2}
+.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.smallcard{
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);padding:17px;border-radius:14px;
+}
+.formula{
+  padding:13px 15px;background:rgba(84,231,255,.07);
+  border-left:3px solid var(--cyan);border-radius:8px;
+  margin:12px 0;overflow-wrap:anywhere;
+}
+.math{
+  font-family:"Cambria Math","Times New Roman",serif;
+  font-size:1.1rem;color:#fff;
+}
+.note{
+  border-left:3px solid var(--purple);padding:10px 14px;
+  background:rgba(167,139,250,.07);border-radius:7px;
+  margin:12px 0;
+}
+.warning{
+  border-left:3px solid #ffc76a;padding:10px 14px;
+  background:rgba(255,199,106,.07);border-radius:7px;
+}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th,td{border:1px solid var(--border);padding:10px;text-align:left}
+th{background:rgba(84,231,255,.08)}
+td{color:#dbe5fa}
+.tablewrap{overflow-x:auto}
+.btn{
+  display:inline-flex;justify-content:center;align-items:center;
+  gap:7px;padding:10px 15px;border:1px solid var(--border);
+  border-radius:10px;color:var(--text);
+  background:var(--panel2);font-weight:bold;
+}
+.btn.primary{
+  color:#07111d;background:linear-gradient(100deg,var(--cyan),#9bf4e1);
+  border:0;
+}
+.btn:hover{filter:brightness(1.12)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+input,select{
+  width:100%;min-width:0;color:var(--text);
+  background:#080f20;border:1px solid var(--border);
+  border-radius:9px;padding:10px;
+}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:5px}
+.controlgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.matrixinput{
+  width:70px;max-width:100%;text-align:center;
+  padding:10px 4px;font-size:1rem;
+}
+.matrixgrid{
+  display:grid;gap:7px;justify-content:start;margin:12px 0;
+}
+.matrixresult{
+  border:1px solid var(--border);border-radius:12px;
+  padding:14px;background:rgba(84,231,255,.04);overflow-x:auto;
+}
+.matrixresult table{width:auto;margin:0}
+.matrixresult td,.matrixresult th{text-align:center;min-width:48px}
+.output{margin-top:12px;overflow-wrap:anywhere}
+.success{color:var(--green)}
+.error{color:var(--red)}
+.question{
+  padding:17px 0;border-bottom:1px solid var(--border);
+}
+.question:last-child{border-bottom:0}
+.question p{color:var(--text)}
+.options{display:grid;gap:8px;margin:12px 0}
+.option{
+  display:flex;gap:9px;align-items:flex-start;padding:10px;
+  border:1px solid var(--border);border-radius:10px;
+  cursor:pointer;background:rgba(255,255,255,.02);
+}
+.option input{width:auto;margin-top:6px}
+.feedback{font-size:.93rem;margin-top:7px}
+.reveal{
+  display:none;padding:12px;margin-top:10px;border-radius:9px;
+  background:rgba(100,232,173,.07);border:1px solid var(--border);
+}
+.checkline{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.checkline input{width:auto;margin-top:7px}
+.progressbar{
+  height:10px;border-radius:99px;overflow:hidden;
+  background:#080f20;border:1px solid var(--border);
+}
+.progressfill{
+  width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));
+  transition:width .2s;
+}
+footer{
+  border-top:1px solid var(--border);padding:25px 0;
+  text-align:center;color:var(--muted);font-size:.9rem;
+}
+#languageStatus{font-size:.85rem;color:var(--muted)}
+@media(max-width:750px){
+  .grid,.grid3{grid-template-columns:1fr}
+  .controlgrid{grid-template-columns:1fr}
+  .card{padding:17px}
+  .nav{padding:10px 0}
+  .navlinks{gap:10px}
+  .matrixinput{width:58px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="../index.html">✦ MathSutra</a>
+    <nav class="navlinks">
+      <a href="#theory">Theory</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#examples">Examples</a>
+      <a href="#practice">Practice</a>
+      <a href="#progress">Progress</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero container">
+  <div class="eyebrow">Class XII Mathematics · Chapter 03</div>
+  <h1>Matrices</h1>
+  <p>Understand matrix concepts, master operations, practise exam-style questions and track your progress — all in one place.</p>
+  <div class="pills">
+    <span class="pill">📘 CBSE Boards</span>
+    <span class="pill">🚀 JEE-style Practice</span>
+    <span class="pill">🧮 Interactive Calculator</span>
+    <span class="pill">🌌 Cosmic Learning</span>
+  </div>
+  <div class="pills">
+    <span class="pill">Study mode: <strong id="modeLabel">Boards</strong></span>
+    <button class="btn" id="modeToggle" type="button">Switch mode</button>
+    <button class="btn" id="languageToggle" type="button">हिंग्लिश में समझें</button>
+  </div>
+  <p id="languageStatus" aria-live="polite">Language: English</p>
+</section>
+
+<main class="container">
+
+<section class="section card" id="theory">
+  <h2>01 · What is a Matrix?</h2>
+  <p data-en="A matrix is a rectangular arrangement of numbers or elements in rows and columns, enclosed in brackets." data-hi="Matrix numbers ya elements ka rectangular arrangement hota hai, jisme rows aur columns hote hain aur elements brackets mein likhe jaate hain.">A matrix is a rectangular arrangement of numbers or elements in rows and columns, enclosed in brackets.</p>
+
+  <div class="formula math">
+    A = [ 1  2  3 ; 4  5  6 ]
+  </div>
+  <p data-en="This matrix has 2 rows and 3 columns, so its order is 2 × 3." data-hi="Is matrix mein 2 rows aur 3 columns hain, isliye iska order 2 × 3 hai.">This matrix has 2 rows and 3 columns, so its order is 2 × 3.</p>
+
+  <div class="grid">
+    <div class="smallcard">
+      <h3>Order of a Matrix</h3>
+      <div class="formula math">Order = Number of rows × Number of columns</div>
+      <p data-en="If a matrix has m rows and n columns, its order is m × n." data-hi="Agar matrix mein m rows aur n columns hain, toh uska order m × n hota hai.">If a matrix has m rows and n columns, its order is m × n.</p>
+    </div>
+    <div class="smallcard">
+      <h3>Element Notation</h3>
+      <div class="formula math">A = [aᵢⱼ]</div>
+      <p data-en="The element aᵢⱼ lies in row i and column j." data-hi="Element aᵢⱼ, i-th row aur j-th column mein hota hai.">The element aᵢⱼ lies in row i and column j.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section card">
+  <h2>02 · Types of Matrices</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Type</th><th>Meaning</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Row matrix</td><td>Exactly one row</td><td class="math">[1 2 3]</td></tr>
+      <tr><td>Column matrix</td><td>Exactly one column</td><td class="math">[1; 2; 3]</td></tr>
+      <tr><td>Rectangular</td><td>Number of rows differs from columns</td><td class="math">Order 2 × 3</td></tr>
+      <tr><td>Square</td><td>Rows = columns</td><td class="math">Order 2 × 2</td></tr>
+      <tr><td>Zero matrix</td><td>Every element is zero</td><td class="math">[[0,0],[0,0]]</td></tr>
+      <tr><td>Diagonal</td><td>All off-diagonal elements are zero</td><td class="math">[[2,0],[0,5]]</td></tr>
+      <tr><td>Scalar</td><td>Diagonal matrix with equal diagonal elements</td><td class="math">[[3,0],[0,3]]</td></tr>
+      <tr><td>Identity</td><td>Diagonal elements are 1; others are 0</td><td class="math">[[1,0],[0,1]]</td></tr>
+      <tr><td>Symmetric</td><td class="math">Aᵀ = A</td><td class="math">[[1,2],[2,3]]</td></tr>
+      <tr><td>Skew-symmetric</td><td class="math">Aᵀ = −A</td><td class="math">[[0,2],[-2,0]]</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note"><strong>Important:</strong> Every diagonal and identity matrix is square. Every skew-symmetric matrix has zero diagonal elements.</div>
+</section>
+
+<section class="section card">
+  <h2>03 · Equality of Matrices</h2>
+  <p data-en="Two matrices are equal if they have the same order and all corresponding elements are equal." data-hi="Do matrices equal tab hote hain jab unka order same ho aur corresponding elements bhi equal hon.">Two matrices are equal if they have the same order and all corresponding elements are equal.</p>
+  <div class="formula math">
+    If A = B, then aᵢⱼ = bᵢⱼ for every corresponding position.
+  </div>
+  <div class="smallcard">
+    <strong>Example</strong>
+    <p class="math">[[x, 2], [3, y]] = [[5, 2], [3, 7]]</p>
+    <p class="math">Therefore, x = 5 and y = 7.</p>
+  </div>
+</section>
+
+<section class="section card">
+  <h2>04 · Addition, Subtraction & Scalar Multiplication</h2>
+  <div class="grid">
+    <div class="smallcard">
+      <h3>Addition</h3>
+      <div class="formula math">A + B = [aᵢⱼ + bᵢⱼ]</div>
+      <p>Both matrices must have the same order.</p>
+    </div>
+    <div class="smallcard">
+      <h3>Subtraction</h3>
+      <div class="formula math">A − B = [aᵢⱼ − bᵢⱼ]</div>
+      <p>Subtract corresponding elements.</p>
+    </div>
+    <div class="smallcard">
+      <h3>Scalar multiplication</h3>
+      <div class="formula math">kA = [kaᵢⱼ]</div>
+      <p>Multiply every element by the scalar k.</p>
+    </div>
+    <div class="smallcard">
+      <h3>Properties</h3>
+      <div class="formula math">A + B = B + A</div>
+      <div class="formula math">(A + B) + C = A + (B + C)</div>
+    </div>
+  </div>
+</section>
+
+<section class="section card">
+  <h2>05 · Multiplication of Matrices</h2>
+  <p>Matrix multiplication is possible only when the number of columns of the first matrix equals the number of rows of the second matrix.</p>
+  <div class="formula math">
+    (m × n)(n × p) = (m × p)
+  </div>
+  <div class="smallcard">
+    <h3>Example</h3>
+    <div class="formula math">
+      A = [[1, 2], [3, 4]]<br>
+      B = [[5, 6], [7, 8]]
+    </div>
+    <p>Multiply each row of A by each column of B, then add the products.</p>
+    <div class="formula math">
+      AB = [[19, 22], [43, 50]]
+    </div>
+  </div>
+  <div class="warning">
+    <strong>Exam alert:</strong> Matrix multiplication is generally not commutative. In general, AB ≠ BA. Also, AB may exist even when BA does not.
+  </div>
+  <div class="formula math">
+    A(BC) = (AB)C &nbsp; · &nbsp; A(B + C) = AB + AC
+  </div>
+</section>
+
+<section class="section card">
+  <h2>06 · Transpose of a Matrix</h2>
+  <p>The transpose is obtained by interchanging rows and columns.</p>
+  <div class="formula math">
+    If A = [[1, 2, 3], [4, 5, 6]], then<br>
+    Aᵀ = [[1, 4], [2, 5], [3, 6]]
+  </div>
+  <div class="grid">
+    <div class="smallcard">
+      <h3>Transpose properties</h3>
+      <p class="math">(Aᵀ)ᵀ = A</p>
+      <p class="math">(A + B)ᵀ = Aᵀ + Bᵀ</p>
+      <p class="math">(kA)ᵀ = kAᵀ</p>
+      <p class="math">(AB)ᵀ = BᵀAᵀ</p>
+    </div>
+    <div class="smallcard">
+      <h3>Symmetric matrix</h3>
+      <p class="math">Aᵀ = A</p>
+      <h3>Skew-symmetric matrix</h3>
+      <p class="math">Aᵀ = −A</p>
+    </div>
+  </div>
+</section>
+
+<section class="section card">
+  <h2>07 · Invertible Matrices</h2>
+  <p>A square matrix A is invertible if there exists a matrix A⁻¹ such that:</p>
+  <div class="formula math">AA⁻¹ = A⁻¹A = I</div>
+  <p>For an invertible matrix, the inverse is unique.</p>
+  <div class="note">
+    <strong>For a 2 × 2 matrix:</strong><br>
+    If A = [[a,b],[c,d]], then
+    <div class="formula math">
+      det(A) = ad − bc
+    </div>
+    When ad − bc ≠ 0:
+    <div class="formula math">
+      A⁻¹ = 1/(ad − bc) [[d, −b], [−c, a]]
+    </div>
+  </div>
+  <p>For matrices with nonzero determinant, the inverse exists. A square matrix with determinant zero has no inverse.</p>
+</section>
+
+<section class="section card" id="calculator">
+  <h2>08 · Interactive Matrix Calculator</h2>
+  <p class="muted">Enter values for two matrices. Choose the operation and calculate the result. Maximum size: 3 × 3.</p>
+
+  <div class="controlgrid">
+    <div>
+      <label for="rowsA">Matrix A — rows</label>
+      <select id="rowsA"><option>1</option><option selected>2</option><option>3</option></select>
+    </div>
+    <div>
+      <label for="colsA">Matrix A — columns</label>
+      <select id="colsA"><option>1</option><option selected>2</option><option>3</option></select>
+    </div>
+    <div>
+      <label for="rowsB">Matrix B — rows</label>
+      <select id="rowsB"><option>1</option><option selected>2</option><option>3</option></select>
+    </div>
+    <div>
+      <label for="colsB">Matrix B — columns</label>
+      <select id="colsB"><option>1</option><option selected>2</option><option>3</option></select>
+    </div>
+    <div>
+      <label for="operation">Operation</label>
+      <select id="operation">
+        <option value="add">A + B</option>
+        <option value="sub">A − B</option>
+        <option value="mul">AB</option>
+        <option value="transA">Transpose of A</option>
+        <option value="transB">Transpose of B</option>
+        <option value="scalar">kA (scalar multiplication)</option>
+      </select>
+    </div>
+    <div>
+      <label for="scalar">Scalar k</label>
+      <input id="scalar" type="number" value="2" step="any">
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="smallcard">
+      <h3>Matrix A</h3>
+      <div id="matrixA" class="matrixgrid"></div>
+    </div>
+    <div class="smallcard">
+      <h3>Matrix B</h3>
+      <div id="matrixB" class="matrixgrid"></div>
+    </div>
+  </div>
+  <div class="btnrow">
+    <button class="btn primary" id="calculate" type="button">Calculate result</button>
+    <button class="btn" id="fillExample" type="button">Load example</button>
+    <button class="btn" id="clearMatrices" type="button">Reset values</button>
+  </div>
+  <div id="calcOutput" class="output" aria-live="polite"></div>
+</section>
+
+<section class="section card" id="examples">
+  <h2>09 · Solved Examples</h2>
+
+  <div class="smallcard">
+    <h3>Example 1 — Find the order</h3>
+    <p class="math">A = [[2, 4, 6], [1, 3, 5]]</p>
+    <p>There are 2 rows and 3 columns.</p>
+    <div class="formula math">Answer: Order = 2 × 3</div>
+  </div>
+
+  <div class="smallcard">
+    <h3>Example 2 — Find x and y</h3>
+    <p class="math">[[x, 4], [2, y]] = [[7, 4], [2, 9]]</p>
+    <p>Compare corresponding elements.</p>
+    <div class="formula math">x = 7, y = 9</div>
+  </div>
+
+  <div class="smallcard">
+    <h3>Example 3 — Add matrices</h3>
+    <p class="math">A = [[1, 2], [3, 4]]</p>
+    <p class="math">B = [[5, 6], [7, 8]]</p>
+    <div class="formula math">A + B = [[6, 8], [10, 12]]</div>
+  </div>
+
+  <div class="smallcard">
+    <h3>Example 4 — Multiply matrices</h3>
+    <p class="math">A = [[1, 2], [3, 4]]</p>
+    <p class="math">B = [[2, 0], [1, 2]]</p>
+    <div class="formula math">
+      AB = [[1×2 + 2×1, 1×0 + 2×2],<br>
+      [3×2 + 4×1, 3×0 + 4×2]]
+    </div>
+    <div class="formula math">AB = [[4, 4], [10, 8]]</div>
+  </div>
+
+  <div class="smallcard">
+    <h3>Example 5 — Transpose</h3>
+    <p class="math">A = [[1, 2, 3], [4, 5, 6]]</p>
+    <div class="formula math">Aᵀ = [[1, 4], [2, 5], [3, 6]]</div>
+  </div>
+
+  <div class="smallcard">
+    <h3>Example 6 — Inverse of a 2 × 2 matrix</h3>
+    <p class="math">A = [[2, 1], [5, 3]]</p>
+    <p class="math">det(A) = 2 × 3 − 1 × 5 = 1</p>
+    <div class="formula math">A⁻¹ = [[3, −1], [−5, 2]]</div>
+  </div>
+</section>
+
+<section class="section card" id="practice">
+  <h2>10 · Board Practice</h2>
+  <p class="muted">Try each question before revealing its solution.</p>
+
+  <div class="question">
+    <p><strong>Q1.</strong> Find the order of [[1,2],[3,4],[5,6]].</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">Answer: 3 × 2.</div>
+  </div>
+
+  <div class="question">
+    <p><strong>Q2.</strong> If A = [[1,2],[3,4]] and B = [[2,3],[4,5]], find A + B.</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">Answer: [[3,5],[7,9]]. Add corresponding elements.</div>
+  </div>
+
+  <div class="question">
+    <p><strong>Q3.</strong> Find the transpose of [[2,4,6],[1,3,5]].</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">Answer: [[2,1],[4,3],[6,5]].</div>
+  </div>
+
+  <div class="question">
+    <p><strong>Q4.</strong> Is [[1,2],[2,4]] symmetric?</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">Yes. Its transpose equals the original matrix.</div>
+  </div>
+
+  <div class="question">
+    <p><strong>Q5.</strong> Find the inverse of [[1,2],[3,7]].</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">det(A) = 7 − 6 = 1. Therefore A⁻¹ = [[7,−2],[−3,1]].</div>
+  </div>
+
+  <div class="question">
+    <p><strong>Q6.</strong> For a 2 × 3 matrix A and a 3 × 2 matrix B, what is the order of AB?</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">Answer: 2 × 2. The inner dimensions match, and the outer dimensions give the result's order.</div>
+  </div>
+
+  <div class="question">
+    <p><strong>Q7.</strong> State the condition for a square matrix to be invertible.</p>
+    <button class="btn revealBtn" type="button">Reveal answer</button>
+    <div class="reveal">Answer: Its determinant must be nonzero.</div>
+  </div>
+</section>
+
+<section class="section card">
+  <h2>11 · JEE-Style MCQ Practice</h2>
+  <p class="muted">These are practice questions for concept building, not official JEE questions. Select an answer and check it.</p>
+
+  <div id="jeeQuestions"></div>
+  <div class="btnrow">
+    <button class="btn primary" id="checkJee" type="button">Check answers</button>
+    <button class="btn" id="resetJee" type="button">Try again</button>
+  </div>
+  <div id="jeeResult" class="output" aria-live="polite"></div>
+</section>
+
+<section class="section card">
+  <h2>12 · Quick Revision</h2>
+  <div class="grid">
+    <div class="smallcard">
+      <h3>Remember</h3>
+      <ul>
+        <li>Addition requires the same order.</li>
+        <li>AB requires columns of A = rows of B.</li>
+        <li>AB is not generally equal to BA.</li>
+        <li>(AB)ᵀ = BᵀAᵀ.</li>
+        <li>A symmetric matrix satisfies Aᵀ = A.</li>
+        <li>A skew-symmetric matrix satisfies Aᵀ = −A.</li>
+      </ul>
+    </div>
+    <div class="smallcard">
+      <h3>Common mistakes</h3>
+      <ul>
+        <li>Confusing rows and columns in the order.</li>
+        <li>Multiplying matrices element-by-element instead of row-by-column.</li>
+        <li>Reversing the order in the transpose of a product.</li>
+        <li>Forgetting to check the determinant before finding an inverse.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section card" id="progress">
+  <h2>13 · Your Learning Progress</h2>
+  <p class="muted">Tick each item when you have completed it. Your checklist is saved on this browser.</p>
+  <div class="progressbar"><div class="progressfill" id="progressFill"></div></div>
+  <p id="progressText">0% completed</p>
+
+  <div id="checklist">
+    <label class="checkline"><input type="checkbox" data-task="theory"> I understand matrix notation and order.</label>
+    <label class="checkline"><input type="checkbox" data-task="types"> I can identify different types of matrices.</label>
+    <label class="checkline"><input type="checkbox" data-task="operations"> I can add, subtract and multiply matrices.</label>
+    <label class="checkline"><input type="checkbox" data-task="transpose"> I understand transpose and its properties.</label>
+    <label class="checkline"><input type="checkbox" data-task="inverse"> I can find the inverse of a 2 × 2 matrix.</label>
+    <label class="checkline"><input type="checkbox" data-task="boards"> I completed Board practice.</label>
+    <label class="checkline"><input type="checkbox" data-task="jee"> I attempted the JEE-style MCQs.</label>
+  </div>
+  <div class="btnrow">
+    <button class="btn" id="resetProgress" type="button">Reset checklist</button>
+  </div>
+  <p class="muted">Progress is stored locally on this device. Clearing browser storage may erase it.</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>✦ MathSutra · Learn concepts. Practise consistently. Improve every day.</p>
+    <p>Chapter 3: Matrices · Class XII Mathematics</p>
+    <a href="../index.html">← Return to homepage</a>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const PROGRESS_KEY = "mathsutra_ch3_progress_v1";
+  const LANG_KEY = "mathsutra-language";
+  const MODE_KEY = "mathsutra-mode";
+
+  let language = localStorage.getItem(LANG_KEY) || "en";
+  let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+  function applyLanguage() {
+    document.querySelectorAll("[data-en][data-hi]").forEach(el => {
+      el.textContent = language === "hi" ? el.dataset.hi : el.dataset.en;
+    });
+
+    $("languageToggle").textContent =
+      language === "en" ? "हिंग्लिश में समझें" : "Read in English";
+
+    $("languageStatus").textContent =
+      language === "en"
+        ? "Language: English"
+        : "Language: Hinglish (selected explanations translated)";
+
+    localStorage.setItem(LANG_KEY, language);
+  }
+
+  function applyMode() {
+    $("modeLabel").textContent = mode === "jee" ? "JEE Main" : "Boards";
+    $("modeToggle").textContent =
+      mode === "jee" ? "Switch to Boards" : "Switch to JEE Main";
+    localStorage.setItem(MODE_KEY, mode);
+  }
+
+  $("languageToggle").addEventListener("click", () => {
+    language = language === "en" ? "hi" : "en";
+    applyLanguage();
+  });
+
+  $("modeToggle").addEventListener("click", () => {
+    mode = mode === "boards" ? "jee" : "boards";
+    applyMode();
+  });
+
+  applyLanguage();
+  applyMode();
+
+  // Matrix calculator
+  const dimensions = ["rowsA", "colsA", "rowsB", "colsB"];
+
+  function getDims(suffix) {
+    return {
+      rows: Number($("rows" + suffix).value),
+      cols: Number($("cols" + suffix).value)
+    };
+  }
+
+  function makeMatrixEditor(name) {
+    const dims = getDims(name);
+    const root = $("matrix" + name);
+    root.innerHTML = "";
+    root.style.gridTemplateColumns = `repeat(${dims.cols}, minmax(0, 70px))`;
+
+    for (let r = 0; r < dims.rows; r++) {
+      for (let c = 0; c < dims.cols; c++) {
+        const input = document.createElement("input");
+        input.type = "number";
+        input.step = "any";
+        input.value = name === "A"
+          ? (r === c ? "1" : "0")
+          : (r === c ? "1" : "0");
+        input.className = "matrixinput";
+        input.dataset.row = r;
+        input.dataset.col = c;
+        input.setAttribute("aria-label", `Matrix ${name}, row ${r + 1}, column ${c + 1}`);
+        root.appendChild(input);
+      }
+    }
+  }
+
+  function readMatrix(name) {
+    const dims = getDims(name);
+    const inputs = [...$("matrix" + name).querySelectorAll("input")];
+
+    return Array.from({length: dims.rows}, (_, r) =>
+      Array.from({length: dims.cols}, (_, c) => {
+        const el = inputs.find(x =>
+          Number(x.dataset.row) === r && Number(x.dataset.col) === c
+        );
+        return Number(el.value);
+      })
+    );
+  }
+
+  function transpose(A) {
+    return A[0].map((_, c) => A.map(row => row[c]));
+  }
+
+  function multiply(A, B) {
+    return A.map(row => B[0].map((_, c) =>
+      row.reduce((sum, value, k) => sum + value * B[k][c], 0)
+    ));
+  }
+
+  function formatNum(n) {
+    if (Math.abs(n) < 1e-10) return "0";
+    return Number(n.toFixed(6)).toString();
+  }
+
+  function showMatrix(M) {
+    let html = '<div class="matrixresult"><table><tbody>';
+    M.forEach(row => {
+      html += "<tr>";
+      row.forEach(value => {
+        html += `<td>${formatNum(value)}</td>`;
+      });
+      html += "</tr>";
+    });
+    html += "</tbody></table></div>";
+    return html;
+  }
+
+  function calculate() {
+    const A = readMatrix("A");
+    const B = readMatrix("B");
+    const op = $("operation").value;
+    let result;
+    let title = "";
+
+    if (op === "add" || op === "sub") {
+      if (A.length !== B.length || A[0].length !== B[0].length) {
+        $("calcOutput").innerHTML =
+          '<p class="error">Addition/subtraction requires matrices of the same order.</p>';
+        return;
+      }
+      result = A.map((row, r) => row.map((v, c) =>
+        op === "add" ? v + B[r][c] : v - B[r][c]
+      ));
+      title = op === "add" ? "A + B" : "A − B";
+    } else if (op === "mul") {
+      if (A[0].length !== B.length) {
+        $("calcOutput").innerHTML =
+          '<p class="error">AB is undefined: columns of A must equal rows of B.</p>';
+        return;
+      }
+      result = multiply(A, B);
+      title = "AB";
+    } else if (op === "transA") {
+      result = transpose(A);
+      title = "Transpose of A";
+    } else if (op === "transB") {
+      result = transpose(B);
+      title = "Transpose of B";
+    } else if (op === "scalar") {
+      const k = Number($("scalar").value);
+      if (!Number.isFinite(k)) {
+        $("calcOutput").innerHTML = '<p class="error">Enter a valid scalar.</p>';
+        return;
+      }
+      result = A.map(row => row.map(v => k * v));
+      title = `${formatNum(k)}A`;
+    }
+
+    $("calcOutput").innerHTML =
+      `<h3>${title}</h3>${showMatrix(result)}<p class="success">Result calculated successfully.</p>`;
+  }
+
+  function rebuildEditors() {
+    makeMatrixEditor("A");
+    makeMatrixEditor("B");
+    $("calcOutput").innerHTML = "";
+  }
+
+  dimensions.forEach(id => $(id).addEventListener("change", rebuildEditors));
+
+  $("calculate").addEventListener("click", calculate);
+
+  $("fillExample").addEventListener("click", () => {
+    $("rowsA").value = "2";
+    $("colsA").value = "2";
+    $("rowsB").value = "2";
+    $("colsB").value = "2";
+    $("operation").value = "mul";
+    rebuildEditors();
+
+    const valuesA = [1, 2, 3, 4];
+    const valuesB = [5, 6, 7, 8];
+
+    [...$("matrixA").querySelectorAll("input")].forEach((el, i) => {
+      el.value = valuesA[i];
+    });
+    [...$("matrixB").querySelectorAll("input")].forEach((el, i) => {
+      el.value = valuesB[i];
+    });
+
+    calculate();
+  });
+
+  $("clearMatrices").addEventListener("click", () => {
+    rebuildEditors();
+  });
+
+  rebuildEditors();
+
+  // Board answer reveals
+  document.querySelectorAll(".revealBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const reveal = btn.nextElementSibling;
+      const open = reveal.style.display === "block";
+      reveal.style.display = open ? "none" : "block";
+      btn.textContent = open ? "Reveal answer" : "Hide answer";
+    });
+  });
+
+  // JEE-style practice questions
+  const jeeBank = [
+    {
+      q: "If A is of order 2 × 3 and B is of order 3 × 4, the order of AB is:",
+      options: ["2 × 4", "3 × 3", "2 × 3", "3 × 4"],
+      answer: 0,
+      explain: "The inner dimensions match. The result has the outer dimensions: 2 × 4."
+    },
+    {
+      q: "If A is a 2 × 3 matrix, the order of Aᵀ is:",
+      options: ["2 × 3", "3 × 2", "2 × 2", "3 × 3"],
+      answer: 1,
+      explain: "Transpose interchanges rows and columns."
+    },
+    {
+      q: "If A = [[1,2],[3,4]], what is the top-left entry of A²?",
+      options: ["5", "7", "10", "11"],
+      answer: 1,
+      explain: "The top-left entry is 1×1 + 2×3 = 7."
+    },
+    {
+      q: "A square matrix A is symmetric when:",
+      options: ["Aᵀ = −A", "A² = I", "Aᵀ = A", "A = 0 only"],
+      answer: 2,
+      explain: "A symmetric matrix is equal to its transpose."
+    },
+    {
+      q: "For a 2 × 2 matrix [[a,b],[c,d]], the determinant is:",
+      options: ["ab − cd", "ad − bc", "ac − bd", "ad + bc"],
+      answer: 1,
+      explain: "The determinant is ad − bc."
+    },
+    {
+      q: "If A is invertible, then AA⁻¹ equals:",
+      options: ["A", "0", "A⁻¹", "I"],
+      answer: 3,
+      explain: "A matrix multiplied by its inverse gives the identity matrix."
+    },
+    {
+      q: "Which statement is generally true for matrices of compatible orders?",
+      options: ["AB = BA always", "(AB)ᵀ = BᵀAᵀ", "AB is always zero", "A + B is always defined"],
+      answer: 1,
+      explain: "The transpose of a product reverses the order of the factors."
+    },
+    {
+      q: "If A is skew-symmetric, its diagonal entries must be:",
+      options: ["All 1", "All equal", "All 0", "All nonzero"],
+      answer: 2,
+      explain: "For a diagonal entry, aᵢᵢ = −aᵢᵢ, so aᵢᵢ = 0."
+    }
+  ];
+
+  function renderJee() {
+    $("jeeQuestions").innerHTML = jeeBank.map((q, i) => `
+      <div class="question" data-question="${i}">
+        <p><strong>Q${i + 1}.</strong> ${q.q}</p>
+        <div class="options">
+          ${q.options.map((opt, j) => `
+            <label class="option">
+              <input type="radio" name="jee${i}" value="${j}">
+              <span>${opt}</span>
+            </label>
+          `).join("")}
+        </div>
+        <div class="feedback" id="jeeFeedback${i}"></div>
+      </div>
+    `).join("");
+
+    $("jeeResult").textContent = "";
+  }
+
+  $("checkJee").addEventListener("click", () => {
+    let score = 0;
+    let attempted = 0;
+
+    jeeBank.forEach((q, i) => {
+      const chosen = document.querySelector(`input[name="jee${i}"]:checked`);
+      const feedback = $("jeeFeedback" + i);
+
+      if (!chosen) {
+        feedback.innerHTML = '<span class="muted">Not attempted.</span>';
+        return;
+      }
+
+      attempted++;
+      if (Number(chosen.value) === q.answer) {
+        score++;
+        feedback.innerHTML = `<span class="success">Correct!</span> ${q.explain}`;
+      } else {
+        feedback.innerHTML =
+          `<span class="error">Incorrect.</span> Correct answer: ${q.options[q.answer]}. ${q.explain}`;
+      }
+    });
+
+    $("jeeResult").innerHTML =
+      `<h3>Score: ${score}/${jeeBank.length}</h3><p>You attempted ${attempted} of ${jeeBank.length} questions.</p>`;
+
+    const previous = Number(localStorage.getItem("mathsutra_ch3_jee_best") || 0);
+    if (score > previous) {
+      localStorage.setItem("mathsutra_ch3_jee_best", String(score));
+      $("jeeResult").innerHTML += '<p class="success">New personal best saved!</p>';
+    }
+  });
+
+  $("resetJee").addEventListener("click", renderJee);
+  renderJee();
+
+  // Persistent progress checklist
+  function loadProgress() {
+    let saved = {};
+    try {
+      saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}") || {};
+    } catch (e) {
+      saved = {};
+    }
+
+    document.querySelectorAll("[data-task]").forEach(box => {
+      box.checked = Boolean(saved[box.dataset.task]);
+    });
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const boxes = [...document.querySelectorAll("[data-task]")];
+    const done = boxes.filter(box => box.checked).length;
+    const percent = Math.round(done / boxes.length * 100);
+
+    $("progressFill").style.width = percent + "%";
+    $("progressText").textContent = `${percent}% completed (${done}/${boxes.length})`;
+
+    const saved = {};
+    boxes.forEach(box => saved[box.dataset.task] = box.checked);
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(saved));
+  }
+
+  document.querySelectorAll("[data-task]").forEach(box => {
+    box.addEventListener("change", updateProgress);
+  });
+
+  $("resetProgress").addEventListener("click", () => {
+    if (!confirm("Reset your Chapter 3 checklist?")) return;
+    document.querySelectorAll("[data-task]").forEach(box => box.checked = false);
+    updateProgress();
+  });
+
+  loadProgress();
+})();
+</script>
+
+<!-- Shared MathSutra settings script -->
+<script src="../js/app.js"></script>
+
+</body>
+</html>

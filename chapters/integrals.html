@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 7: Integrals | MathSutra</title>
+<style>
+:root{--bg:#080b18;--panel:#11182b;--panel2:#151e35;--text:#edf3ff;--muted:#a8b5d1;--cyan:#55e6ff;--purple:#a78bfa;--green:#6ee7b7;--border:rgba(142,164,220,.2)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);background:radial-gradient(ellipse at top left,#192044,transparent 45%),radial-gradient(ellipse at bottom right,#20133d,transparent 40%),var(--bg);font-family:Arial,sans-serif;line-height:1.7}
+a{color:var(--cyan);text-decoration:none}
+header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 6%;background:rgba(8,11,24,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+.logo{font-size:1.35rem;font-weight:800;color:var(--cyan)}
+nav{display:flex;gap:13px;flex-wrap:wrap;font-size:.88rem}
+nav a{color:var(--muted)}
+nav a:hover{color:var(--cyan)}
+.container{width:min(1050px,92%);margin:auto}
+.hero{padding:60px 0 35px}
+.badge{display:inline-block;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--green);font-size:.85rem}
+h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.15;margin:18px 0}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--purple));color:transparent;background-clip:text}
+.hero p,.muted{color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{cursor:pointer;padding:10px 15px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);color:var(--text);font-size:.94rem}
+button:hover{border-color:var(--cyan)}
+.primary{background:var(--cyan);color:#06111a;font-weight:700}
+section{margin:26px 0;scroll-margin-top:90px}
+.card{background:linear-gradient(145deg,rgba(21,30,53,.96),rgba(13,19,36,.97));border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:17px}
+h2{margin-top:0;font-size:1.6rem}
+h3{color:var(--cyan)}
+.formula{padding:13px;margin:12px 0;background:rgba(85,230,255,.07);border-left:3px solid var(--cyan);border-radius:7px;overflow-wrap:anywhere;font-family:"Courier New",monospace}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th,td{border:1px solid var(--border);padding:10px;text-align:left}
+th{color:var(--cyan)}
+.question{border:1px solid var(--border);border-radius:12px;padding:15px;margin:13px 0}
+.option{display:block;padding:6px 0;color:var(--muted)}
+.feedback{font-weight:bold;margin-top:8px}
+.good{color:var(--green)}
+.bad{color:#fca5a5}
+.answer{display:none;padding:12px;margin-top:8px;background:rgba(110,231,183,.08);border-radius:8px}
+.progress-row{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.progress-row input{margin-top:7px}
+progress{width:100%;height:14px;accent-color:var(--cyan)}
+input[type=checkbox],input[type=radio]{accent-color:var(--cyan)}
+.small{font-size:.88rem}
+footer{text-align:center;color:var(--muted);padding:35px 0}
+@media(max-width:700px){header{align-items:flex-start;flex-direction:column}nav{gap:10px}.card{padding:17px}.hero{padding-top:40px}th,td{padding:7px;font-size:.9rem}}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="../index.html">✦ MathSutra</a>
+<nav>
+<a href="#theory">Theory</a>
+<a href="#examples">Examples</a>
+<a href="#boards">Boards</a>
+<a href="#jee">JEE MCQs</a>
+<a href="#quiz">Quiz</a>
+<a href="#progress">Progress</a>
+</nav>
+</header>
+
+<main class="container">
+<div class="hero">
+<span class="badge">CLASS 12 MATHEMATICS · CHAPTER 7</span>
+<h1><span class="gradient">Integrals</span></h1>
+<p>Master indefinite and definite integration, substitution, integration by parts, partial fractions and important properties with worked examples.</p>
+<div class="actions">
+<button class="primary" onclick="document.querySelector('#theory').scrollIntoView()">Start Learning ↓</button>
+<button id="languageBtn">🌐 English / Hinglish</button>
+<button id="modeBtn">Mode: Boards</button>
+</div>
+<p id="settingsInfo" class="small muted">Language: English · Mode: Boards</p>
+</div>
+
+<section id="theory">
+<div class="card">
+<h2>1. What Is Integration?</h2>
+<p>Integration is the reverse process of differentiation. If F′(x) = f(x), then:</p>
+<div class="formula">∫ f(x) dx = F(x) + C</div>
+<p>Here, C is the constant of integration. We include it because the derivative of every constant is zero.</p>
+<h3>Example</h3>
+<div class="formula">∫ 2x dx = x² + C</div>
+<p>Check: d(x² + C)/dx = 2x.</p>
+</div>
+
+<div class="card">
+<h2>2. Standard Integral Formulas</h2>
+<table>
+<tr><th>Function</th><th>Integral</th></tr>
+<tr><td>xⁿ, n ≠ −1</td><td>xⁿ⁺¹/(n+1) + C</td></tr>
+<tr><td>1/x</td><td>ln|x| + C</td></tr>
+<tr><td>eˣ</td><td>eˣ + C</td></tr>
+<tr><td>aˣ</td><td>aˣ/ln(a) + C, a &gt; 0, a ≠ 1</td></tr>
+<tr><td>sin x</td><td>−cos x + C</td></tr>
+<tr><td>cos x</td><td>sin x + C</td></tr>
+<tr><td>sec² x</td><td>tan x + C</td></tr>
+<tr><td>cosec² x</td><td>−cot x + C</td></tr>
+<tr><td>sec x tan x</td><td>sec x + C</td></tr>
+<tr><td>cosec x cot x</td><td>−cosec x + C</td></tr>
+<tr><td>1/(1+x²)</td><td>tan⁻¹x + C</td></tr>
+<tr><td>1/√(1−x²)</td><td>sin⁻¹x + C</td></tr>
+<tr><td>1/(a²+x²)</td><td>(1/a)tan⁻¹(x/a) + C, a &gt; 0</td></tr>
+<tr><td>1/√(a²−x²)</td><td>sin⁻¹(x/a) + C, a &gt; 0</td></tr>
+</table>
+<p class="muted small">Trigonometric formulas use radians. Remember to add + C for indefinite integrals.</p>
+</div>
+
+<div class="card">
+<h2>3. Linearity of Integration</h2>
+<p>Integration distributes over addition and subtraction, and constants can be taken outside.</p>
+<div class="formula">∫ [f(x) ± g(x)] dx = ∫f(x)dx ± ∫g(x)dx</div>
+<div class="formula">∫ kf(x) dx = k∫f(x) dx</div>
+<h3>Example</h3>
+<div class="formula">∫ (3x² + 4x − 5) dx = x³ + 2x² − 5x + C</div>
+</div>
+
+<div class="card">
+<h2>4. Integration by Substitution</h2>
+<p>Use substitution when the integrand contains a function and its derivative, or a constant multiple of its derivative.</p>
+<div class="formula">Let u = g(x), then du = g′(x) dx</div>
+<h3>Example</h3>
+<p>Evaluate ∫ 2x(x² + 1)⁵ dx.</p>
+<div class="formula">Let u = x² + 1, du = 2x dx</div>
+<div class="formula">∫ 2x(x²+1)⁵ dx = ∫u⁵ du</div>
+<div class="formula">= u⁶/6 + C = (x²+1)⁶/6 + C</div>
+</div>
+
+<div class="card">
+<h2>5. Integration by Parts</h2>
+<p>Use this method for products of functions when it simplifies the integral.</p>
+<div class="formula">∫u v dx = u∫v dx − ∫[u′(∫v dx)]dx</div>
+<p>A common mnemonic for choosing u is ILATE: Inverse trigonometric, Logarithmic, Algebraic, Trigonometric, Exponential. It is a guide, not an absolute rule.</p>
+<h3>Example</h3>
+<p>Evaluate ∫ x eˣ dx.</p>
+<div class="formula">Choose u = x, dv = eˣ dx</div>
+<div class="formula">du = dx, v = eˣ</div>
+<div class="formula">∫xeˣ dx = xeˣ − ∫eˣ dx</div>
+<div class="formula">= xeˣ − eˣ + C = eˣ(x−1) + C</div>
+</div>
+
+<div class="card">
+<h2>6. Integration by Partial Fractions</h2>
+<p>For a rational function, first make sure the fraction is proper. If necessary, perform polynomial division. Then split it into simpler fractions.</p>
+<h3>Example</h3>
+<p>Evaluate ∫ 1/[x(x+1)] dx.</p>
+<div class="formula">1/[x(x+1)] = 1/x − 1/(x+1)</div>
+<div class="formula">∫ 1/[x(x+1)] dx = ln|x| − ln|x+1| + C</div>
+<div class="formula">= ln|x/(x+1)| + C</div>
+<p>This result is valid on intervals where the original integrand is defined.</p>
+</div>
+
+<div class="card">
+<h2>7. Trigonometric Identities in Integration</h2>
+<p>Identities can simplify trigonometric integrals.</p>
+<div class="formula">sin²x = (1 − cos 2x)/2</div>
+<div class="formula">cos²x = (1 + cos 2x)/2</div>
+<div class="formula">tan²x = sec²x − 1</div>
+<h3>Example</h3>
+<div class="formula">∫ sin²x dx = ∫(1−cos 2x)/2 dx</div>
+<div class="formula">= x/2 − sin 2x/4 + C</div>
+</div>
+
+<div class="card">
+<h2>8. Definite Integrals</h2>
+<p>A definite integral has lower and upper limits and evaluates to a number.</p>
+<div class="formula">∫ₐᵇ f(x) dx = F(b) − F(a)</div>
+<p>Here F′(x) = f(x), and the integrand must be integrable over the interval.</p>
+<h3>Example</h3>
+<p>Evaluate ∫₀² 2x dx.</p>
+<div class="formula">= [x²]₀² = 2² − 0² = 4</div>
+</div>
+
+<div class="card">
+<h2>9. Properties of Definite Integrals</h2>
+<div class="formula">∫ₐᵇ f(x)dx = −∫ᵦₐ f(x)dx</div>
+<div class="formula">∫ₐᵃ f(x)dx = 0</div>
+<div class="formula">∫ₐᵇ f(x)dx = ∫ₐᶜ f(x)dx + ∫𝒸ᵇ f(x)dx</div>
+<div class="formula">∫₀ᵃ f(x)dx = ∫₀ᵃ f(a−x)dx</div>
+<p>For the last identity, substitute x = a − t and adjust the limits.</p>
+<h3>Symmetry properties</h3>
+<div class="formula">If f(a−x) = f(x), then ∫₀ᵃ f(x)dx = 2∫₀ᵃ⁄² f(x)dx</div>
+<div class="formula">If f(a−x) = −f(x), then ∫₀ᵃ f(x)dx = 0</div>
+</div>
+
+<div class="card">
+<h2>10. Quick Strategy: Which Method?</h2>
+<ul>
+<li><strong>Power or standard form:</strong> integrate directly.</li>
+<li><strong>Function and its derivative together:</strong> try substitution.</li>
+<li><strong>Product of different types:</strong> consider integration by parts.</li>
+<li><strong>Rational function:</strong> simplify or use partial fractions.</li>
+<li><strong>Trigonometric powers:</strong> try identities.</li>
+<li><strong>Definite integral:</strong> find an antiderivative, apply limits, or use a valid property.</li>
+</ul>
+</div>
+</section>
+
+<section id="examples">
+<h2>🧠 Solved Examples</h2>
+<div class="card">
+<h3>Example 1 — Power Rule</h3>
+<p>Evaluate ∫(4x³ − 6x + 2) dx.</p>
+<div class="formula">= x⁴ − 3x² + 2x + C</div>
+</div>
+<div class="card">
+<h3>Example 2 — Substitution</h3>
+<p>Evaluate ∫ x/(x² + 4) dx.</p>
+<div class="formula">Let u = x² + 4, du = 2x dx</div>
+<div class="formula">= ½∫du/u = ½ln(x²+4) + C</div>
+</div>
+<div class="card">
+<h3>Example 3 — By Parts</h3>
+<p>Evaluate ∫x cos x dx.</p>
+<div class="formula">u=x, dv=cos x dx; du=dx, v=sin x</div>
+<div class="formula">= x sin x − ∫sin x dx</div>
+<div class="formula">= x sin x + cos x + C</div>
+</div>
+<div class="card">
+<h3>Example 4 — Definite Integral</h3>
+<p>Evaluate ∫₁³ 2x dx.</p>
+<div class="formula">= [x²]₁³ = 9 − 1 = 8</div>
+</div>
+</section>
+
+<section id="boards">
+<h2>📝 CBSE Board Practice</h2>
+<div class="card">
+<div class="question"><p><strong>1.</strong> Evaluate ∫(3x² + 2x + 1) dx.</p><button onclick="toggleAnswer('b1')">Show Answer</button><div class="answer" id="b1">x³ + x² + x + C.</div></div>
+<div class="question"><p><strong>2.</strong> Evaluate ∫ 2x cos(x²) dx.</p><button onclick="toggleAnswer('b2')">Show Answer</button><div class="answer" id="b2">Let u=x², du=2x dx. Answer: sin(x²) + C.</div></div>
+<div class="question"><p><strong>3.</strong> Evaluate ∫ x ln x dx, for x &gt; 0.</p><button onclick="toggleAnswer('b3')">Show Answer</button><div class="answer" id="b3">By parts: x² ln x/2 − x²/4 + C.</div></div>
+<div class="question"><p><strong>4.</strong> Evaluate ∫₀¹ 3x² dx.</p><button onclick="toggleAnswer('b4')">Show Answer</button><div class="answer" id="b4">[x³]₀¹ = 1.</div></div>
+<div class="question"><p><strong>5.</strong> Evaluate ∫ 1/[x(x+2)] dx.</p><button onclick="toggleAnswer('b5')">Show Answer</button><div class="answer" id="b5">Partial fractions: 1/[x(x+2)] = ½(1/x − 1/(x+2)). Integral = ½ ln|x| − ½ ln|x+2| + C.</div></div>
+</div>
+</section>
+
+<section id="jee">
+<h2>⚡ JEE-Style MCQs</h2>
+<p class="muted">Choose one option per question, then check your answers.</p>
+<div class="card" id="jeeQuestions"></div>
+<button class="primary" onclick="checkJEE()">Check Answers</button>
+<button onclick="resetJEE()">Reset</button>
+<p id="jeeResult" class="feedback"></p>
+</section>
+
+<section id="quiz">
+<h2>🎯 Quick Quiz</h2>
+<div class="card">
+<p id="quizCounter">Question 1 of 5</p>
+<h3 id="quizQuestion"></h3>
+<div id="quizOptions"></div>
+<p id="quizFeedback" class="feedback"></p>
+<button class="primary" id="nextQuiz">Check & Next →</button>
+<button id="restartQuiz">Restart Quiz</button>
+<p id="quizScore" class="good"></p>
+<p id="bestScore" class="muted small"></p>
+</div>
+</section>
+
+<section id="progress">
+<h2>🚀 Learning Progress</h2>
+<div class="card">
+<p class="muted">Tick each topic when you've studied and practised it.</p>
+<progress id="progressBar" value="0" max="100"></progress>
+<p id="progressText">0% completed</p>
+<div id="checklist"></div>
+<button onclick="resetProgress()">Reset Progress</button>
+</div>
+</section>
+
+<div class="card">
+<h2>📌 Final Revision Strategy</h2>
+<ul>
+<li>Memorise standard integrals and practise recognising patterns.</li>
+<li>Always include + C for indefinite integrals.</li>
+<li>For definite integrals, apply upper limit minus lower limit.</li>
+<li>Check your result by differentiating your antiderivative.</li>
+<li>Practise choosing the right method before starting a long calculation.</li>
+</ul>
+<p class="muted small">These notes are a learning resource, not a verified exhaustive syllabus checklist. Check the latest official CBSE and NTA syllabi for exam scope.</p>
+<a href="../index.html">← Back to MathSutra Home</a>
+</div>
+</main>
+
+<footer>✦ MathSutra · Learn concepts. Practise smart. Grow stronger.</footer>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const PROGRESS_KEY = "mathsutra_ch7_progress_v1";
+const LANG_KEY = "mathsutra-language";
+const MODE_KEY = "mathsutra-mode";
+let language = localStorage.getItem(LANG_KEY) || "en";
+let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+function updateSettings(){
+  $("languageBtn").textContent = language==="en" ? "🌐 English / Hinglish" : "🌐 Hinglish / English";
+  $("modeBtn").textContent = "Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+  $("settingsInfo").textContent = "Language: " + (language==="en" ? "English" : "Hinglish") + " · Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+}
+$("languageBtn").addEventListener("click",()=>{
+  language=language==="en"?"hi":"en";
+  localStorage.setItem(LANG_KEY,language);
+  updateSettings();
+  alert(language==="hi" ? "Hinglish preference saved. Full theory translation is not enabled yet." : "English preference saved.");
+});
+$("modeBtn").addEventListener("click",()=>{
+  mode=mode==="boards"?"jee":"boards";
+  localStorage.setItem(MODE_KEY,mode);
+  updateSettings();
+  alert(mode==="jee" ? "JEE Main mode selected. Practise the MCQs below." : "CBSE Boards mode selected. Try the Board practice section.");
+});
+window.toggleAnswer=id=>{
+  const el=$(id);
+  el.style.display=el.style.display==="block"?"none":"block";
+};
+
+const jeeData=[
+{q:"∫ 3x² dx equals:",o:["x³+C","6x+C","3x³+C","x²+C"],a:0,e:"Integrating 3x² gives x³+C."},
+{q:"∫ cos x dx equals:",o:["−sin x+C","sin x+C","−cos x+C","tan x+C"],a:1,e:"The derivative of sin x is cos x."},
+{q:"∫ 1/x dx, for x≠0, equals:",o:["1/x²+C","ln|x|+C","x ln x+C","eˣ+C"],a:1,e:"The integral is ln|x|+C."},
+{q:"∫ 2x(x²+1)³ dx equals:",o:["(x²+1)³+C","(x²+1)⁴/4+C","2(x²+1)⁴+C","(x²+1)⁴+C"],a:1,e:"Let u=x²+1, du=2x dx."},
+{q:"∫₀¹ 2x dx equals:",o:["0","1","2","4"],a:1,e:"[x²]₀¹=1."},
+{q:"∫ eˣ dx equals:",o:["xeˣ+C","eˣ+C","eˣ/x+C","ln x+C"],a:1,e:"eˣ is its own derivative."},
+{q:"∫ x eˣ dx equals:",o:["xeˣ+C","eˣ(x−1)+C","eˣ(x+1)+C","x²eˣ+C"],a:1,e:"Integration by parts gives xeˣ−eˣ+C."},
+{q:"∫ sec²x dx equals:",o:["sec x+C","tan x+C","−cot x+C","sin x+C"],a:1,e:"The derivative of tan x is sec²x."}
+];
+
+function renderJEE(){
+  $("jeeQuestions").innerHTML=jeeData.map((q,i)=>`
+  <div class="question">
+  <p><strong>${i+1}.</strong> ${q.q}</p>
+  ${q.o.map((op,j)=>`<label class="option"><input type="radio" name="jee${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("")}
+  <div id="jeeFeedback${i}" class="feedback"></div>
+  </div>`).join("");
+}
+window.checkJEE=()=>{
+  let score=0;
+  jeeData.forEach((q,i)=>{
+    const chosen=document.querySelector(`input[name="jee${i}"]:checked`);
+    const fb=$("jeeFeedback"+i);
+    if(chosen && Number(chosen.value)===q.a){
+      score++;fb.className="feedback good";fb.textContent="Correct! "+q.e;
+    }else{
+      fb.className="feedback bad";fb.textContent="Correct answer: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+". "+q.e;
+    }
+  });
+  $("jeeResult").textContent=`Your score: ${score}/${jeeData.length}`;
+};
+window.resetJEE=()=>{
+  document.querySelectorAll('#jeeQuestions input[type="radio"]').forEach(el=>el.checked=false);
+  jeeData.forEach((_,i)=>{$("jeeFeedback"+i).textContent="";});
+  $("jeeResult").textContent="";
+};
+
+const quizData=[
+{q:"Which constant is added to an indefinite integral?",o:["0","C","x","1"],a:1,e:"Different antiderivatives can differ by a constant."},
+{q:"∫ x² dx equals:",o:["2x+C","x³/3+C","x³+C","x²/2+C"],a:1,e:"Use the power rule."},
+{q:"Which method is often useful for ∫xeˣ dx?",o:["Substitution only","Integration by parts","Partial fractions","No method exists"],a:1,e:"This product is a standard integration-by-parts example."},
+{q:"∫ₐᵃ f(x)dx equals:",o:["1","a","0","2a"],a:2,e:"An integral over an interval of zero length is zero."},
+{q:"The derivative of an antiderivative F(x) is:",o:["0","F(x)","f(x), if F′=f","C"],a:2,e:"Differentiation recovers the integrand."}
+];
+let quizIndex=0,quizScore=0,quizAnswered=false;
+function renderQuiz(){
+  const q=quizData[quizIndex];
+  $("quizCounter").textContent=`Question ${quizIndex+1} of ${quizData.length}`;
+  $("quizQuestion").textContent=q.q;
+  $("quizOptions").innerHTML=q.o.map((op,j)=>`<label class="option"><input type="radio" name="quizOption" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("");
+  $("quizFeedback").textContent="";
+  $("quizFeedback").className="feedback";
+  $("quizScore").textContent="";
+  $("nextQuiz").textContent="Check & Next →";
+  quizAnswered=false;
+}
+$("nextQuiz").addEventListener("click",()=>{
+  if(quizAnswered){
+    if(quizIndex<quizData.length-1){quizIndex++;renderQuiz();}
+    else{
+      $("quizQuestion").textContent="Quiz completed!";
+      $("quizOptions").innerHTML="";
+      $("quizCounter").textContent="Finished";
+      $("quizScore").textContent=`Your score: ${quizScore}/${quizData.length}`;
+      const best=Number(localStorage.getItem("mathsutra_ch7_best")||0);
+      if(quizScore>best)localStorage.setItem("mathsutra_ch7_best",String(quizScore));
+      updateBest();
+      $("nextQuiz").disabled=true;
+    }
+    return;
+  }
+  const selected=document.querySelector('input[name="quizOption"]:checked');
+  if(!selected){
+    $("quizFeedback").textContent="Choose an answer first.";
+    $("quizFeedback").className="feedback bad";
+    return;
+  }
+  const q=quizData[quizIndex];
+  if(Number(selected.value)===q.a){
+    quizScore++;$("quizFeedback").className="feedback good";$("quizFeedback").textContent="Correct! "+q.e;
+  }else{
+    $("quizFeedback").className="feedback bad";$("quizFeedback").textContent="Not quite. "+q.e;
+  }
+  quizAnswered=true;
+  $("nextQuiz").textContent=quizIndex===quizData.length-1?"Finish Quiz":"Next Question →";
+});
+$("restartQuiz").addEventListener("click",()=>{
+  quizIndex=0;quizScore=0;$("nextQuiz").disabled=false;renderQuiz();updateBest();
+});
+function updateBest(){
+  $("bestScore").textContent="Best score: "+(localStorage.getItem("mathsutra_ch7_best")||0)+"/"+quizData.length;
+}
+
+const topics=[
+"Integration basics and constant C","Standard integral formulas","Linearity of integration",
+"Substitution method","Integration by parts","Partial fractions",
+"Trigonometric identities","Definite integrals","Properties of definite integrals",
+"Solved examples","Board practice","JEE MCQs and quiz"
+];
+function loadProgress(){
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)||"{}");}catch(e){saved={};}
+  $("checklist").innerHTML=topics.map((t,i)=>`<label class="progress-row"><input type="checkbox" data-progress="${i}" ${saved[i]?"checked":""}><span>${t}</span></label>`).join("");
+  document.querySelectorAll("[data-progress]").forEach(el=>el.addEventListener("change",saveProgress));
+  updateProgress();
+}
+function saveProgress(){
+  const saved={};
+  document.querySelectorAll("[data-progress]").forEach(el=>saved[el.dataset.progress]=el.checked);
+  localStorage.setItem(PROGRESS_KEY,JSON.stringify(saved));
+  updateProgress();
+}
+function updateProgress(){
+  const boxes=[...document.querySelectorAll("[data-progress]")];
+  const done=boxes.filter(el=>el.checked).length;
+  const percent=Math.round(done/boxes.length*100);
+  $("progressBar").value=percent;
+  $("progressText").textContent=`${percent}% completed (${done}/${boxes.length} topics)`;
+}
+window.resetProgress=()=>{
+  if(confirm("Reset Chapter 7 progress?")){localStorage.removeItem(PROGRESS_KEY);loadProgress();}
+};
+updateSettings();
+renderJEE();
+renderQuiz();
+updateBest();
+loadProgress();
+})();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

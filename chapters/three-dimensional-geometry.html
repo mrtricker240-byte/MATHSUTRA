@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 11: Three-Dimensional Geometry | MathSutra</title>
+<style>
+:root{
+  --bg:#080b18;--panel:#11182b;--panel2:#151e35;
+  --text:#edf3ff;--muted:#a8b5d1;--cyan:#55e6ff;
+  --purple:#a78bfa;--green:#6ee7b7;--border:rgba(142,164,220,.2)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);
+  background:radial-gradient(ellipse at top left,#192044,transparent 45%),
+  radial-gradient(ellipse at bottom right,#20133d,transparent 40%),var(--bg);
+  font-family:Arial,sans-serif;line-height:1.7
+}
+a{color:var(--cyan);text-decoration:none}
+header{
+  position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;padding:14px 6%;
+  background:rgba(8,11,24,.94);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px)
+}
+.logo{font-size:1.35rem;font-weight:800;color:var(--cyan)}
+nav{display:flex;gap:13px;flex-wrap:wrap;font-size:.88rem}
+nav a{color:var(--muted)}
+nav a:hover{color:var(--cyan)}
+.container{width:min(1050px,92%);margin:auto}
+.hero{padding:60px 0 35px}
+.badge{display:inline-block;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--green);font-size:.85rem}
+h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.15;margin:18px 0}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--purple));color:transparent;background-clip:text}
+.hero p,.muted{color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{cursor:pointer;padding:10px 15px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);color:var(--text);font-size:.94rem}
+button:hover{border-color:var(--cyan)}
+.primary{background:var(--cyan);color:#06111a;font-weight:700}
+section{margin:26px 0;scroll-margin-top:90px}
+.card{background:linear-gradient(145deg,rgba(21,30,53,.96),rgba(13,19,36,.97));border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:17px}
+h2{margin-top:0;font-size:1.6rem}
+h3{color:var(--cyan)}
+.formula{padding:13px;margin:12px 0;background:rgba(85,230,255,.07);border-left:3px solid var(--cyan);border-radius:7px;overflow-wrap:anywhere;font-family:"Courier New",monospace}
+.question{border:1px solid var(--border);border-radius:12px;padding:15px;margin:13px 0}
+.option{display:block;padding:6px 0;color:var(--muted)}
+.feedback{font-weight:bold;margin-top:8px}
+.good{color:var(--green)}
+.bad{color:#fca5a5}
+.answer{display:none;padding:12px;margin-top:8px;background:rgba(110,231,183,.08);border-radius:8px}
+.progress-row{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.progress-row input{margin-top:7px}
+progress{width:100%;height:14px;accent-color:var(--cyan)}
+input[type=checkbox],input[type=radio]{accent-color:var(--cyan)}
+input[type=number]{width:80px;padding:8px;border-radius:7px;border:1px solid var(--border);background:#080d1c;color:var(--text)}
+.small{font-size:.88rem}
+footer{text-align:center;color:var(--muted);padding:35px 0}
+@media(max-width:700px){
+ header{align-items:flex-start;flex-direction:column}
+ nav{gap:10px}.card{padding:17px}.hero{padding-top:40px}
+}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="../index.html">✦ MathSutra</a>
+<nav>
+<a href="#theory">Theory</a>
+<a href="#examples">Examples</a>
+<a href="#boards">Boards</a>
+<a href="#jee">JEE MCQs</a>
+<a href="#quiz">Quiz</a>
+<a href="#progress">Progress</a>
+</nav>
+</header>
+
+<main class="container">
+<div class="hero">
+<span class="badge">CLASS 12 MATHEMATICS · CHAPTER 11</span>
+<h1><span class="gradient">Three-Dimensional Geometry</span></h1>
+<p>Understand direction cosines, direction ratios, equations of lines in 3D, angles and distances.</p>
+<div class="actions">
+<button class="primary" onclick="document.querySelector('#theory').scrollIntoView()">Start Learning ↓</button>
+<button id="languageBtn">🌐 English / Hinglish</button>
+<button id="modeBtn">Mode: Boards</button>
+</div>
+<p id="settingsInfo" class="small muted">Language: English · Mode: Boards</p>
+</div>
+
+<section id="theory">
+<div class="card">
+<h2>1. Coordinates in Three Dimensions</h2>
+<p>A point in 3D is represented by P(x,y,z). The three coordinate axes are mutually perpendicular.</p>
+<p>The distance between P(x₁,y₁,z₁) and Q(x₂,y₂,z₂) is:</p>
+<div class="formula">PQ = √[(x₂−x₁)² + (y₂−y₁)² + (z₂−z₁)²]</div>
+<h3>Example</h3>
+<p>Find the distance between A(1,2,3) and B(4,6,3).</p>
+<div class="formula">AB = √[(4−1)²+(6−2)²+(3−3)²] = 5</div>
+</div>
+
+<div class="card">
+<h2>2. Direction Ratios (DRs)</h2>
+<p>Direction ratios are any three numbers proportional to the components that describe a line's direction.</p>
+<p>If a line has direction ratios a, b, c, its direction vector can be written as:</p>
+<div class="formula">d⃗ = aî + bĵ + ck̂</div>
+<p>Direction ratios are not unique: multiplying all three by the same nonzero constant gives the same direction.</p>
+</div>
+
+<div class="card">
+<h2>3. Direction Cosines (DCs)</h2>
+<p>If a line makes angles α, β and γ with the positive x, y and z axes, respectively:</p>
+<div class="formula">l = cos α, m = cos β, n = cos γ</div>
+<div class="formula">l² + m² + n² = 1</div>
+<p>If the direction ratios are a, b, c, then:</p>
+<div class="formula">l = a/√(a²+b²+c²)</div>
+<div class="formula">m = b/√(a²+b²+c²)</div>
+<div class="formula">n = c/√(a²+b²+c²)</div>
+</div>
+
+<div class="card">
+<h2>4. Vector Equation of a Line</h2>
+<p>A line passing through a point with position vector a⃗ and parallel to a nonzero vector d⃗ has equation:</p>
+<div class="formula">r⃗ = a⃗ + λd⃗</div>
+<p>Here λ is a real parameter.</p>
+<p>If the line passes through A(x₁,y₁,z₁) and has direction ratios a, b, c:</p>
+<div class="formula">r⃗ = (x₁î+y₁ĵ+z₁k̂) + λ(aî+bĵ+ck̂)</div>
+</div>
+
+<div class="card">
+<h2>5. Cartesian Equation of a Line</h2>
+<p>For a line through (x₁,y₁,z₁) with direction ratios a, b, c:</p>
+<div class="formula">(x−x₁)/a = (y−y₁)/b = (z−z₁)/c</div>
+<p>This symmetric form assumes a, b and c are all nonzero. If a direction ratio is zero, use the corresponding coordinate as a constant and write the other relations separately.</p>
+<h3>Example</h3>
+<p>Line through (1,2,3) with direction ratios (2,−1,4):</p>
+<div class="formula">(x−1)/2 = (y−2)/(−1) = (z−3)/4</div>
+</div>
+
+<div class="card">
+<h2>6. Line Through Two Points</h2>
+<p>For A(x₁,y₁,z₁) and B(x₂,y₂,z₂), direction ratios are:</p>
+<div class="formula">(x₂−x₁, y₂−y₁, z₂−z₁)</div>
+<p>The vector equation of AB is:</p>
+<div class="formula">r⃗ = a⃗ + λ(b⃗−a⃗)</div>
+<p>For the line segment AB itself, 0 ≤ λ ≤ 1. For the entire line, λ can be any real number.</p>
+</div>
+
+<div class="card">
+<h2>7. Angle Between Two Lines</h2>
+<p>If the lines have direction ratios (a₁,b₁,c₁) and (a₂,b₂,c₂), the acute or smaller angle θ between the lines satisfies:</p>
+<div class="formula">cos θ = |a₁a₂+b₁b₂+c₁c₂| / [√(a₁²+b₁²+c₁²) √(a₂²+b₂²+c₂²)]</div>
+<p>For directed vectors, the absolute value may be omitted when calculating the angle between the vectors themselves.</p>
+<h3>Perpendicular lines</h3>
+<div class="formula">a₁a₂ + b₁b₂ + c₁c₂ = 0</div>
+</div>
+
+<div class="card">
+<h2>8. Parallel Lines</h2>
+<p>Two lines are parallel when their direction ratios are proportional.</p>
+<div class="formula">a₁/a₂ = b₁/b₂ = c₁/c₂</div>
+<p>When denominators are zero, compare the direction vectors by checking whether one is a scalar multiple of the other.</p>
+</div>
+
+<div class="card">
+<h2>9. Skew Lines</h2>
+<p>Skew lines are lines that do not intersect and are not parallel. They occur in three-dimensional geometry, not in a single plane.</p>
+<p>To investigate two lines, check whether their direction vectors are proportional and whether the lines intersect.</p>
+</div>
+
+<div class="card">
+<h2>10. Shortest Distance Between Skew Lines</h2>
+<p>For lines:</p>
+<div class="formula">r⃗ = a⃗ + λb⃗</div>
+<div class="formula">r⃗ = c⃗ + μd⃗</div>
+<p>where b⃗ and d⃗ are nonparallel direction vectors, the shortest distance is:</p>
+<div class="formula">SD = |(c⃗−a⃗) · (b⃗×d⃗)| / |b⃗×d⃗|</div>
+<p>The numerator measures the magnitude of the scalar triple product; the denominator gives the magnitude of the perpendicular direction.</p>
+</div>
+
+<div class="card">
+<h2>11. Formula Vault</h2>
+<div class="formula">Distance = √[(Δx)²+(Δy)²+(Δz)²]</div>
+<div class="formula">l² + m² + n² = 1</div>
+<div class="formula">r⃗ = a⃗ + λd⃗</div>
+<div class="formula">(x−x₁)/a = (y−y₁)/b = (z−z₁)/c</div>
+<div class="formula">cos θ = |d⃗₁ · d⃗₂|/(|d⃗₁||d⃗₂|)</div>
+<div class="formula">SD = |(c⃗−a⃗) · (b⃗×d⃗)|/|b⃗×d⃗|</div>
+</div>
+</section>
+
+<section id="examples">
+<h2>🧠 Solved Examples</h2>
+
+<div class="card">
+<h3>Example 1 — Direction Cosines</h3>
+<p>Find the direction cosines of a line with direction ratios 2, 3, 6.</p>
+<div class="formula">√(2²+3²+6²) = 7</div>
+<div class="formula">l = 2/7, m = 3/7, n = 6/7</div>
+</div>
+
+<div class="card">
+<h3>Example 2 — Equation of a Line</h3>
+<p>Find the Cartesian equation of the line through (2,−1,3) with direction ratios (1,2,−2).</p>
+<div class="formula">(x−2)/1 = (y+1)/2 = (z−3)/(−2)</div>
+</div>
+
+<div class="card">
+<h3>Example 3 — Angle Between Lines</h3>
+<p>Find the angle between direction vectors (1,0,0) and (0,1,0).</p>
+<div class="formula">Dot product = 0</div>
+<div class="formula">cos θ = 0 → θ = 90°</div>
+</div>
+
+<div class="card">
+<h3>Example 4 — Distance Between Points</h3>
+<p>Find the distance between A(1,2,3) and B(4,6,3).</p>
+<div class="formula">AB = √(9+16+0) = 5</div>
+</div>
+
+<div class="card">
+<h3>Example 5 — Shortest Distance Between Skew Lines</h3>
+<p>Consider r⃗ = λî and r⃗ = ĵ + μk̂.</p>
+<p>The direction vectors are b⃗ = î and d⃗ = k̂. The displacement between the base points is c⃗−a⃗ = ĵ.</p>
+<div class="formula">b⃗ × d⃗ = î × k̂ = −ĵ</div>
+<div class="formula">SD = |ĵ · (−ĵ)|/|−ĵ| = 1</div>
+</div>
+</section>
+
+<section id="boards">
+<h2>📝 CBSE Board Practice</h2>
+<div class="card">
+<div class="question">
+<p><strong>1.</strong> Find the distance between A(1,0,2) and B(4,4,2).</p>
+<button onclick="toggleAnswer('b1')">Show Answer</button>
+<div class="answer" id="b1">√(3²+4²+0²) = 5.</div>
+</div>
+<div class="question">
+<p><strong>2.</strong> Find the direction cosines corresponding to direction ratios 1, 2, 2.</p>
+<button onclick="toggleAnswer('b2')">Show Answer</button>
+<div class="answer" id="b2">Magnitude = 3. Direction cosines are 1/3, 2/3, 2/3.</div>
+</div>
+<div class="question">
+<p><strong>3.</strong> Write the Cartesian equation of the line through (1,2,3) with direction ratios (2,1,−1).</p>
+<button onclick="toggleAnswer('b3')">Show Answer</button>
+<div class="answer" id="b3">(x−1)/2 = (y−2)/1 = (z−3)/(−1).</div>
+</div>
+<div class="question">
+<p><strong>4.</strong> Find the angle between direction vectors (1,0,0) and (1,1,0).</p>
+<button onclick="toggleAnswer('b4')">Show Answer</button>
+<div class="answer" id="b4">cos θ = 1/√2, so θ = 45°.</div>
+</div>
+<div class="question">
+<p><strong>5.</strong> State the condition for two lines with direction vectors a⃗ and b⃗ to be perpendicular.</p>
+<button onclick="toggleAnswer('b5')">Show Answer</button>
+<div class="answer" id="b5">For nonzero direction vectors, a⃗ · b⃗ = 0.</div>
+</div>
+</div>
+</section>
+
+<section id="jee">
+<h2>⚡ JEE-Style MCQs</h2>
+<div class="card" id="jeeQuestions"></div>
+<button class="primary" onclick="checkJEE()">Check Answers</button>
+<button onclick="resetJEE()">Reset</button>
+<p id="jeeResult" class="feedback"></p>
+</section>
+
+<section id="quiz">
+<h2>🎯 Quick Quiz</h2>
+<div class="card">
+<p id="quizCounter">Question 1 of 5</p>
+<h3 id="quizQuestion"></h3>
+<div id="quizOptions"></div>
+<p id="quizFeedback" class="feedback"></p>
+<button class="primary" id="nextQuiz">Check & Next →</button>
+<button id="restartQuiz">Restart Quiz</button>
+<p id="quizScore" class="good"></p>
+<p id="bestScore" class="muted small"></p>
+</div>
+</section>
+
+<section id="progress">
+<h2>🚀 Learning Progress</h2>
+<div class="card">
+<p class="muted">Tick each topic after studying and practising it. Progress is saved in this browser.</p>
+<progress id="progressBar" value="0" max="100"></progress>
+<p id="progressText">0% completed</p>
+<div id="checklist"></div>
+<button onclick="resetProgress()">Reset Progress</button>
+</div>
+</section>
+
+<div class="card">
+<h2>📌 Final Revision</h2>
+<ul>
+<li>Direction ratios describe the direction of a line.</li>
+<li>Direction cosines satisfy l² + m² + n² = 1.</li>
+<li>A line can be expressed in vector or Cartesian form.</li>
+<li>Parallel lines have proportional direction vectors.</li>
+<li>Perpendicular directions have zero dot product.</li>
+<li>Skew lines are nonparallel and nonintersecting.</li>
+<li>Shortest distance between skew lines uses a scalar triple product.</li>
+</ul>
+<p class="muted small">These notes are a learning resource, not a verified exhaustive syllabus checklist. Confirm the latest official CBSE and NTA syllabi for exam scope.</p>
+<a href="../index.html">← Back to MathSutra Home</a>
+</div>
+</main>
+
+<footer>✦ MathSutra · Learn concepts. Practise smart. Grow stronger.</footer>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const PROGRESS_KEY = "mathsutra_ch11_progress_v1";
+const LANG_KEY = "mathsutra-language";
+const MODE_KEY = "mathsutra-mode";
+
+let language = localStorage.getItem(LANG_KEY) || "en";
+let mode = localStorage.getItem(MODE_KEY) || "boards";
+
+function updateSettings(){
+  $("languageBtn").textContent = language==="en" ? "🌐 English / Hinglish" : "🌐 Hinglish / English";
+  $("modeBtn").textContent = "Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+  $("settingsInfo").textContent = "Language: " + (language==="en" ? "English" : "Hinglish") + " · Mode: " + (mode==="boards" ? "Boards" : "JEE Main");
+}
+
+$("languageBtn").addEventListener("click",()=>{
+  language=language==="en"?"hi":"en";
+  localStorage.setItem(LANG_KEY,language);
+  updateSettings();
+  alert(language==="hi" ? "Hinglish preference saved. Full theory translation is not enabled yet." : "English preference saved.");
+});
+
+$("modeBtn").addEventListener("click",()=>{
+  mode=mode==="boards"?"jee":"boards";
+  localStorage.setItem(MODE_KEY,mode);
+  updateSettings();
+  alert(mode==="jee" ? "JEE Main mode selected. Practise the MCQs below." : "CBSE Boards mode selected. Try the Board practice section.");
+});
+
+window.toggleAnswer=id=>{
+  const el=$(id);
+  el.style.display=el.style.display==="block"?"none":"block";
+};
+
+const jeeData=[
+{q:"The distance between (0,0,0) and (2,3,6) is:",o:["7","√41","11","5"],a:0,e:"Distance = √(4+9+36) = 7."},
+{q:"Direction cosines satisfy:",o:["l+m+n=1","l²+m²+n²=1","lm+mn=1","lmn=1"],a:1,e:"This is the standard identity."},
+{q:"A direction vector for a line with DRs (2,−1,3) is:",o:["2î−ĵ+3k̂","î+ĵ+k̂","2î+ĵ−3k̂","3î−ĵ+2k̂"],a:0,e:"The direction ratios are the components of a direction vector."},
+{q:"The angle between (1,0,0) and (0,1,0) is:",o:["0°","45°","90°","180°"],a:2,e:"Their dot product is zero."},
+{q:"Two lines are parallel when their direction vectors are:",o:["Perpendicular","Proportional","Always equal in magnitude","Both unit vectors"],a:1,e:"One direction vector must be a scalar multiple of the other."},
+{q:"For a line through (1,2,3) with DRs (1,−1,2), its Cartesian equation is:",o:["(x−1)=(y−2)=(z−3)","(x−1)/1=(y−2)/(−1)=(z−3)/2","x+y+z=0","x/1=y/−1=z/2"],a:1,e:"Use the symmetric form through the given point."},
+{q:"Skew lines are:",o:["Always parallel","Always intersecting","Nonparallel and nonintersecting","Always perpendicular"],a:2,e:"Skew lines do not lie in the same plane."},
+{q:"For nonparallel direction vectors b⃗ and d⃗, the shortest distance between r⃗=a⃗+λb⃗ and r⃗=c⃗+μd⃗ is:",o:["|(c⃗−a⃗)·(b⃗×d⃗)|/|b⃗×d⃗|","|b⃗·d⃗|","|a⃗×c⃗|","|a⃗+c⃗|"],a:0,e:"This is the scalar-triple-product formula."}
+];
+
+function renderJEE(){
+  $("jeeQuestions").innerHTML=jeeData.map((q,i)=>`
+  <div class="question">
+  <p><strong>${i+1}.</strong> ${q.q}</p>
+  ${q.o.map((op,j)=>`<label class="option"><input type="radio" name="jee${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("")}
+  <div id="jeeFeedback${i}" class="feedback"></div>
+  </div>`).join("");
+}
+
+window.checkJEE=()=>{
+  let score=0;
+  jeeData.forEach((q,i)=>{
+    const chosen=document.querySelector(`input[name="jee${i}"]:checked`);
+    const fb=$("jeeFeedback"+i);
+    if(chosen && Number(chosen.value)===q.a){
+      score++;
+      fb.className="feedback good";
+      fb.textContent="Correct! "+q.e;
+    }else{
+      fb.className="feedback bad";
+      fb.textContent="Correct answer: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+". "+q.e;
+    }
+  });
+  $("jeeResult").textContent=`Your score: ${score}/${jeeData.length}`;
+};
+
+window.resetJEE=()=>{
+  document.querySelectorAll('#jeeQuestions input[type="radio"]').forEach(el=>el.checked=false);
+  jeeData.forEach((_,i)=>{$("jeeFeedback"+i).textContent="";});
+  $("jeeResult").textContent="";
+};
+
+const quizData=[
+{q:"What is the sum of squares of direction cosines?",o:["0","1","2","Depends on the line"],a:1,e:"l²+m²+n²=1."},
+{q:"The distance between (0,0,0) and (1,2,2) is:",o:["3","5","√5","2"],a:0,e:"√(1+4+4)=3."},
+{q:"The vector equation of a line through position vector a⃗ with direction vector d⃗ is:",o:["r⃗=a⃗+λd⃗","r⃗=a⃗·d⃗","r⃗=λa⃗d⃗","r⃗=a⃗×d⃗"],a:0,e:"This is the standard vector form."},
+{q:"If two nonzero direction vectors have dot product zero, the directions are:",o:["Parallel","Perpendicular","Identical","Undefined"],a:1,e:"A zero dot product indicates a right angle."},
+{q:"Skew lines are:",o:["Parallel lines","Intersecting lines","Nonparallel lines that do not intersect","Lines in the same plane"],a:2,e:"Skew lines are noncoplanar, nonparallel and nonintersecting."}
+];
+
+let quizIndex=0,quizScore=0,quizAnswered=false;
+
+function renderQuiz(){
+  const q=quizData[quizIndex];
+  $("quizCounter").textContent=`Question ${quizIndex+1} of ${quizData.length}`;
+  $("quizQuestion").textContent=q.q;
+  $("quizOptions").innerHTML=q.o.map((op,j)=>`<label class="option"><input type="radio" name="quizOption" value="${j}"> ${String.fromCharCode(65+j)}. ${op}</label>`).join("");
+  $("quizFeedback").textContent="";
+  $("quizFeedback").className="feedback";
+  $("quizScore").textContent="";
+  $("nextQuiz").textContent="Check & Next →";
+  quizAnswered=false;
+}
+
+$("nextQuiz").addEventListener("click",()=>{
+  if(quizAnswered){
+    if(quizIndex<quizData.length-1){
+      quizIndex++;
+      renderQuiz();
+    }else{
+      $("quizQuestion").textContent="Quiz completed!";
+      $("quizOptions").innerHTML="";
+      $("quizCounter").textContent="Finished";
+      $("quizScore").textContent=`Your score: ${quizScore}/${quizData.length}`;
+      const best=Number(localStorage.getItem("mathsutra_ch11_best")||0);
+      if(quizScore>best)localStorage.setItem("mathsutra_ch11_best",String(quizScore));
+      updateBest();
+      $("nextQuiz").disabled=true;
+    }
+    return;
+  }
+
+  const selected=document.querySelector('input[name="quizOption"]:checked');
+  if(!selected){
+    $("quizFeedback").textContent="Choose an answer first.";
+    $("quizFeedback").className="feedback bad";
+    return;
+  }
+
+  const q=quizData[quizIndex];
+  if(Number(selected.value)===q.a){
+    quizScore++;
+    $("quizFeedback").className="feedback good";
+    $("quizFeedback").textContent="Correct! "+q.e;
+  }else{
+    $("quizFeedback").className="feedback bad";
+    $("quizFeedback").textContent="Not quite. "+q.e;
+  }
+  quizAnswered=true;
+  $("nextQuiz").textContent=quizIndex===quizData.length-1?"Finish Quiz":"Next Question →";
+});
+
+$("restartQuiz").addEventListener("click",()=>{
+  quizIndex=0;quizScore=0;
+  $("nextQuiz").disabled=false;
+  renderQuiz();updateBest();
+});
+
+function updateBest(){
+  $("bestScore").textContent="Best score: "+(localStorage.getItem("mathsutra_ch11_best")||0)+"/"+quizData.length;
+}
+
+const topics=[
+"3D coordinates and distance","Direction ratios","Direction cosines",
+"Vector equation of a line","Cartesian equation of a line","Line through two points",
+"Angle between lines","Parallel and perpendicular conditions","Skew lines",
+"Shortest distance and practice"
+];
+
+function loadProgress(){
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)||"{}");}catch(e){saved={};}
+  $("checklist").innerHTML=topics.map((t,i)=>`<label class="progress-row"><input type="checkbox" data-progress="${i}" ${saved[i]?"checked":""}><span>${t}</span></label>`).join("");
+  document.querySelectorAll("[data-progress]").forEach(el=>el.addEventListener("change",saveProgress));
+  updateProgress();
+}
+
+function saveProgress(){
+  const saved={};
+  document.querySelectorAll("[data-progress]").forEach(el=>saved[el.dataset.progress]=el.checked);
+  localStorage.setItem(PROGRESS_KEY,JSON.stringify(saved));
+  updateProgress();
+}
+
+function updateProgress(){
+  const boxes=[...document.querySelectorAll("[data-progress]")];
+  const done=boxes.filter(el=>el.checked).length;
+  const percent=Math.round(done/boxes.length*100);
+  $("progressBar").value=percent;
+  $("progressText").textContent=`${percent}% completed (${done}/${boxes.length} topics)`;
+}
+
+window.resetProgress=()=>{
+  if(confirm("Reset Chapter 11 progress?")){
+    localStorage.removeItem(PROGRESS_KEY);
+    loadProgress();
+  }
+};
+
+updateSettings();
+renderJEE();
+renderQuiz();
+updateBest();
+loadProgress();
+})();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>
