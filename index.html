@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MathSutra | Class 12 Mathematics</title>
+
+<style>
+:root {
+    --bg: #080b18;
+    --card: #11172b;
+    --cyan: #56e8ff;
+    --purple: #a78bfa;
+    --text: #f5f7ff;
+    --muted: #a7b0c8;
+    --border: rgba(255,255,255,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button, input {
+    font: inherit;
+}
+
+.container {
+    width: min(1150px, 92%);
+    margin: auto;
+}
+
+/* NAVBAR */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,11,24,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--cyan);
+}
+
+.logo span {
+    color: var(--purple);
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+}
+
+.nav-links a {
+    color: var(--muted);
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--cyan);
+}
+
+/* HERO */
+
+.hero {
+    min-height: 490px;
+    display: flex;
+    align-items: center;
+    padding: 75px 0;
+    overflow: hidden;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    align-items: center;
+    gap: 35px;
+}
+
+.badge {
+    display: inline-block;
+    color: var(--cyan);
+    border: 1px solid rgba(86,232,255,0.3);
+    background: rgba(86,232,255,0.07);
+    border-radius: 30px;
+    padding: 7px 14px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 22px;
+}
+
+h1 {
+    font-size: clamp(38px, 6vw, 65px);
+    line-height: 1.12;
+    margin-bottom: 20px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    max-width: 620px;
+    color: var(--muted);
+    font-size: 17px;
+    margin-bottom: 28px;
+}
+
+.btn {
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 700;
+    transition: 0.25s;
+}
+
+.btn-primary {
+    color: #080b18;
+    background: var(--cyan);
+}
+
+.btn-secondary {
+    color: var(--text);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04);
+    margin-left: 10px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(86,232,255,0.12);
+}
+
+.planet-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.planet {
+    width: min(280px, 70vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 25%, #d6fcff 0%, #56e8ff 9%,
+        #4d78da 36%, #49307e 65%, #11172b 100%);
+    box-shadow:
+        0 0 35px rgba(86,232,255,0.22),
+        0 0 100px rgba(167,139,250,0.15);
+    position: relative;
+    animation: float 5s ease-in-out infinite;
+}
+
+.planet::before {
+    content: "";
+    position: absolute;
+    width: 145%;
+    height: 28%;
+    left: -22%;
+    top: 38%;
+    border: 3px solid rgba(167,139,250,0.8);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+    box-shadow: 0 0 15px rgba(167,139,250,0.35);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+}
+
+/* GENERAL SECTIONS */
+
+section {
+    padding: 65px 0;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-heading h2 {
+    font-size: clamp(28px, 4vw, 38px);
+    margin-bottom: 10px;
+}
+
+.section-heading p {
+    color: var(--muted);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.stat-card,
+.mode-card,
+.feature-card,
+.chapter-card {
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.055),
+        rgba(255,255,255,0.02)
+    );
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: 0.25s;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 24px 15px;
+}
+
+.stat-card h3 {
+    font-size: 30px;
+    color: var(--cyan);
+}
+
+.stat-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* STUDY MODES */
+
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.mode-card {
+    padding: 28px;
+}
+
+.mode-card:hover,
+.feature-card:hover,
+.chapter-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(86,232,255,0.55);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+}
+
+.mode-icon {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.mode-card h3 {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.mode-card p {
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.mode-card ul {
+    list-style: none;
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+
+.mode-card li {
+    margin: 7px 0;
+}
+
+.mode-card li::before {
+    content: "✓ ";
+    color: var(--cyan);
+}
+
+.mode-card .btn {
+    width: 100%;
+}
+
+/* CHAPTER SEARCH */
+
+.chapter-notice {
+    max-width: 760px;
+    margin: 0 auto 25px;
+    padding: 15px 18px;
+    border: 1px solid rgba(86,232,255,0.2);
+    border-radius: 12px;
+    background: rgba(86,232,255,0.05);
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+}
+
+.search-box {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 28px;
+    padding: 14px 17px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    background: var(--card);
+    color: var(--text);
+    font-size: 15px;
+}
+
+.search-box:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(86,232,255,0.08);
+}
+
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.chapter-card {
+    display: block;
+    padding: 21px;
+}
+
+.chapter-number {
+    color: var(--cyan);
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.chapter-card h3 {
+    font-size: 17px;
+    margin: 9px 0;
+}
+
+.chapter-card p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.chapter-arrow {
+    display: inline-block;
+    color: var(--purple);
+    margin-top: 13px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.no-results {
+    display: none;
+    text-align: center;
+    color: var(--muted);
+    padding: 25px;
+}
+
+/* FEATURES */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.feature-card {
+    padding: 24px;
+}
+
+.feature-card .icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.feature-card h3 {
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* CTA */
+
+.cta {
+    text-align: center;
+    padding: 45px 25px;
+    background: linear-gradient(
+        135deg,
+        rgba(86,232,255,0.08),
+        rgba(167,139,250,0.09)
+    );
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.cta h2 {
+    font-size: clamp(25px, 4vw, 36px);
+    margin-bottom: 12px;
+}
+
+.cta p {
+    color: var(--muted);
+    margin-bottom: 23px;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+footer strong {
+    color: var(--cyan);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .planet-wrap {
+        margin-top: 25px;
+    }
+
+    .planet {
+        width: 190px;
+    }
+
+    .chapter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nav-inner {
+        flex-direction: column;
+        justify-content: center;
+        padding: 14px 0;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 520px) {
+    .stats-grid,
+    .mode-grid,
+    .chapter-grid,
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 55px 0;
+    }
+
+    .btn-secondary {
+        margin: 12px 0 0;
+    }
+
+    .mode-card {
+        padding: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+    <div class="container nav-inner">
+        <a href="#home" class="logo">Math<span>Sutra</span></a>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#modes">Study Modes</a>
+            <a href="#chapters">Chapters</a>
+            <a href="#features">Features</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+
+<header class="hero" id="home">
+    <div class="container hero-content">
+
+        <div>
+            <span class="badge">CLASS 12 MATHEMATICS</span>
+
+            <h1>
+                Mathematics,<br>
+                <span class="gradient-text">Made Simpler.</span>
+            </h1>
+
+            <p>
+                Welcome to MathSutra — your mathematics study space for
+                CBSE Class 12 Boards and JEE Main 2027.
+                Learn concepts, revise formulas and practise chapter by chapter.
+            </p>
+
+            <a href="#modes" class="btn btn-primary">Start Learning →</a>
+            <a href="#chapters" class="btn btn-secondary">Explore Chapters</a>
+        </div>
+
+        <div class="planet-wrap">
+            <div class="planet"></div>
+        </div>
+
+    </div>
+</header>
+
+<!-- STATS -->
+
+<section>
+    <div class="container stats-grid">
+
+        <div class="stat-card">
+            <h3>13</h3>
+            <p>Class 12 Chapters</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>2</h3>
+            <p>Study Goals</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>2027</h3>
+            <p>Board & JEE Preparation</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- STUDY MODES -->
+
+<section id="modes">
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Choose Your <span class="gradient-text">Study Mode</span></h2>
+            <p>Choose the goal you want to prepare for.</p>
+        </div>
+
+        <div class="mode-grid">
+
+            <div class="mode-card">
+                <div class="mode-icon">📘</div>
+                <h3>CBSE Boards</h3>
+
+                <p>
+                    Focus on NCERT concepts, board-style questions
+                    and exam-oriented revision.
+                </p>
+
+                <ul>
+                    <li>NCERT-based learning</li>
+                    <li>Important formulas</li>
+                    <li>Board-style practice</li>
+                </ul>
+
+                <button class="btn btn-primary"
+                    onclick="chooseMode('boards')">
+                    Select Boards Mode
+                </button>
+            </div>
+
+            <div class="mode-card">
+                <div class="mode-icon">🚀</div>
+                <h3>JEE Main 2027</h3>
+
+                <p>
+                    Prepare for competitive mathematics with
+                    concept revision and question practice.
+                </p>
+
+                <ul>
+                    <li>JEE-focused concepts</li>
+                    <li>MCQ practice</li>
+                    <li>Numerical questions</li>
+                </ul>
+
+                <button class="btn btn-primary"
+                    onclick="chooseMode('jee')">
+                    Select JEE Mode
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ALL 13 CHAPTERS -->
+
+<section id="chapters">
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Chapter <span class="gradient-text">Galaxy</span></h2>
+            <p>Choose any chapter to open its study page.</p>
+        </div>
+
+        <div class="chapter-notice">
+            📚 All 13 chapter links are listed below.
+            Select a chapter to open its HTML page.
+        </div>
+
+        <input
+            type="search"
+            id="chapterSearch"
+            class="search-box"
+            placeholder="🔍 Search chapters..."
+            aria-label="Search chapters"
+        >
+
+        <div class="chapter-grid" id="chapterGrid">
+
+            <a href="chapters/relations-functions.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 01</span>
+                <h3>Relations and Functions</h3>
+                <p>Relations, functions and their properties.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/inverse-trigonometric-functions.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 02</span>
+                <h3>Inverse Trigonometric Functions</h3>
+                <p>Principal values, domains and ranges.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/matrices.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 03</span>
+                <h3>Matrices</h3>
+                <p>Types, operations and matrix properties.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/determinants.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 04</span>
+                <h3>Determinants</h3>
+                <p>Evaluation, properties and applications.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/continuity-differentiability.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 05</span>
+                <h3>Continuity and Differentiability</h3>
+                <p>Limits, continuity and differentiation.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/applications-of-derivatives.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 06</span>
+                <h3>Applications of Derivatives</h3>
+                <p>Rates of change, tangents and maxima-minima.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/integrals.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 07</span>
+                <h3>Integrals</h3>
+                <p>Indefinite and definite integration.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/applications-of-integrals.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 08</span>
+                <h3>Applications of Integrals</h3>
+                <p>Areas under curves and between curves.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/differential-equations.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 09</span>
+                <h3>Differential Equations</h3>
+                <p>Order, degree and solutions.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/vector-algebra.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 10</span>
+                <h3>Vector Algebra</h3>
+                <p>Vectors, dot products and cross products.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/three-dimensional-geometry.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 11</span>
+                <h3>Three Dimensional Geometry</h3>
+                <p>Lines, direction ratios and direction cosines.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/linear-programming.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 12</span>
+                <h3>Linear Programming</h3>
+                <p>Constraints, feasible regions and optimisation.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+            <a href="chapters/probability.html" class="chapter-card">
+                <span class="chapter-number">CHAPTER 13</span>
+                <h3>Probability</h3>
+                <p>Conditional probability and Bayes' theorem.</p>
+                <span class="chapter-arrow">Open Chapter →</span>
+            </a>
+
+        </div>
+
+        <p class="no-results" id="noResults">
+            No chapter found. Try another search.
+        </p>
+
+    </div>
+</section>
+
+<!-- FEATURES -->
+
+<section id="features">
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Why <span class="gradient-text">MathSutra?</span></h2>
+            <p>A simple study space designed around your preparation.</p>
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="icon">📚</div>
+                <h3>Chapter-wise Learning</h3>
+                <p>Open individual chapters and study one topic at a time.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🎯</div>
+                <h3>Goal-focused</h3>
+                <p>Choose between your board preparation and JEE preparation goals.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Use the website on your phone, tablet or computer.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+
+<section>
+    <div class="container">
+        <div class="cta">
+            <h2>Your Next Step Starts <span class="gradient-text">Here.</span></h2>
+            <p>Choose a chapter and keep moving forward, one concept at a time.</p>
+            <a href="#chapters" class="btn btn-primary">
+                Explore All Chapters →
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+    <div class="container">
+        Made for learners by <strong>MathSutra</strong>
+        · Class 12 Mathematics
+    </div>
+</footer>
+
+<script>
+/* STUDY MODE SELECTION */
+
+function chooseMode(mode) {
+    localStorage.setItem("mathsutra-mode", mode);
+
+    const message = mode === "boards"
+        ? "CBSE Boards mode selected!"
+        : "JEE Main 2027 mode selected!";
+
+    alert(message + " Choose a chapter to continue.");
+
+    document.getElementById("chapters").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+/* CHAPTER SEARCH */
+
+const chapterSearch = document.getElementById("chapterSearch");
+const chapterCards = document.querySelectorAll(".chapter-card");
+const noResults = document.getElementById("noResults");
+
+chapterSearch.addEventListener("input", function () {
+    const searchText = this.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    chapterCards.forEach(function (card) {
+        const matches = card.textContent
+            .toLowerCase()
+            .includes(searchText);
+
+        card.style.display = matches ? "" : "none";
+
+        if (matches) {
+            visibleCount++;
+        }
+    });
+
+    noResults.style.display = visibleCount === 0 ? "block" : "none";
+});
+</script>
+
+</body>
+</html>
